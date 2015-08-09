@@ -1,0 +1,16 @@
+<package name="org.effortless.zkstrap" language="xul/html">
+  <widget name="SimpleLabel"/>
+  <widget name="SimpleButton"/>
+
+  <widget name="LabelBs"/>
+  <widget name="ButtonBs"/>
+  <widget name="MenuBs"/>
+  <widget name="Skin"/>
+  <widget name="AdminApp"/>
+  
+  <widget name="Input"/>
+
+  <widget name="Layout"/>
+  
+  <widget name="BaseEditor"/>
+</package>

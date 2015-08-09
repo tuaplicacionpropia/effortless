@@ -1,0 +1,391 @@
+<language-addon>
+  <addon-name>simplelabel</addon-name>
+  <language-name>xul/html</language-name>
+  
+  <component>
+    <component-name>simplelabel</component-name>
+    <component-class>org.effortless.zkstrap.SimpleLabel</component-class>
+    <widget-class>org.effortless.zkstrap.SimpleLabel</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/simple-label.js</mold-uri>
+<!--
+      <css-uri>css/simple-label.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  <component>
+    <component-name>simplebutton</component-name>
+    <component-class>org.effortless.zkstrap.SimpleButton</component-class>
+    <widget-class>org.effortless.zkstrap.SimpleButton</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/simple-button.js</mold-uri>
+<!--
+      <css-uri>css/simple-button.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+
+
+
+  <component>
+    <component-name>labelbs</component-name>
+    <component-class>org.effortless.zkstrap.LabelBs</component-class>
+    <widget-class>org.effortless.zkstrap.LabelBs</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/labelbs.js</mold-uri>
+<!--
+      <css-uri>css/labelbs.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  <component>
+    <component-name>buttonbs</component-name>
+    <component-class>org.effortless.zkstrap.ButtonBs</component-class>
+    <widget-class>org.effortless.zkstrap.ButtonBs</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/buttonbs.js</mold-uri>
+<!--
+      <css-uri>css/buttonbs.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+
+  
+  <component>
+    <component-name>menubs</component-name>
+    <component-class>org.effortless.zkstrap.MenuBs</component-class>
+    <widget-class>org.effortless.zkstrap.MenuBs</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/menubs.js</mold-uri>
+<!--
+      <css-uri>css/menubs.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  <component>
+    <component-name>skin</component-name>
+    <component-class>org.effortless.zkstrap.Skin</component-class>
+    <widget-class>org.effortless.zkstrap.Skin</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/skin.js</mold-uri>
+<!--
+      <css-uri>css/skin.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  <component>
+    <component-name>adminApp</component-name>
+    <component-class>org.effortless.zkstrap.AdminApp</component-class>
+    <widget-class>org.effortless.zkstrap.AdminApp</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/adminapp.js</mold-uri>
+<!--
+      <css-uri>css/adminapp.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  <component>
+    <component-name>input</component-name>
+    <component-class>org.effortless.zkstrap.Input</component-class>
+    <widget-class>org.effortless.zkstrap.Input</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/input.js</mold-uri>
+<!--
+      <css-uri>css/input.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  <component>
+    <component-name>layout</component-name>
+    <component-class>org.effortless.zkstrap.Layout</component-class>
+    <widget-class>org.effortless.zkstrap.Layout</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/layout.js</mold-uri>
+<!--
+      <css-uri>css/layout.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  
+  <component>
+    <component-name>baseEditor</component-name>
+    <component-class>org.effortless.zkstrap.BaseEditor</component-class>
+    <widget-class>org.effortless.zkstrap.BaseEditor</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/baseeditor.js</mold-uri>
+<!--
+      <css-uri>css/baseeditor.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
+  
+  
+  
+  
+  
+    <javascript src="~./plugins/utils/utilsjs.js" type="text/javascript" charset="UTF-8" />
+  
+  
+  
+    <!-- ##################################################################### -->
+    <!-- Define this paths dependent from the files packed in the theme jar file -->
+    <!-- The order of this files is important because we override zk css styles -->
+    <!-- ##################################################################### -->
+
+    <stylesheet href="~./bootstrap/css/bootstrap.css" type="text/css" media="screen" />
+    <stylesheet href="~./AdminLTE/css/AdminLTE.css" type="text/css" media="screen" />
+    <stylesheet href="~./AdminLTE/css/skins/_all-skins.css" type="text/css" media="screen" />
+    <stylesheet href="~./font-awesome/css/font-awesome.css" type="text/css" media="screen" />
+
+
+
+    <!-- 4. Path to Bootstrap javascript library -->
+    <javascript src="~./bootstrap/js/bootstrap.js" type="text/javascript" charset="UTF-8" /> 
+    <javascript src="~./AdminLTE/js/app.js" type="text/javascript" charset="UTF-8" />
+
+<!-- ### i18n: http://airbnb.io/polyglot.js/ -->
+<!-- ### http://puigcerber.com/2013/03/21/backbone-js-internationalization-with-polyglot-js-by-airbnb/ -->
+    <javascript src="~./plugins/polyglot/polyglot.js" type="text/javascript" charset="UTF-8" />
+
+
+    
+<!-- 
+    <javascript src="~./plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/jquery.inputmask.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/jquery.inputmask.numeric.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/jquery.inputmask.phone.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/jquery.inputmask.regex.extensions.js" type="text/javascript" charset="UTF-8" />
+
+
+    <stylesheet href="~./plugins/timepicker/bootstrap-timepicker.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/timepicker/bootstrap-timepicker.js" type="text/javascript" charset="UTF-8" />
+
+
+    <javascript src="~./plugins/daterangepicker/daterangepicker.js" type="text/javascript" charset="UTF-8" />
+    <stylesheet href="~./plugins/daterangepicker/daterangepicker-bs3.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/daterangepicker/moment.js" type="text/javascript" charset="UTF-8" />
+
+    <javascript src="~./plugins/datepicker/bootstrap-datepicker.js" type="text/javascript" charset="UTF-8" />
+    <stylesheet href="~./plugins/datepicker/datepicker3.css" type="text/css" media="screen" />
+
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ar.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.az.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.bg.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ca.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.cs.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.cy.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.da.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.de.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.el.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.es.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.et.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.fa.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.fi.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.fr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.gl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.he.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.hr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.hu.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.id.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.is.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.it.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ja.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ka.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.kk.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.kr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.lt.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.lv.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.mk.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ms.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.nb.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.nl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.nl-BE.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.no.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.pl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.pt.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.pt-BR.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ro.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.rs.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.rs-latin.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ru.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.sk.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.sl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.sq.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.sv.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.sw.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.th.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.tr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.ua.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.vi.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/locales/bootstrap-datepicker.zh-TW.js" type="text/javascript" charset="UTF-8" />
+
+-->
+
+    <stylesheet href="~./plugins/icheck/skins/flat/flat.css" type="text/css" media="screen" />
+    <stylesheet href="~./plugins/icheck/skins/futurico/futurico.css" type="text/css" media="screen" />
+    <stylesheet href="~./plugins/icheck/skins/line/line.css" type="text/css" media="screen" />
+    <stylesheet href="~./plugins/icheck/skins/minimal/minimal.css" type="text/css" media="screen" />
+    <stylesheet href="~./plugins/icheck/skins/polaris/polaris.css" type="text/css" media="screen" />
+    <stylesheet href="~./plugins/icheck/skins/square/square.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/icheck/icheck.js" type="text/javascript" charset="UTF-8" />
+
+
+<!-- ### https://select2.github.io/ -->
+    <stylesheet href="~./plugins/select2/css/select2.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/select2/js/select2.full.js" type="text/javascript" charset="UTF-8" />
+
+    <javascript src="~./plugins/select2/js/i18n/az.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/bg.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/ca.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/cs.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/da.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/de.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/en.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/es.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/et.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/eu.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/fa.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/fi.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/fr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/gl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/he.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/hi.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/hr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/hu.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/id.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/is.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/it.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/ko.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/lt.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/lv.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/mk.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/nb.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/nl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/pl.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/pt.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/pt-BR.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/ro.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/ru.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/sk.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/sr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/sv.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/th.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/tr.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/uk.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/vi.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/zh-CN.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/select2/js/i18n/zh-TW.js" type="text/javascript" charset="UTF-8" />
+
+<!-- ### Color picker -->
+    <stylesheet href="~./plugins/colorpicker/bootstrap-colorpicker.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/colorpicker/bootstrap-colorpicker.js" type="text/javascript" charset="UTF-8" />
+
+<!-- ### Jquery input mask: https://github.com/RobinHerbots/jquery.inputmask -->
+    <javascript src="~./plugins/input-mask/inputmask.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/jquery.inputmask.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/inputmask.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/inputmask.date.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/inputmask.numeric.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/inputmask.phone.extensions.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/input-mask/inputmask.regex.extensions.js" type="text/javascript" charset="UTF-8" />
+
+
+<!-- ### http://eonasdan.github.io/bootstrap-datetimepicker/ -->
+
+    <javascript src="~./plugins/momentjs/moment.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/momentjs/moment-with-locales.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/datepicker/bootstrap-datetimepicker.js" type="text/javascript" charset="UTF-8" />
+
+<!-- 
+    <stylesheet href="~./plugins/timepicker/bootstrap-timepicker.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/timepicker/bootstrap-timepicker.js" type="text/javascript" charset="UTF-8" />
+-->
+
+    <stylesheet href="~./plugins/bootstrap-datepicker-1.4.0/css/bootstrap-datepicker3.css" type="text/css" media="screen" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/js/bootstrap-datepicker.js" type="text/javascript" charset="UTF-8" />
+
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ar.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.az.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.bg.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.bs.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ca.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.cs.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.cy.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.da.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.de.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.el.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.en-GB.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.es.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.et.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.eu.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.fa.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.fi.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.fo.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.fr.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.fr-CH.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.gl.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.he.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.hr.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.hu.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.hy.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.id.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.is.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.it.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.it-CH.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ja.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ka.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.kh.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.kk.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.kr.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.lt.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.lv.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.me.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.mk.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ms.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.nb.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.nl.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.nl-BE.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.no.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.pl.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.pt.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ro.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.rs.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.rs-latin.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.ru.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sk.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sl.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sq.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sr.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sr-latin.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sv.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.sw.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.th.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.tr.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.uk.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.vi.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.zh-CN.min.js" type="text/javascript" charset="UTF-8" />
+    <javascript src="~./plugins/bootstrap-datepicker-1.4.0/locales/bootstrap-datepicker.zh-TW.min.js" type="text/javascript" charset="UTF-8" />
+
+</language-addon>
