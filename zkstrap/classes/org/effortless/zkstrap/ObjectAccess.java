@@ -110,8 +110,6 @@ public class ObjectAccess extends Object {
 		}
 	}
 
-	
-	
 	public static boolean equals(Object value1, Object value2) {
 		boolean result = false;
 		result = (value1 == value2 || (value1 != null && value2 != null && value1.equals(value2)));
