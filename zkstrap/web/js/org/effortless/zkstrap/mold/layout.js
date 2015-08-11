@@ -9,7 +9,7 @@ function (out) {
 		out.push('<div id="', uuid, '" class="row">');
 		  for (var w = this.firstChild; w; w = w.nextSibling) {
 			var index = index + 1;
-			if (w instanceof org.effortless.zkstrap.Input) {
+			if (w.$instanceof(org.effortless.zkstrap.Input)) {
 				var tagLabel = w.getTagLabel();
 			    out.push('<div>');
 		    	out.push('<label for="', w.uuid + '-input', '">', tagLabel + ':', '</label>');

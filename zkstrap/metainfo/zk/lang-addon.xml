@@ -44,14 +44,14 @@
   </component>
   
   <component>
-    <component-name>buttonbs</component-name>
-    <component-class>org.effortless.zkstrap.ButtonBs</component-class>
-    <widget-class>org.effortless.zkstrap.ButtonBs</widget-class>
+    <component-name>btn</component-name>
+    <component-class>org.effortless.zkstrap.Btn</component-class>
+    <widget-class>org.effortless.zkstrap.Btn</widget-class>
     <mold>
       <mold-name>default</mold-name>
-      <mold-uri>mold/buttonbs.js</mold-uri>
+      <mold-uri>mold/btn.js</mold-uri>
 <!--
-      <css-uri>css/buttonbs.css.dsp</css-uri>
+      <css-uri>css/btn.css.dsp</css-uri>
 -->
     </mold>
   </component>

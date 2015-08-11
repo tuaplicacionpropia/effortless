@@ -71,6 +71,7 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		PageBuilder b = PageBuilder.createBaseEditor(app, obj);
 		b.addText("name");
 		b.addText("surnames");
+		b.addBtn("ejecutar");
 	}
 	
 //	protected void buildContent3(Event evt, AdminApp app) {
@@ -160,6 +161,10 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		         this.surnames = newValue;
 		         this.pcs.firePropertyChange("surnames", oldValue, newValue);
 	         }
+	     }
+	     
+	     public void ejecutar () {
+	    	 System.out.println("Ejecutando: " + this.name);
 	     }
 
 	 }	

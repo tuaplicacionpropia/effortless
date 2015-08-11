@@ -98,7 +98,7 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
 	    var widgets = [];
 	    for (var i = 0; i < children.length; i++) {
 	    	var widget = children[i];
-	    	if (widget instanceof org.effortless.zkstrap.Input) {
+	    	if (widget.$instanceof(org.effortless.zkstrap.Input)) {
 	    		widgets.push(null);
 	    	}
 	    	widgets.push(widget);
@@ -183,7 +183,7 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
     	if (child != null) {
     		var widget = this._getCellWidget(child, index, widgets);
     		if (widget != null) {
-	    		if (widget instanceof org.effortless.zkstrap.Input) {
+	    		if (widget.$instanceof(org.effortless.zkstrap.Input)) {
 	    			var inputType = widget.getType();
 					if (inputType == 'text') {
 						result = 3;
@@ -221,13 +221,13 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
 	//			(CountField)child; result = 2
 	//			(NumberField)child; result = 2
 	    		}
-	    		else if (widget instanceof org.effortless.zkstrap.Layout) {
+	    		else if (widget.$instanceof(org.effortless.zkstrap.Layout)) {
 	    			result = 12;
 	    		}
-	    		else if (widget instanceof org.effortless.zkstrap.ButtonBs) {
+	    		else if (widget.$instanceof(org.effortless.zkstrap.Btn)) {
 	    			result = 2;
 	    		}
-	    		else if (widget instanceof org.effortless.zkstrap.MenuBs) {
+	    		else if (widget.$instanceof(org.effortless.zkstrap.MenuBs)) {
 	    			result = 2;
 	    		}
 	    		else {

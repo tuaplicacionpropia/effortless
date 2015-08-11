@@ -3,7 +3,7 @@
   <widget name="SimpleButton"/>
 
   <widget name="LabelBs"/>
-  <widget name="ButtonBs"/>
+  <widget name="Btn"/>
   <widget name="MenuBs"/>
   <widget name="Skin"/>
   <widget name="AdminApp"/>

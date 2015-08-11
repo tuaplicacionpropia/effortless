@@ -106,5 +106,15 @@ public class PageBuilder extends Object {
 		return addInput("datetime", name);
 	}
 
+	public PageBuilder addBtn(String name) {
+		PageBuilder result = null;
+		Btn btn = new Btn();
+//		SimpleButton btn = new SimpleButton();
+		btn.setName(name);
+		this.cmpRoot.appendChild(btn);
+		result = this;
+		return result;
+	}
+
 	
 }

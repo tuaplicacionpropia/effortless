@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
@@ -114,6 +115,24 @@ public class ObjectAccess extends Object {
 		boolean result = false;
 		result = (value1 == value2 || (value1 != null && value2 != null && value1.equals(value2)));
 		return result;
+	}
+
+	public static void runMethod(Component cmp, String method) {
+		method = (method != null ? method.trim() : "");
+		if (method.length() > 0) {
+			Object bean = getBean(cmp);
+			if (bean != null) {
+				try {
+					MethodUtils.invokeExactMethod(bean, method, (Object[])null);
+				} catch (NoSuchMethodException e) {
+					throw new UiException(e);
+				} catch (IllegalAccessException e) {
+					throw new UiException(e);
+				} catch (InvocationTargetException e) {
+					throw new UiException(e);
+				}
+			}
+		}
 	}
 	
 }
