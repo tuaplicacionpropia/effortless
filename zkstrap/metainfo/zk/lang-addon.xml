@@ -138,6 +138,19 @@
   </component>
   
   
+  <component>
+    <component-name>finder</component-name>
+    <component-class>org.effortless.zkstrap.Finder</component-class>
+    <widget-class>org.effortless.zkstrap.Finder</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/finder.js</mold-uri>
+<!--
+      <css-uri>css/finder.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
   
   
   

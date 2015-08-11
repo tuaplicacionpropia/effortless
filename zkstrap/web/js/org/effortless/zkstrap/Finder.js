@@ -1,4 +1,4 @@
-org.effortless.zkstrap.BaseEditor = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.Finder = zk.$extends(org.effortless.zkstrap.BaseEditor, {
 
   bind_ : function(evt) {
     this.$supers('bind_', arguments);
