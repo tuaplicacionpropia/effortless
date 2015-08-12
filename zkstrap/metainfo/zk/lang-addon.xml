@@ -151,6 +151,19 @@
     </mold>
   </component>
   
+  <component>
+    <component-name>editor</component-name>
+    <component-class>org.effortless.zkstrap.Editor</component-class>
+    <widget-class>org.effortless.zkstrap.Editor</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/editor.js</mold-uri>
+<!--
+      <css-uri>css/editor.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
   
   
   
