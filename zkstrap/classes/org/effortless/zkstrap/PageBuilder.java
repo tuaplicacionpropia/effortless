@@ -18,6 +18,14 @@ public class PageBuilder extends Object {
 	
 	protected PageBuilder parentBuilder;
 	
+	public static FinderBuilder createFinder (AdminApp app, Object value) {
+		return FinderBuilder.create(app, value);
+	}
+	
+	public static EditorBuilder createEditor (AdminApp app, Object value) {
+		return EditorBuilder.create(app, value);
+	}
+	
 	public static PageBuilder createBaseEditor (AdminApp app, Object value) {
 		PageBuilder result = null;
 		result = new PageBuilder();
@@ -32,12 +40,16 @@ public class PageBuilder extends Object {
 		return result;
 	}
 	
+	protected void addCmp (Component cmp) {
+		this.cmpRoot.appendChild(cmp);
+	}
+	
 	public PageBuilder addInput (String type, String name) {
 		PageBuilder result = null;
 		Input input = new Input();
 		input.setType(type);
 		input.setName(name);
-		this.cmpRoot.appendChild(input);
+		addCmp(input);
 		result = this;
 		return result;
 	}
@@ -111,7 +123,7 @@ public class PageBuilder extends Object {
 		Btn btn = new Btn();
 //		SimpleButton btn = new SimpleButton();
 		btn.setName(name);
-		this.cmpRoot.appendChild(btn);
+		addCmp(btn);
 		result = this;
 		return result;
 	}
