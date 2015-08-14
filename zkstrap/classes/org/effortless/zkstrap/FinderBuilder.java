@@ -33,22 +33,38 @@ public class FinderBuilder extends PageBuilder {
 		{
 			layoutFilterButtons = new Layout();
 			layout.appendChild(layoutFilterButtons);
+			
+			result.cmpRoot = layoutFilterButtons;
+			
+			result.addBtn("#search");
+			result.btnSearch = result.lastCmp;
 		}
 		
 		Layout layoutList = null;
 		{
 			layoutList = new Layout();
 			layout.appendChild(layoutList);
+			
+			result.cmpRoot = layoutList;
+			result.addText("name");
 		}
 		
 		Layout layoutListButtons = null;
 		{
 			layoutListButtons = new Layout();
 			layout.appendChild(layoutListButtons);
+			
+			result.cmpRoot = layoutListButtons;
+			
+			result.addBtn("#create");
+			result.btnCreate = result.lastCmp;
+			result.addBtn("#read");
+			result.addBtn("#update");
+			result.addBtn("#delete");
 		}
 		
-		result.status = FILTER;
-		result.cmpRoot = layoutFilter;
+		result.status = LIST_BUTTONS;
+		result.cmpRoot = layoutListButtons;
 		result.parentBuilder = null;
 		
 		app.appendChild(finder);
@@ -57,10 +73,19 @@ public class FinderBuilder extends PageBuilder {
 	}
 	
 	public void addCmp (Component cmp) {
-		this.cmpRoot.appendChild(cmp);
+		if (this.status == INIT) {
+			super.addCmp(cmp);
+		}
+		else if (this.status == LIST_BUTTONS) {
+			this.cmpRoot.insertBefore(cmp, this.btnCreate);
+		}
+		else {
+			super.addCmp(cmp);
+		}
 	}
 	
-	
+	protected Component btnSearch;
+	protected Component btnCreate;
 
 	protected byte status = 0;
 	

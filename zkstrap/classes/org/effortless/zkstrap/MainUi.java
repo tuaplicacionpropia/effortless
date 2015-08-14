@@ -68,11 +68,18 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 			
 		});
 		
-		PageBuilder b = PageBuilder.createEditor(app, obj);
-		b.addText("name");
-		b.addText("surnames");
-		b.addBtn("ejecutar");
-		b.addBtn("descargar");
+		if (false) {
+			PageBuilder b = PageBuilder.createEditor(app, obj);
+			b.addText("name");
+			b.addText("surnames");
+			b.addBtn("ejecutar");
+			b.addBtn("descargar");
+		}
+		else {
+			PageBuilder b = PageBuilder.createFinder(app, obj);
+			b.addBtn("ejecutar");
+			b.addBtn("descargar");
+		}
 	}
 	
 //	protected void buildContent3(Event evt, AdminApp app) {

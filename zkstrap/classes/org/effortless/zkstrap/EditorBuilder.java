@@ -10,7 +10,7 @@ public class EditorBuilder extends PageBuilder {
 	
 	protected void initiate () {
 		super.initiate();
-		this.status = 0;
+		this.status = INIT;
 	}
 	
 	public static EditorBuilder create (AdminApp app, Object value) {
@@ -46,17 +46,22 @@ public class EditorBuilder extends PageBuilder {
 	}
 	
 	public void addCmp (Component cmp) {
-		Btn _btn = null; try { _btn = (Btn)cmp; } catch (ClassCastException e) {}
-		if (_btn != null) {
-			if (this.status == CONTENT) {
-				this.status = BUTTONS;
-				Component layoutButtons = this.cmpRoot.getNextSibling();
-				this.cmpRoot = layoutButtons;
-			}
-			this.cmpRoot.insertBefore(cmp, this.btnSave);
+		if (this.status == INIT) {
+			super.addCmp(cmp);
 		}
 		else {
-			super.addCmp(cmp);
+			Btn _btn = null; try { _btn = (Btn)cmp; } catch (ClassCastException e) {}
+			if (_btn != null) {
+				if (this.status == CONTENT) {
+					this.status = BUTTONS;
+					Component layoutButtons = this.cmpRoot.getNextSibling();
+					this.cmpRoot = layoutButtons;
+				}
+				this.cmpRoot.insertBefore(cmp, this.btnSave);
+			}
+			else {
+				super.addCmp(cmp);
+			}
 		}
 	}
 	
