@@ -13,4 +13,7 @@
   <widget name="Layout"/>
   
   <widget name="BaseEditor"/>
+
+  <widget name="Finder"/>
+  <widget name="Editor"/>
 </package>

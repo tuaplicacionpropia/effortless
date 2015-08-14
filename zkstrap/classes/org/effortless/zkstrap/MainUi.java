@@ -33,9 +33,9 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 			menuHome.addEventListener(Events.ON_CLICK, new EventListener() {
 
 				public void onEvent(Event evt) throws Exception {
-					boolean flag = false;
+					Integer inc = (Integer)app.getAttribute("INC");
+					boolean flag = ((inc.intValue() % 3) != 0);
 					if (flag) {
-						Integer inc = (Integer)app.getAttribute("INC");
 						inc = Integer.valueOf(inc.intValue() + 1);
 						app.setAttribute("INC", inc);
 						Label label = new Label();
@@ -68,10 +68,11 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 			
 		});
 		
-		PageBuilder b = PageBuilder.createBaseEditor(app, obj);
+		PageBuilder b = PageBuilder.createEditor(app, obj);
 		b.addText("name");
 		b.addText("surnames");
 		b.addBtn("ejecutar");
+		b.addBtn("descargar");
 	}
 	
 //	protected void buildContent3(Event evt, AdminApp app) {
@@ -165,6 +166,10 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 	     
 	     public void ejecutar () {
 	    	 System.out.println("Ejecutando: " + this.name);
+	     }
+
+	     public void descargar () {
+	    	 System.out.println("Descargando: " + this.name);
 	     }
 
 	 }	

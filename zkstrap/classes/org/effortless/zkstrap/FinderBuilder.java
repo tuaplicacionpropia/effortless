@@ -8,6 +8,11 @@ public class FinderBuilder extends PageBuilder {
 		super();
 	}
 	
+	protected void initiate () {
+		super.initiate();
+		this.status = 0;
+	}
+	
 	public static FinderBuilder create (AdminApp app, Object value) {
 		FinderBuilder result = null;
 		result = new FinderBuilder();
@@ -17,8 +22,33 @@ public class FinderBuilder extends PageBuilder {
 		
 		Layout layout = new Layout();
 		finder.appendChild(layout);
+
+		Layout layoutFilter = null;
+		{
+			layoutFilter = new Layout();
+			layout.appendChild(layoutFilter);
+		}
 		
-		result.cmpRoot = layout;
+		Layout layoutFilterButtons = null;
+		{
+			layoutFilterButtons = new Layout();
+			layout.appendChild(layoutFilterButtons);
+		}
+		
+		Layout layoutList = null;
+		{
+			layoutList = new Layout();
+			layout.appendChild(layoutList);
+		}
+		
+		Layout layoutListButtons = null;
+		{
+			layoutListButtons = new Layout();
+			layout.appendChild(layoutListButtons);
+		}
+		
+		result.status = FILTER;
+		result.cmpRoot = layoutFilter;
 		result.parentBuilder = null;
 		
 		app.appendChild(finder);
@@ -31,6 +61,13 @@ public class FinderBuilder extends PageBuilder {
 	}
 	
 	
+
+	protected byte status = 0;
 	
-	
+	protected static final byte INIT = 0;
+	protected static final byte FILTER = 1;
+	protected static final byte FILTER_BUTTONS = 2;
+	protected static final byte LIST = 3;
+	protected static final byte LIST_BUTTONS = 4;
+
 }

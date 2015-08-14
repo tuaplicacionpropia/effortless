@@ -52,11 +52,14 @@ org.effortless.zkstrap.Btn = zk.$extends(zk.Widget, {
   	var result = '';
   	result = (this._label != null ? this._label.trim() : '');
   	if (result.length <= 0 && this._name != null && this._name.length > 0) {
-  		var _fNode = _APP_I18N[this._name];
+  	    var _fName = this._name;
+  	    _fName = (_fName != null ? _fName.trim() : '');
+	   	_fName = (_fName.indexOf('#') == 0 ? _fName.substring(1) : _fName);
+  		var _fNode = _APP_I18N[_fName];
 		if (!(typeof _fNode === 'undefined' || _fNode === null)) {
 	  		result = _fNode['label'];
   		}
-		result = (result.length > 0 ? result : this._name.capitalize());
+		result = (result.length > 0 ? result : _fName.capitalize());
   	}
   	result = zUtl.encodeXML(result);
   	return result;

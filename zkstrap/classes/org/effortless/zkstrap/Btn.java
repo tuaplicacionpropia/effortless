@@ -72,7 +72,15 @@ public class Btn extends org.zkoss.zk.ui.HtmlBasedComponent {
 		if (cmd.equals(Events.ON_CLICK)) {
 			final Map data = request.getData();
 			String btnName = (String)data.get("name");
-			ObjectAccess.runMethod(this, btnName);
+			btnName = (btnName != null ? btnName.trim() : "");
+			boolean onCmp = (btnName.indexOf("#") == 0);
+			if (!onCmp) {
+				ObjectAccess.runMethod(this, btnName);
+			}
+			else {
+				btnName = btnName.substring(1);
+				ObjectAccess.runMethodCmpBean(this, btnName);
+			}
 		}
 		else {
 			super.service(request, everError);

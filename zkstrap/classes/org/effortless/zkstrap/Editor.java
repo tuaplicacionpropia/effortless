@@ -12,5 +12,15 @@ public class Editor extends BaseEditor {
 //		div list
 //		div bottom buttons
 	}
+
+	public void save () {
+		System.out.println("GUARDANDO " + this._value);
+		ObjectAccess.close(this);
+	}
+	
+	public void cancel () {
+		System.out.println("CANCELANDO " + this._value);
+		ObjectAccess.close(this);
+	}
 	
 }

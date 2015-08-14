@@ -15,7 +15,7 @@ public class PageBuilder extends Object {
 	}
 	
 	protected Component cmpRoot;
-	
+	protected Component lastCmp;
 	protected PageBuilder parentBuilder;
 	
 	public static FinderBuilder createFinder (AdminApp app, Object value) {
@@ -51,6 +51,7 @@ public class PageBuilder extends Object {
 		input.setName(name);
 		addCmp(input);
 		result = this;
+		this.lastCmp = input;
 		return result;
 	}
 
@@ -125,6 +126,7 @@ public class PageBuilder extends Object {
 		btn.setName(name);
 		addCmp(btn);
 		result = this;
+		this.lastCmp = btn;
 		return result;
 	}
 

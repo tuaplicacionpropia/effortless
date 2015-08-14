@@ -105,6 +105,23 @@ public class ObjectAccess extends Object {
 		return result;
 	}
 
+	public static Object getCmpBean (Component cmp) {
+		Object result = null;
+		if (cmp != null) {
+			java.util.Map atts = cmp.getAttributes();
+			boolean contains = atts.containsKey(_BEAN);
+			BaseEditor baseEditor = null; try { baseEditor = (BaseEditor)cmp; } catch (ClassCastException e) {}
+			if (contains && baseEditor != null) {
+				result = cmp;
+			}
+			else {
+				Component parent = cmp.getParent();
+				result = getCmpBean(parent);
+			}
+		}
+		return result;
+	}
+
 	public static void setBean (Component cmp, Object newValue) {
 		if (cmp != null) {
 			cmp.setAttribute(_BEAN, newValue);
@@ -118,21 +135,48 @@ public class ObjectAccess extends Object {
 	}
 
 	public static void runMethod(Component cmp, String method) {
+		Object bean = getBean(cmp);
+		runMethodDirectly(bean, method);
+	}
+	
+	public static void runMethodCmpBean(Component cmp, String method) {
+		Object cmpBean = getCmpBean(cmp);
+		runMethodDirectly(cmpBean, method);
+	}
+	
+	public static void runMethodDirectly(Object bean, String method) {
 		method = (method != null ? method.trim() : "");
-		if (method.length() > 0) {
-			Object bean = getBean(cmp);
-			if (bean != null) {
-				try {
-					MethodUtils.invokeExactMethod(bean, method, (Object[])null);
-				} catch (NoSuchMethodException e) {
-					throw new UiException(e);
-				} catch (IllegalAccessException e) {
-					throw new UiException(e);
-				} catch (InvocationTargetException e) {
-					throw new UiException(e);
+		if (bean != null && method.length() > 0) {
+			try {
+				MethodUtils.invokeExactMethod(bean, method, (Object[])null);
+			} catch (NoSuchMethodException e) {
+				throw new UiException(e);
+			} catch (IllegalAccessException e) {
+				throw new UiException(e);
+			} catch (InvocationTargetException e) {
+				throw new UiException(e);
+			}
+		}
+	}
+
+	public static void close(Component cmp) {
+		if (cmp != null) {
+			AdminApp app = getApp(cmp);
+			cmp.detach();
+			if (app != null) {
+				Component lastChild = app.getLastChild();
+				if (lastChild != null) {
+					lastChild.setVisible(true);
 				}
 			}
 		}
+	}
+
+	public static AdminApp getApp(Component cmp) {
+		AdminApp result = null;
+		try { result = (AdminApp)cmp; } catch (ClassCastException e) {}
+		result = (result != null ? result : (cmp != null ? getApp(cmp.getParent()) : null));
+		return result;
 	}
 	
 }

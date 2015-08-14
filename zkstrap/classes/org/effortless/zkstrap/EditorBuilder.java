@@ -22,8 +22,22 @@ public class EditorBuilder extends PageBuilder {
 		
 		Layout layout = new Layout();
 		editor.appendChild(layout);
+
+		Layout layoutContent = new Layout();
+		layout.appendChild(layoutContent);
+
+		Layout layoutButtons = new Layout();
+		layout.appendChild(layoutButtons);
+		result.cmpRoot = layoutButtons;
 		
-		result.cmpRoot = layout;
+		result.addBtn("#save");
+		result.btnSave = result.lastCmp;
+		result.addBtn("#cancel");
+		
+
+		
+		result.status = CONTENT;
+		result.cmpRoot = layoutContent;
 		result.parentBuilder = null;
 		
 		app.appendChild(editor);
@@ -32,13 +46,25 @@ public class EditorBuilder extends PageBuilder {
 	}
 	
 	public void addCmp (Component cmp) {
-		this.cmpRoot.appendChild(cmp);
+		Btn _btn = null; try { _btn = (Btn)cmp; } catch (ClassCastException e) {}
+		if (_btn != null) {
+			if (this.status == CONTENT) {
+				this.status = BUTTONS;
+				Component layoutButtons = this.cmpRoot.getNextSibling();
+				this.cmpRoot = layoutButtons;
+			}
+			this.cmpRoot.insertBefore(cmp, this.btnSave);
+		}
+		else {
+			super.addCmp(cmp);
+		}
 	}
 	
+	protected Component btnSave;
 	protected byte status = 0;
 	
 	protected static final byte INIT = 0;
-	protected static final byte BUTTONS = 0;
-	
-	
+	protected static final byte CONTENT = 1;
+	protected static final byte BUTTONS = 2;
+
 }
