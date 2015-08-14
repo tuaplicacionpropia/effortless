@@ -15,6 +15,18 @@ org.effortless.zkstrap.MenuBs = zk.$extends(zk.Widget, {
     }
   },
   
+  _name : '', // default value
+
+  getName : function() {
+    return this._name;
+  },
+
+  setName : function(newValue) {
+    if (this._name != newValue) {
+      this._name = newValue;
+    }
+  },
+  
   bind_ : function(evt) {
     this.$supers('bind_', arguments);
     if (!this.isMainMenu()) {
@@ -99,7 +111,17 @@ org.effortless.zkstrap.MenuBs = zk.$extends(zk.Widget, {
   },
   
   getEncodedLabel: function () {
-  	return zUtl.encodeXML(this.getLabel());
+  	var result = '';
+  	result = (this._label != null ? this._label.trim() : '');
+  	if (result.length <= 0 && this._name != null && this._name.length > 0) {
+  		var _fNode = _APP_I18N[this._name];
+		if (!(typeof _fNode === 'undefined' || _fNode === null)) {
+	  		result = _fNode['menu'];
+  		}
+		result = (result.length > 0 ? result : this._name.capitalize());
+  	}
+  	result = zUtl.encodeXML(result);
+  	return result;
   }
   
 });

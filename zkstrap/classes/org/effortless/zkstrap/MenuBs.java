@@ -27,9 +27,23 @@ public class MenuBs extends org.zkoss.zk.ui.HtmlBasedComponent {
 		}
 	}
 	
+	public String name = ""; // a data member
+
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String newValue) {
+		if (!this.name.equals(newValue)) {
+			this.name = newValue;
+			smartUpdate("name", this.name);
+		}
+	}
+	
 	protected void renderProperties(org.zkoss.zk.ui.sys.ContentRenderer renderer) throws java.io.IOException {
 		super.renderProperties(renderer);
 		render(renderer, "label", this.label);
+		render(renderer, "name", this.name);
 	}
 	
 	static {

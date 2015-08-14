@@ -27,37 +27,30 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		final AdminApp app = _app;
 		app.setLabel("Mi aplicación");
 		app.setAttribute("INC", Integer.valueOf(0));
-		{
-			MenuBs menuHome = new MenuBs();
-			menuHome.setLabel("Inicio");
-			menuHome.addEventListener(Events.ON_CLICK, new EventListener() {
-
-				public void onEvent(Event evt) throws Exception {
-					Integer inc = (Integer)app.getAttribute("INC");
-					boolean flag = ((inc.intValue() % 3) != 0);
-					if (flag) {
-						inc = Integer.valueOf(inc.intValue() + 1);
-						app.setAttribute("INC", inc);
-						Label label = new Label();
-						label.setValue("" + inc.intValue() + ". HOLA DON PEPITO");
-						app.appendChild(label);
-					}
-					else {
-						_main.buildContent(evt, app);
-					}
-				}
-				
-			});
-			app.appendChild(menuHome);
-		}
-		// TODO Auto-generated method stub
 		
+//		MenuBuilder b = MenuBuilder.create(app, this);
+//		b.addMenu("Inicio", new EventListener() { public void onEvent(Event evt) throws Exception {
+//			_main.menuInicio(evt, app);
+//		}});
+//		b.addMenu("Editor", new EventListener() { public void onEvent(Event evt) throws Exception {
+//			_main.menuEditor(evt, app);
+//		}});
+//			
+//		b.addMenu("Finder", new EventListener() { public void onEvent(Event evt) throws Exception {
+//			_main.menuFinder(evt, app);
+//		}});
+		
+		
+		MenuBuilder b = MenuBuilder.create(app, this);
+		b.addMenu("menuInicio");
+		b.addMenu("menuEditor");
+		b.addMenu("menuFinder");
 	}
 
-	protected void buildContent(Event evt, AdminApp app) {
-		MyBean obj = new MyBean();
-		obj.setName("Mi nombre");
-		obj.addPropertyChangeListener("name", new PropertyChangeListener() {
+	protected MyBean buildMyBean () {
+		MyBean result = new MyBean();
+		result.setName("Mi nombre");
+		result.addPropertyChangeListener("name", new PropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -67,19 +60,34 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 			}
 			
 		});
+		return result;
+	}
+	
+	public void menuInicio(Event evt, AdminApp app) {
+		Integer inc = (Integer)app.getAttribute("INC");
+		inc = Integer.valueOf(inc.intValue() + 1);
+		app.setAttribute("INC", inc);
+		Label label = new Label();
+		label.setValue("" + inc.intValue() + ". HOLA DON PEPITO");
+		app.appendChild(label);
+	}
+	
+	public void menuEditor(Event evt, AdminApp app) {
+		MyBean obj = buildMyBean();
 		
-		if (false) {
-			PageBuilder b = PageBuilder.createEditor(app, obj);
-			b.addText("name");
-			b.addText("surnames");
-			b.addBtn("ejecutar");
-			b.addBtn("descargar");
-		}
-		else {
-			PageBuilder b = PageBuilder.createFinder(app, obj);
-			b.addBtn("ejecutar");
-			b.addBtn("descargar");
-		}
+		PageBuilder b = PageBuilder.createEditor(app, obj);
+		b.addText("name");
+		b.addText("surnames");
+		b.addBtn("ejecutar");
+		b.addBtn("descargar");
+	}
+	
+	public void menuFinder(Event evt, AdminApp app) {
+		MyBean obj = buildMyBean();
+		
+		PageBuilder b = PageBuilder.createFinder(app, obj);
+		b.addBtn("ejecutar");
+		b.addBtn("descargar");
 	}
 	
 //	protected void buildContent3(Event evt, AdminApp app) {

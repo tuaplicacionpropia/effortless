@@ -18,6 +18,10 @@ public class PageBuilder extends Object {
 	protected Component lastCmp;
 	protected PageBuilder parentBuilder;
 	
+	public static MenuBuilder createMenu (AdminApp app, Object ctrl) {
+		return MenuBuilder.create(app, ctrl);
+	}
+	
 	public static FinderBuilder createFinder (AdminApp app, Object value) {
 		return FinderBuilder.create(app, value);
 	}
