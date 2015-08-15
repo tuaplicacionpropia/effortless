@@ -13,34 +13,18 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Label;
 
-public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
+public class MainUi extends UiCtrl {
 
 	public MainUi () {
 		super();
-		initiate();
 	}
 	
 	protected void initiate () {
-		this.app = null;
+		super.initiate();
 	}
-	
-	public void service(Page page) throws Exception {
-		String requestPath = page.getRequestPath();
-		Session session = Sessions.getCurrent();
-		Object nativeSession = (session != null ? session.getNativeSession() : null);
-		if (this.app == null) {
-			this.app = new AdminApp();
-			if (this.app != null) {
-				this.app.setAttribute("CTRL", this);
-				buildApp();
-			}
-		}
-		this.app.setPage(page);
-	}
-
-	protected AdminApp app;
 	
 	protected void buildApp() {
+		super.buildApp();
 //		final MainUi _main = this;
 		this.app.setLabel("Mi aplicación");
 		this.app.setAttribute("INC", Integer.valueOf(0));
@@ -82,7 +66,7 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		return result;
 	}
 	
-	public void menuInicio(Event evt) {
+	public void menuInicio (Event evt) {
 		Integer inc = (Integer)this.app.getAttribute("INC");
 		inc = Integer.valueOf(inc.intValue() + 1);
 		this.app.setAttribute("INC", inc);
@@ -91,7 +75,7 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		this.app.appendChild(label);
 	}
 	
-	public void menuEditor(Event evt) {
+	public void menuEditor (Event evt) {
 		MyBean obj = buildMyBean();
 		
 		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
@@ -131,7 +115,7 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		menuEditor(evt);
 	}
 	
-	public void menuFinder(Event evt) {
+	public void menuFinder (Event evt) {
 		MyBean obj = buildMyBean();
 		
 		PageBuilder b = PageBuilder.createFinder(this.app, obj, "myFinder");

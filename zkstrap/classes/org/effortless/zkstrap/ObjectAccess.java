@@ -190,7 +190,25 @@ public class ObjectAccess extends Object {
 		try {
 			MethodUtils.invokeExactMethod(ctrl, method, new Object[] {evt}, new Class[] {Event.class});
 		} catch (NoSuchMethodException e) {
-			throw new UiException(e);
+			String newMethod = name;
+			try {
+				MethodUtils.invokeExactMethod(ctrl, newMethod, new Object[] {evt}, new Class[] {Event.class});
+			} catch (NoSuchMethodException e1) {
+				String defaultMethod = "processEvent";
+				try {
+					MethodUtils.invokeExactMethod(ctrl, defaultMethod, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e2) {
+					throw new UiException(e2);
+				} catch (IllegalAccessException e2) {
+					throw new UiException(e2);
+				} catch (InvocationTargetException e2) {
+					throw new UiException(e2);
+				}
+			} catch (IllegalAccessException e1) {
+				throw new UiException(e1);
+			} catch (InvocationTargetException e1) {
+				throw new UiException(e1);
+			}
 		} catch (IllegalAccessException e) {
 			throw new UiException(e);
 		} catch (InvocationTargetException e) {

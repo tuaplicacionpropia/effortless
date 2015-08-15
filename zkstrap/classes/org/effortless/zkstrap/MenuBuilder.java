@@ -49,7 +49,13 @@ public class MenuBuilder extends PageBuilder {
 			@Override
 			public void onEvent(Event evt) throws Exception {
 				// TODO Auto-generated method stub
-				_this.clickMenu(evt, menu.getName());
+				java.util.Map data = new java.util.HashMap();
+				data.put("name", menu.getName());
+				data.put("nativeEvent", evt);
+				evt = new Event("onClick", menu, data);
+				
+				ObjectAccess.execAppAction(evt);
+//				_this.clickMenu(evt, menu.getName());
 			}
 			
 		});
