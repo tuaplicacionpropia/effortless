@@ -6,6 +6,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.EventListener;
@@ -13,14 +15,27 @@ import org.zkoss.zul.Label;
 
 public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 
+	public MainUi () {
+		super();
+		initiate();
+	}
+	
+	protected void initiate () {
+		this.app = null;
+	}
+	
 	public void service(Page page) throws Exception {
 		String requestPath = page.getRequestPath();
-		this.app = new AdminApp();
-		if (this.app != null) {
-			this.app.setAttribute("CTRL", this);
-			buildApp();
-			this.app.setPage(page);
+		Session session = Sessions.getCurrent();
+		Object nativeSession = (session != null ? session.getNativeSession() : null);
+		if (this.app == null) {
+			this.app = new AdminApp();
+			if (this.app != null) {
+				this.app.setAttribute("CTRL", this);
+				buildApp();
+			}
 		}
+		this.app.setPage(page);
 	}
 
 	protected AdminApp app;
