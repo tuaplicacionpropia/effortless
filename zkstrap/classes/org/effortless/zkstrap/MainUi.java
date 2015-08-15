@@ -15,18 +15,20 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 
 	public void service(Page page) throws Exception {
 		String requestPath = page.getRequestPath();
-		AdminApp app = new AdminApp();
-		if (app != null) {
-			buildApp(app);
-			app.setPage(page);
+		this.app = new AdminApp();
+		if (this.app != null) {
+			this.app.setAttribute("CTRL", this);
+			buildApp();
+			this.app.setPage(page);
 		}
 	}
 
-	protected void buildApp(AdminApp _app) {
-		final MainUi _main = this;
-		final AdminApp app = _app;
-		app.setLabel("Mi aplicación");
-		app.setAttribute("INC", Integer.valueOf(0));
+	protected AdminApp app;
+	
+	protected void buildApp() {
+//		final MainUi _main = this;
+		this.app.setLabel("Mi aplicación");
+		this.app.setAttribute("INC", Integer.valueOf(0));
 		
 //		MenuBuilder b = MenuBuilder.create(app, this);
 //		b.addMenu("Inicio", new EventListener() { public void onEvent(Event evt) throws Exception {
@@ -41,12 +43,14 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 //		}});
 		
 		
-		MenuBuilder b = MenuBuilder.create(app, this);
+		MenuBuilder b = MenuBuilder.create(this.app, this);
 		b.addMenu("menuInicio");
 		b.addMenu("menuEditor");
 		b.addMenu("menuFinder");
 	}
 
+	protected java.util.List list = new java.util.ArrayList();
+	
 	protected MyBean buildMyBean () {
 		MyBean result = new MyBean();
 		result.setName("Mi nombre");
@@ -63,29 +67,59 @@ public class MainUi extends org.zkoss.zk.ui.GenericRichlet {
 		return result;
 	}
 	
-	public void menuInicio(Event evt, AdminApp app) {
-		Integer inc = (Integer)app.getAttribute("INC");
+	public void menuInicio(Event evt) {
+		Integer inc = (Integer)this.app.getAttribute("INC");
 		inc = Integer.valueOf(inc.intValue() + 1);
-		app.setAttribute("INC", inc);
+		this.app.setAttribute("INC", inc);
 		Label label = new Label();
 		label.setValue("" + inc.intValue() + ". HOLA DON PEPITO");
-		app.appendChild(label);
+		this.app.appendChild(label);
 	}
 	
-	public void menuEditor(Event evt, AdminApp app) {
+	public void menuEditor(Event evt) {
 		MyBean obj = buildMyBean();
 		
-		PageBuilder b = PageBuilder.createEditor(app, obj);
+		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
 		b.addText("name");
 		b.addText("surnames");
 		b.addBtn("ejecutar");
 		b.addBtn("descargar");
 	}
 	
-	public void menuFinder(Event evt, AdminApp app) {
+	public void myFinder$onCreate (Event evt) {
+		System.out.println("myFinder$onCreate");
+		
 		MyBean obj = buildMyBean();
 		
-		PageBuilder b = PageBuilder.createFinder(app, obj);
+		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
+		b.addText("name");
+		b.addText("surnames");
+		b.addBtn("ejecutar");
+		b.addBtn("descargar");
+	}
+
+	public void myEditor$onSave (Event evt) {
+		System.out.println("myEditor$onSave");
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		this.list.add(value);
+		ObjectAccess.close(evt.getTarget());
+	}
+
+	public void myFinder$onRead (Event evt) {
+		System.out.println("myFinder$onRead");
+		menuEditor(evt);
+	}
+	
+	public void myFinder$onUpdate (Event evt) {
+		System.out.println("myFinder$onUpdate");
+		menuEditor(evt);
+	}
+	
+	public void menuFinder(Event evt) {
+		MyBean obj = buildMyBean();
+		
+		PageBuilder b = PageBuilder.createFinder(this.app, obj, "myFinder");
 		b.addBtn("ejecutar");
 		b.addBtn("descargar");
 	}

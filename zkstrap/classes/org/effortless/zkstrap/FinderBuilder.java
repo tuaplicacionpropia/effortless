@@ -13,11 +13,12 @@ public class FinderBuilder extends PageBuilder {
 		this.status = 0;
 	}
 	
-	public static FinderBuilder create (AdminApp app, Object value) {
+	public static FinderBuilder create (AdminApp app, Object value, String name) {
 		FinderBuilder result = null;
 		result = new FinderBuilder();
 		
 		Finder finder = new Finder();
+		finder.setName(name);
 		finder.setValue(value);
 		
 		Layout layout = new Layout();

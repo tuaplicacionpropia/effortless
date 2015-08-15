@@ -13,11 +13,12 @@ public class EditorBuilder extends PageBuilder {
 		this.status = INIT;
 	}
 	
-	public static EditorBuilder create (AdminApp app, Object value) {
+	public static EditorBuilder create (AdminApp app, Object value, String name) {
 		EditorBuilder result = null;
 		result = new EditorBuilder();
 		
 		Editor editor = new Editor();
+		editor.setName(name);
 		editor.setValue(value);
 		
 		Layout layout = new Layout();

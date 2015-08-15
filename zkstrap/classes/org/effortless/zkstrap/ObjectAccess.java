@@ -8,6 +8,7 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
+import org.zkoss.zk.ui.event.Event;
 
 public class ObjectAccess extends Object {
 
@@ -177,6 +178,24 @@ public class ObjectAccess extends Object {
 		try { result = (AdminApp)cmp; } catch (ClassCastException e) {}
 		result = (result != null ? result : (cmp != null ? getApp(cmp.getParent()) : null));
 		return result;
+	}
+
+	public static void execAppAction(Event evt) {
+		AdminApp app = getApp(evt.getTarget());
+		Object ctrl = app.getAttribute("CTRL");
+		java.util.Map data = (java.util.Map)evt.getData();
+		String name = (String)data.get("name");
+		String evtName = evt.getName();
+		String method = name + "$" + evtName;
+		try {
+			MethodUtils.invokeExactMethod(ctrl, method, new Object[] {evt}, new Class[] {Event.class});
+		} catch (NoSuchMethodException e) {
+			throw new UiException(e);
+		} catch (IllegalAccessException e) {
+			throw new UiException(e);
+		} catch (InvocationTargetException e) {
+			throw new UiException(e);
+		}
 	}
 	
 }

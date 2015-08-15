@@ -59,7 +59,7 @@ public class MenuBuilder extends PageBuilder {
 	protected void clickMenu (Event evt, String menu) {
 		String method = menu;
 		try {
-			MethodUtils.invokeExactMethod(this.ctrl, method, new Object[] {evt, (AdminApp)this.cmpRoot}, new Class[] {Event.class, AdminApp.class});
+			MethodUtils.invokeExactMethod(this.ctrl, method, new Object[] {evt}, new Class[] {Event.class});
 		} catch (NoSuchMethodException e) {
 			throw new UiException(e);
 		} catch (IllegalAccessException e) {

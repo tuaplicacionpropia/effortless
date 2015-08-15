@@ -22,12 +22,12 @@ public class PageBuilder extends Object {
 		return MenuBuilder.create(app, ctrl);
 	}
 	
-	public static FinderBuilder createFinder (AdminApp app, Object value) {
-		return FinderBuilder.create(app, value);
+	public static FinderBuilder createFinder (AdminApp app, Object value, String name) {
+		return FinderBuilder.create(app, value, name);
 	}
 	
-	public static EditorBuilder createEditor (AdminApp app, Object value) {
-		return EditorBuilder.create(app, value);
+	public static EditorBuilder createEditor (AdminApp app, Object value, String name) {
+		return EditorBuilder.create(app, value, name);
 	}
 	
 	public static PageBuilder createBaseEditor (AdminApp app, Object value) {

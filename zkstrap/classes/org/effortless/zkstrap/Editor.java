@@ -1,5 +1,8 @@
 package org.effortless.zkstrap;
 
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.Events;
+
 public class Editor extends BaseEditor {
 
 	public Editor () {
@@ -13,9 +16,26 @@ public class Editor extends BaseEditor {
 //		div bottom buttons
 	}
 
+	protected String name;
+	
+	public String getName () {
+		return this.name;
+	}
+	
+	public void setName (String newValue) {
+		this.name = newValue;
+	}
+	
 	public void save () {
-		System.out.println("GUARDANDO " + this._value);
-		ObjectAccess.close(this);
+		java.util.Map data = new java.util.HashMap();
+		data.put("name", this.name);
+		data.put("value", this._value);
+		
+		Event evt = new Event("onSave", this, data);
+		ObjectAccess.execAppAction(evt);
+//		
+//		System.out.println("GUARDANDO " + this._value);
+//		ObjectAccess.close(this);
 	}
 	
 	public void cancel () {
