@@ -215,5 +215,21 @@ public class ObjectAccess extends Object {
 			throw new UiException(e);
 		}
 	}
+
+	public static Object readProperty(Object item, String property) {
+		Object result = null;
+		if (item != null && property != null) {
+			try {
+				result = PropertyUtils.getProperty(item, property);
+			} catch (IllegalAccessException e) {
+				throw new UiException(e);
+			} catch (InvocationTargetException e) {
+				throw new UiException(e);
+			} catch (NoSuchMethodException e) {
+				throw new UiException(e);
+			}
+		}
+		return result;
+	}
 	
 }

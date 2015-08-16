@@ -12,6 +12,10 @@ public class FinderBuilder extends PageBuilder {
 		super.initiate();
 		this.status = 0;
 	}
+
+	public void setProperties (String newValue) {
+		((Input)this.listTable).setProperties(newValue);
+	}
 	
 	public static FinderBuilder create (AdminApp app, Object value, String name) {
 		FinderBuilder result = null;
@@ -48,6 +52,8 @@ public class FinderBuilder extends PageBuilder {
 			
 			result.cmpRoot = layoutList;
 			result.addTable("listado");
+			result.listTable = result.lastCmp;
+			
 //			result.addText("name");
 		}
 		
@@ -88,6 +94,7 @@ public class FinderBuilder extends PageBuilder {
 	
 	protected Component btnSearch;
 	protected Component btnCreate;
+	protected Component listTable;
 
 	protected byte status = 0;
 	

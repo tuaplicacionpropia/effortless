@@ -43,7 +43,7 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 			this._readValue = false;
 			ObjectAccess.setProperty(this, this._name, value);
 			if (!this._$processingClient) {
-				smartUpdate("value", _toClient(value));
+				smartUpdate("value", _toClientValue(value));
 			}
 		}
 	}
@@ -53,9 +53,59 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		if (!this._$processingClient && hasChanges) {
 			this._readValue = false;
 			this._rawValue = value;
-			smartUpdate("value", _toClient(value));
+			smartUpdate("value", _toClientValue(value));
 		}
 	}
+
+	protected String properties = "";
+	
+	public String getProperties () {
+		return this.properties;
+	}
+	
+	public void setProperties (String newValue) {
+		if (!this.properties.equals(newValue)) {
+			this.properties = newValue;
+			smartUpdate("properties", this.properties);
+		}
+	}
+
+	protected Object _toClientValue (Object value) {
+		Object result = null;
+		if ("table".equals(this._type)) {
+			String[] arrayProperties = (this.properties != null ? this.properties.split(",") : null);
+			int numProperties = (arrayProperties != null ? arrayProperties.length : 0);
+			String[][] array = null;
+			java.util.Collection collection = (java.util.Collection)this.getValue();
+			java.util.Iterator iterator = (collection != null ? collection.iterator() : null);
+			int size = (collection != null ? collection.size() : 0);
+			
+			array = new String[size][numProperties];
+			if (iterator != null) {
+				int idx = 0;
+				while (iterator.hasNext()) {
+					Object item = iterator.next();
+					if (item != null) {
+						String[] itemProperties = new String[numProperties];
+						for (int i = 0; i < numProperties; i++) {
+							String property = arrayProperties[i];
+							Object itemValue = ObjectAccess.readProperty(item, property);
+							String itemValueStr = (String)itemValue;//_toClient(itemValue);
+							itemProperties[i] = itemValueStr;
+						}
+						array[idx] = itemProperties;
+						idx += 1;
+					}
+				}
+			}
+			result = array;
+		}
+		else {
+			result = (value != null ? value.toString() : null);
+		}
+		return result;
+	}
+	
 	
 	protected Object _toClient (Object value) {
 		return (value != null ? value.toString() : null);
@@ -139,12 +189,13 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 
 	protected void renderProperties(org.zkoss.zk.ui.sys.ContentRenderer renderer) throws java.io.IOException {
 		super.renderProperties(renderer);
-		render(renderer, "value", _toClient(this.getValue()));
+		render(renderer, "value", _toClientValue(this.getValue()));
 		render(renderer, "type", this._type);
 		render(renderer, "skin", this._skin);
 		render(renderer, "label", this._label);
 		render(renderer, "name", this._name);
 		render(renderer, "values", this._valuesToClient());
+		render(renderer, "properties", this.properties);
 	}
 
 //	public void setBclass (String newValue) {

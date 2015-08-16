@@ -252,7 +252,7 @@ $("#amount").inputmask("decimal",{
 	else if (_type == 'table') {
 		var columnNames = this.getColumnNames();
 		var cellValues = this.getCellValues();
-		out.push('<div id="', uuid, '" class="input-group">');
+		out.push('<div id="', uuid, '" class="input-table">');
 
 		var numCells = (columnNames ? columnNames.length : (cellValues ? cellValues.length : 0));
 		if (numCells > 0) {

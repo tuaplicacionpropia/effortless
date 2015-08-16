@@ -76,6 +76,18 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
     }
   },
 
+  _properties : '',
+
+  getProperties : function() {
+    return this._properties;
+  },
+
+  setProperties : function(newValue) {
+    if (this._properties != newValue) {
+      this._properties = newValue;
+    }
+  },
+
   _name : '',
 
   getName : function() {
@@ -102,18 +114,28 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   	return result;
   },
   
+  getLabelColumn: function (property) {
+  	var result = '';
+	result = property.capitalize();
+  	result = zUtl.encodeXML(result);
+  	return result;
+  },
+  
   getColumnNames: function () {
   	var result = [];
-  	result.push('Columna1');
-  	result.push('Columna2');
-  	result.push('Columna3');
-  	result.push('Columna4');
-  	result.push('Columna5');
+  	var properties = this._properties.split(',');
+  	for (var i = 0; i < properties.length; i++) {
+  		var label = this.getLabelColumn(properties[i]);
+	  	result.push(label);
+  	}
+//  	result.push('Columna2');
   	return result;
   },
   
   getCellValues: function () {
   	var result = [];
+  	result = this._value;
+/*
   	for (var i = 1; i <= 5; i++) {
 	  	var item = [];
 	  	item.push('Valor' + i + '.1');
@@ -123,6 +145,7 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
 	  	item.push('Valor' + i + '.5');
 	  	result.push(item);
 	}
+*/
   	return result;
   },
   

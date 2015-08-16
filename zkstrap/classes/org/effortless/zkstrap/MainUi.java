@@ -63,6 +63,23 @@ public class MainUi extends UiCtrl {
 			}
 			
 		});
+		java.util.List listado = new java.util.ArrayList();
+		result.setListado(listado);
+		
+		{
+			MyBean item = new MyBean();
+			item.setName("Escobar");
+			item.setSurnames("Manolo el cantante");
+			listado.add(item);
+		}
+		
+		{
+			MyBean item = new MyBean();
+			item.setName("Cepilla");
+			item.setSurnames("Fregona Patente");
+			listado.add(item);
+		}
+		
 		return result;
 	}
 	
@@ -118,9 +135,10 @@ public class MainUi extends UiCtrl {
 	public void menuFinder (Event evt) {
 		MyBean obj = buildMyBean();
 		
-		PageBuilder b = PageBuilder.createFinder(this.app, obj, "myFinder");
+		FinderBuilder b = FinderBuilder.createFinder(this.app, obj, "myFinder");
 		b.addBtn("ejecutar");
 		b.addBtn("descargar");
+		b.setProperties("name,surnames");
 	}
 	
 //	protected void buildContent3(Event evt, AdminApp app) {
