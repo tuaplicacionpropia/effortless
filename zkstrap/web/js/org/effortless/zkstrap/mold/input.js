@@ -253,35 +253,44 @@ $("#amount").inputmask("decimal",{
 		var columnNames = this.getColumnNames();
 		var cellValues = this.getCellValues();
 		out.push('<div id="', uuid, '" class="input-group">');
-/*
-		if (columnNames.length > 0) {
-			var cellSpan = (12 / columnNames.length);
-			
-			out.push('<div class="row">');
-			for (var i = 0; i < columnNames.length; i++) {
-				var columnName = columnNames[i];
-				var cellClass = 'col-md-' + cellSpan;
-				out.push('<div class="', cellClass, '">', columnName, '</div>');
-			}
-			out.push('</div>');
-		}
-		
-		if (cellValues.length > 0) {
-			var cellSpan = (12 / columnNames.length);
-			
-			out.push('<div class="row">');
-			for (var i = 0; i < cellValues.length; i++) {
-				var cellValue = cellValues[i];
+
+		var numCells = (columnNames ? columnNames.length : (cellValues ? cellValues.length : 0));
+		if (numCells > 0) {
+			var cellSpan = Math.floor(12 / numCells);
+			var cellRestoSpan = (12 % numCells);
+
+			if (columnNames && columnNames.length > 0) {
+				out.push('<div class="row">');
 				for (var i = 0; i < columnNames.length; i++) {
-					var cellValue = cellValue[i];
-					var cellClass = 'col-md-' + cellSpan;
-					out.push('<div class="', cellClass, '">', cellValue, '</div>');
+					var columnName = columnNames[i];
+					var cellItemSpan = cellSpan;
+					if ((i + cellRestoSpan) >= columnNames.length) {
+						cellItemSpan += 1;
+					}
+					var cellClass = 'col-md-' + cellItemSpan;
+					out.push('<div class="', cellClass, '">', columnName, '</div>');
+				}
+				out.push('</div>');
+			}
+	
+			if (cellValues && cellValues.length > 0) {
+				for (var i = 0; i < cellValues.length; i++) {
+				out.push('<div class="row">');
+					var cellValue = cellValues[i];
+					for (var j = 0; j < columnNames.length; j++) {
+						var cellItemValue = cellValue[j];
+						var cellItemSpan = cellSpan;
+						if ((j + cellRestoSpan) >= columnNames.length) {
+							cellItemSpan += 1;
+						}
+						var cellClass = 'col-md-' + cellItemSpan;
+						out.push('<div class="', cellClass, '">', cellItemValue, '</div>');
+					}
+				out.push('</div>');
 				}
 			}
-			out.push('</div>');
-			
 		}
-*/
+		
 		out.push('</div>');
 	}
 	else if (_type == 'web') {

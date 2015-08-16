@@ -197,6 +197,8 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
 						result = 5;
 					} else if (inputType == 'radio') {
 						result = 5;
+					} else if (inputType == 'table') {
+						result = 12;
 					} else if (inputType == 'date') {
 						result = 2;
 					} else if (inputType == 'time') {

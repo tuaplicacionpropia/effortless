@@ -5,29 +5,29 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   },
 
   setValue : function(value) {
-    console.log('SET VALUE START');
+//    console.log('SET VALUE START');
     if (this._value != value) {
-	    console.log('SET VALUE NE');
-	    console.log('SET VALUE NE value = ' + value);
+//	    console.log('SET VALUE NE');
+//	    console.log('SET VALUE NE value = ' + value);
       this._value = value;
-	    console.log('SET VALUE ASSIGN value = ' + value);
+//	    console.log('SET VALUE ASSIGN value = ' + value);
       if (this.desktop) {
-	    console.log('SET VALUE DESKTOP');
+//	    console.log('SET VALUE DESKTOP');
 	  	var _textNode = this._getTextNode();
-	    console.log('SET VALUE GetTEXTNODE');
+//	    console.log('SET VALUE GetTEXTNODE');
 	  	var _type = this.getType();
-	    console.log('SET VALUE GETTYPE');
+//	    console.log('SET VALUE GETTYPE');
 		  	
-	    console.log('SET VALUE value = ' + value);
+//	    console.log('SET VALUE value = ' + value);
 	  	if (_type == 'checkbox') {
 	  		_textNode.checked = value;
 		}
-		else {
+		else if (!(_type == 'table')) {
 	  		_textNode.value = value;
         }
       }
 	}
-    console.log('SET VALUE END');
+//    console.log('SET VALUE END');
   },
   
   _skin : '',
@@ -121,8 +121,8 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
 	  	item.push('Valor' + i + '.3');
 	  	item.push('Valor' + i + '.4');
 	  	item.push('Valor' + i + '.5');
+	  	result.push(item);
 	}
-  	result.push(item);
   	return result;
   },
   
@@ -178,7 +178,7 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
         jq('#' + this.uuid).colorpicker();
     	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
 	}	
-	else {
+	else if (!(_type == 'table')) {
 	    var _node = this._getTextNode();
 	    _node.value = this.getValue();
     	this.domListen_(_node, "onBlur", '_doBlur');
