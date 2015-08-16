@@ -5,12 +5,20 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   },
 
   setValue : function(value) {
+    console.log('SET VALUE START');
     if (this._value != value) {
+	    console.log('SET VALUE NE');
+	    console.log('SET VALUE NE value = ' + value);
       this._value = value;
+	    console.log('SET VALUE ASSIGN value = ' + value);
       if (this.desktop) {
+	    console.log('SET VALUE DESKTOP');
 	  	var _textNode = this._getTextNode();
+	    console.log('SET VALUE GetTEXTNODE');
 	  	var _type = this.getType();
+	    console.log('SET VALUE GETTYPE');
 		  	
+	    console.log('SET VALUE value = ' + value);
 	  	if (_type == 'checkbox') {
 	  		_textNode.checked = value;
 		}
@@ -19,6 +27,7 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
         }
       }
 	}
+    console.log('SET VALUE END');
   },
   
   _skin : '',
@@ -92,6 +101,32 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   	result = zUtl.encodeXML(result);
   	return result;
   },
+  
+  getColumnNames: function () {
+  	var result = [];
+  	result.push('Columna1');
+  	result.push('Columna2');
+  	result.push('Columna3');
+  	result.push('Columna4');
+  	result.push('Columna5');
+  	return result;
+  },
+  
+  getCellValues: function () {
+  	var result = [];
+  	for (var i = 1; i <= 5; i++) {
+	  	var item = [];
+	  	item.push('Valor' + i + '.1');
+	  	item.push('Valor' + i + '.2');
+	  	item.push('Valor' + i + '.3');
+	  	item.push('Valor' + i + '.4');
+	  	item.push('Valor' + i + '.5');
+	}
+  	result.push(item);
+  	return result;
+  },
+  
+  
   
   _values : [],
 

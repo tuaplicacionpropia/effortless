@@ -123,6 +123,10 @@ public class PageBuilder extends Object {
 		return addInput("datetime", name);
 	}
 
+	public PageBuilder addTable(String name) {
+		return addInput("table", name);
+	}
+
 	public PageBuilder addBtn(String name) {
 		PageBuilder result = null;
 		Btn btn = new Btn();

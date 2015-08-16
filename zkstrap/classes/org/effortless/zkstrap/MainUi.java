@@ -184,7 +184,7 @@ public class MainUi extends UiCtrl {
 	         this.pcs.removePropertyChangeListener(listener);
 	     }
 
-	     private String name;
+	     protected String name;
 
 	     public String getName() {
 	         return this.name;
@@ -198,7 +198,7 @@ public class MainUi extends UiCtrl {
 	         }
 	     }
 
-	     private String surnames;
+	     protected String surnames;
 
 	     public String getSurnames() {
 	         return this.surnames;
@@ -211,6 +211,22 @@ public class MainUi extends UiCtrl {
 		         this.pcs.firePropertyChange("surnames", oldValue, newValue);
 	         }
 	     }
+	     
+	     protected java.util.List listado;
+
+	     public java.util.List getListado() {
+	         return this.listado;
+	     }
+
+	     public void setListado(java.util.List newValue) {
+	    	 java.util.List oldValue = this.listado;
+	         if (!ObjectAccess.equals(oldValue, newValue)) {
+		         this.listado = newValue;
+		         this.pcs.firePropertyChange("listado", oldValue, newValue);
+	         }
+	     }
+	     
+	     
 	     
 	     public void ejecutar () {
 	    	 System.out.println("Ejecutando: " + this.name);

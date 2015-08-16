@@ -249,6 +249,41 @@ $("#amount").inputmask("decimal",{
             out.push('jq("#', uuid, '-input").inputmask({mask: "999 99 99 99"});');
         out.push('</script>');
 	}
+	else if (_type == 'table') {
+		var columnNames = this.getColumnNames();
+		var cellValues = this.getCellValues();
+		out.push('<div id="', uuid, '" class="input-group">');
+/*
+		if (columnNames.length > 0) {
+			var cellSpan = (12 / columnNames.length);
+			
+			out.push('<div class="row">');
+			for (var i = 0; i < columnNames.length; i++) {
+				var columnName = columnNames[i];
+				var cellClass = 'col-md-' + cellSpan;
+				out.push('<div class="', cellClass, '">', columnName, '</div>');
+			}
+			out.push('</div>');
+		}
+		
+		if (cellValues.length > 0) {
+			var cellSpan = (12 / columnNames.length);
+			
+			out.push('<div class="row">');
+			for (var i = 0; i < cellValues.length; i++) {
+				var cellValue = cellValues[i];
+				for (var i = 0; i < columnNames.length; i++) {
+					var cellValue = cellValue[i];
+					var cellClass = 'col-md-' + cellSpan;
+					out.push('<div class="', cellClass, '">', cellValue, '</div>');
+				}
+			}
+			out.push('</div>');
+			
+		}
+*/
+		out.push('</div>');
+	}
 	else if (_type == 'web') {
 	}
 	else if (_type == 'file') {

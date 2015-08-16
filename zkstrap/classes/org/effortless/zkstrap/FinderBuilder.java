@@ -47,7 +47,8 @@ public class FinderBuilder extends PageBuilder {
 			layout.appendChild(layoutList);
 			
 			result.cmpRoot = layoutList;
-			result.addText("name");
+			result.addTable("listado");
+//			result.addText("name");
 		}
 		
 		Layout layoutListButtons = null;

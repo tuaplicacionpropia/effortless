@@ -58,7 +58,7 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 	
 	protected Object _toClient (Object value) {
-		return (value != null ? value.toString() : null);
+		return (value != null ? value.toString() : "ZZ");
 	}
 	
 	protected Object _fromClient (Object value) {
