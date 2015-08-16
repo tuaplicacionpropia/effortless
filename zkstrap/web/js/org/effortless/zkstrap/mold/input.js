@@ -256,11 +256,14 @@ $("#amount").inputmask("decimal",{
 
 		var numCells = (columnNames ? columnNames.length : (cellValues ? cellValues.length : 0));
 		if (numCells > 0) {
-			var cellSpan = Math.floor(12 / numCells);
-			var cellRestoSpan = (12 % numCells);
+		    var cellTotal = 10;
+			var cellSpan = Math.floor(cellTotal / numCells);
+			var cellRestoSpan = (cellTotal % numCells);
 
 			if (columnNames && columnNames.length > 0) {
 				out.push('<div class="row">');
+					out.push('<div class="col-md-1"></div>');
+				
 				for (var i = 0; i < columnNames.length; i++) {
 					var columnName = columnNames[i];
 					var cellItemSpan = cellSpan;
@@ -270,6 +273,7 @@ $("#amount").inputmask("decimal",{
 					var cellClass = 'col-md-' + cellItemSpan;
 					out.push('<div class="', cellClass, '">', columnName, '</div>');
 				}
+					out.push('<div class="col-md-1"></div>');
 				out.push('</div>');
 			}
 	
@@ -277,6 +281,13 @@ $("#amount").inputmask("decimal",{
 				for (var i = 0; i < cellValues.length; i++) {
 				out.push('<div class="row">');
 					var cellValue = cellValues[i];
+
+					out.push('<div class="col-md-1">');
+					out.push('<input name="', uuid, '-radioselect" id="', uuid + '-radioselect_' + i, '" type="radio" value="', '' + i ,'">');
+					out.push('</div>');
+
+
+					
 					for (var j = 0; j < columnNames.length; j++) {
 						var cellItemValue = cellValue[j];
 						var cellItemSpan = cellSpan;
@@ -286,8 +297,19 @@ $("#amount").inputmask("decimal",{
 						var cellClass = 'col-md-' + cellItemSpan;
 						out.push('<div class="', cellClass, '">', cellItemValue, '</div>');
 					}
+
+					out.push('<div class="col-md-1">');
+					out.push('</div>');
+					
 				out.push('</div>');
 				}
+
+		        out.push('<script type="text/javascript">');
+				for	(var index = 0; index < cellValues.length; index++) {
+		            out.push('jq("#', uuid + '-radioselect_' + index, '").iCheck({radioClass: "iradio_minimal", increaseArea: "10%"});');
+				} 		
+       			out.push('</script>');
+				
 			}
 		}
 		

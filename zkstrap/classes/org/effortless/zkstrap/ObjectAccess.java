@@ -29,32 +29,37 @@ public class ObjectAccess extends Object {
 		Object result = null;
 		Object bean = getBean(cmp);
 		if (bean != null) {
-			try {
-				result = PropertyUtils.getProperty(bean, name);
-			} catch (IllegalAccessException e) {
-				throw new UiException(e);
-			} catch (InvocationTargetException e) {
-				throw new UiException(e);
-			} catch (NoSuchMethodException e) {
-				throw new UiException(e);
+			if ("#".equals(name)) {
+				result = bean;
 			}
-			
-			if (binding) {
-				IBean ibean = null;
-				try { ibean = (IBean)bean; } catch (ClassCastException e) {}
-				Input input = null;
-				try { input = (Input)cmp; } catch (ClassCastException e) {}
-				final Input _input = input;
-				if (ibean != null && _input != null) {
-					ibean.addPropertyChangeListener(name, new PropertyChangeListener() {
-	
-						@Override
-						public void propertyChange(PropertyChangeEvent evt) {
-							Object newValue = evt.getNewValue();
-							_input.reloadValue(newValue);
-						}
-						
-					});
+			else {
+				try {
+					result = PropertyUtils.getProperty(bean, name);
+				} catch (IllegalAccessException e) {
+					throw new UiException(e);
+				} catch (InvocationTargetException e) {
+					throw new UiException(e);
+				} catch (NoSuchMethodException e) {
+					throw new UiException(e);
+				}
+				
+				if (binding) {
+					IBean ibean = null;
+					try { ibean = (IBean)bean; } catch (ClassCastException e) {}
+					Input input = null;
+					try { input = (Input)cmp; } catch (ClassCastException e) {}
+					final Input _input = input;
+					if (ibean != null && _input != null) {
+						ibean.addPropertyChangeListener(name, new PropertyChangeListener() {
+		
+							@Override
+							public void propertyChange(PropertyChangeEvent evt) {
+								Object newValue = evt.getNewValue();
+								_input.reloadValue(newValue);
+							}
+							
+						});
+					}
 				}
 			}
 		}

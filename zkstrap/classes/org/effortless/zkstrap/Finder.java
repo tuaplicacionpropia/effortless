@@ -15,6 +15,16 @@ public class Finder extends BaseEditor {
 //		div list
 //		div bottom buttons
 	}
+
+	protected Object selection;
+	
+	public Object getSelection () {
+		return selection;
+	}
+	
+	public void setSelection (Object newValue) {
+		this.selection = newValue;
+	}
 	
 	protected String name;
 	
@@ -34,6 +44,7 @@ public class Finder extends BaseEditor {
 	public void create () {
 		java.util.Map data = new java.util.HashMap();
 		data.put("name", this.name);
+		data.put("value", this.selection);
 		Event evt = new Event("onCreate", this, data);
 		ObjectAccess.execAppAction(evt);
 //		ObjectAccess.close(this);
@@ -42,7 +53,7 @@ public class Finder extends BaseEditor {
 	public void read () {
 		java.util.Map data = new java.util.HashMap();
 		data.put("name", this.name);
-		data.put("value", "SELECTED");
+		data.put("value", this.selection);
 		Event evt = new Event("onRead", this, data);
 		ObjectAccess.execAppAction(evt);
 //		System.out.println("finder read " + this._value);
@@ -52,7 +63,7 @@ public class Finder extends BaseEditor {
 	public void update () {
 		java.util.Map data = new java.util.HashMap();
 		data.put("name", this.name);
-		data.put("value", "SELECTED");
+		data.put("value", this.selection);
 		Event evt = new Event("onUpdate", this, data);
 		ObjectAccess.execAppAction(evt);
 //		System.out.println("finder update " + this._value);

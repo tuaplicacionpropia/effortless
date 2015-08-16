@@ -50,9 +50,9 @@ public class MainUi extends UiCtrl {
 
 	protected java.util.List list = new java.util.ArrayList();
 	
-	protected MyBean buildMyBean () {
+	protected MyBean buildMyBean (String name) {
 		MyBean result = new MyBean();
-		result.setName("Mi nombre");
+		result.setName(name);
 		result.addPropertyChangeListener("name", new PropertyChangeListener() {
 
 			@Override
@@ -68,17 +68,28 @@ public class MainUi extends UiCtrl {
 		
 		{
 			MyBean item = new MyBean();
-			item.setName("Escobar");
-			item.setSurnames("Manolo el cantante");
+			item.setName(name + " Escobar");
+			item.setSurnames(name + " Manolo el cantante");
 			listado.add(item);
 		}
 		
 		{
 			MyBean item = new MyBean();
-			item.setName("Cepilla");
-			item.setSurnames("Fregona Patente");
+			item.setName(name + " Cepilla");
+			item.setSurnames(name + " Fregona Patente");
 			listado.add(item);
 		}
+		
+		return result;
+	}
+	
+	protected java.util.List buildListMyBean () {
+		java.util.List result = null;
+		result = new java.util.ArrayList();
+		
+		result.add(buildMyBean("Mi nombre"));
+		result.add(buildMyBean("España"));
+		result.add(buildMyBean("Canarias"));
 		
 		return result;
 	}
@@ -93,7 +104,7 @@ public class MainUi extends UiCtrl {
 	}
 	
 	public void menuEditor (Event evt) {
-		MyBean obj = buildMyBean();
+		MyBean obj = buildMyBean("Mi nombre");
 		
 		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
 		b.addText("name");
@@ -105,7 +116,7 @@ public class MainUi extends UiCtrl {
 	public void myFinder$onCreate (Event evt) {
 		System.out.println("myFinder$onCreate");
 		
-		MyBean obj = buildMyBean();
+		MyBean obj = buildMyBean("Mi nombre");
 		
 		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
 		b.addText("name");
@@ -133,13 +144,15 @@ public class MainUi extends UiCtrl {
 	}
 	
 	public void menuFinder (Event evt) {
-		MyBean obj = buildMyBean();
+		java.util.List obj = buildListMyBean();
 		
 		FinderBuilder b = FinderBuilder.createFinder(this.app, obj, "myFinder");
 		b.addBtn("ejecutar");
 		b.addBtn("descargar");
 		b.setProperties("name,surnames");
 	}
+
+	
 	
 //	protected void buildContent3(Event evt, AdminApp app) {
 //		Pojo obj = new Pojo();

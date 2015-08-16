@@ -51,7 +51,7 @@ public class FinderBuilder extends PageBuilder {
 			layout.appendChild(layoutList);
 			
 			result.cmpRoot = layoutList;
-			result.addTable("listado");
+			result.addTable("#");
 			result.listTable = result.lastCmp;
 			
 //			result.addText("name");
