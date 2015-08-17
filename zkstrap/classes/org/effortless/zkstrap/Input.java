@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.InputEvent;
 
@@ -57,6 +58,29 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		}
 	}
 
+	protected Object selection;
+	
+	public Object getSelection() {
+		return this.selection;
+	}
+	
+	public void setSelection(Object newValue) {
+		Object oldValue = this.selection;
+		if (!ObjectAccess.equals(oldValue, newValue)) {
+			this.selection = newValue;
+			
+			java.util.Map data = new java.util.HashMap();
+			data.put("name", this._name);
+			data.put("oldValue", oldValue);
+			data.put("value", this.selection);
+			Event evt = new Event("onSelect", this, data);
+			
+			ObjectAccess.execEditorAction(evt);
+		}
+	}
+	
+	
+	
 	protected String properties = "";
 	
 	public String getProperties () {
@@ -204,6 +228,7 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 
 	static {
 		addClientEvent(Input.class, Events.ON_CHANGE, CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(Input.class, "onSelect", CE_IMPORTANT|CE_REPEAT_IGNORE);
 	}
 	
 	
@@ -226,7 +251,19 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 			setValue(value);
 			this._$processingClient = false;
 //			Events.postEvent(evt);
-		} 
+		}
+		else if ("onSelect".equals(cmd)) {
+			final Map data = request.getData();
+			String selectIdx = (String)data.get("value");
+			int idx = Integer.valueOf(selectIdx).intValue();
+			java.util.List value = null;
+			try { value = (java.util.List)this._rawValue; } catch (ClassCastException e) {}
+			if (value != null) {
+				Object selection = value.get(idx);
+				setSelection(selection);
+			}
+			System.out.println("onSelect");
+		}
 		else {
 			super.service(request, everError);
 		}

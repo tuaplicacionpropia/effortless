@@ -104,7 +104,10 @@ public class MainUi extends UiCtrl {
 	}
 	
 	public void menuEditor (Event evt) {
-		MyBean obj = buildMyBean("Mi nombre");
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		
+		MyBean obj = (value != null ? (MyBean)value : buildMyBean("Mi nombre"));
 		
 		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
 		b.addText("name");

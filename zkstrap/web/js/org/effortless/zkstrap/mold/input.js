@@ -303,13 +303,13 @@ $("#amount").inputmask("decimal",{
 					
 				out.push('</div>');
 				}
-
+/*
 		        out.push('<script type="text/javascript">');
 				for	(var index = 0; index < cellValues.length; index++) {
 		            out.push('jq("#', uuid + '-radioselect_' + index, '").iCheck({radioClass: "iradio_minimal", increaseArea: "10%"});');
 				} 		
        			out.push('</script>');
-				
+*/
 			}
 		}
 		

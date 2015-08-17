@@ -185,17 +185,60 @@ public class ObjectAccess extends Object {
 		return result;
 	}
 
+	
+	
+	public static void execEditorAction(Event evt) {
+		Object ctrl = ObjectAccess.getCmpBean(evt.getTarget());
+		java.util.Map data = (java.util.Map)evt.getData();
+		String name = (String)data.get("name");
+		String evtName = evt.getName();
+		boolean checkSimple = "#".equals(name);
+		String prefix = (checkSimple ? "" : name + "$");
+		String method = prefix + evtName;
+		try {
+			MethodUtils.invokeExactMethod(ctrl, method, new Object[] {evt}, new Class[] {Event.class});
+		} catch (NoSuchMethodException e) {
+			String newMethod = (checkSimple ? "processEvent" : name);
+			try {
+				MethodUtils.invokeExactMethod(ctrl, newMethod, new Object[] {evt}, new Class[] {Event.class});
+			} catch (NoSuchMethodException e1) {
+				String defaultMethod = "processEvent";
+				try {
+					MethodUtils.invokeExactMethod(ctrl, defaultMethod, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e2) {
+					throw new UiException(e2);
+				} catch (IllegalAccessException e2) {
+					throw new UiException(e2);
+				} catch (InvocationTargetException e2) {
+					throw new UiException(e2);
+				}
+			} catch (IllegalAccessException e1) {
+				throw new UiException(e1);
+			} catch (InvocationTargetException e1) {
+				throw new UiException(e1);
+			}
+		} catch (IllegalAccessException e) {
+			throw new UiException(e);
+		} catch (InvocationTargetException e) {
+			throw new UiException(e);
+		}
+	}
+
+	
+	
 	public static void execAppAction(Event evt) {
 		AdminApp app = getApp(evt.getTarget());
 		Object ctrl = app.getAttribute("CTRL");
 		java.util.Map data = (java.util.Map)evt.getData();
 		String name = (String)data.get("name");
 		String evtName = evt.getName();
-		String method = name + "$" + evtName;
+		boolean checkSimple = "#".equals(name);
+		String prefix = (checkSimple ? "" : name + "$");
+		String method = prefix + evtName;
 		try {
 			MethodUtils.invokeExactMethod(ctrl, method, new Object[] {evt}, new Class[] {Event.class});
 		} catch (NoSuchMethodException e) {
-			String newMethod = name;
+			String newMethod = (checkSimple ? "processEvent" : name);
 			try {
 				MethodUtils.invokeExactMethod(ctrl, newMethod, new Object[] {evt}, new Class[] {Event.class});
 			} catch (NoSuchMethodException e1) {

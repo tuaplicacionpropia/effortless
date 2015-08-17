@@ -75,4 +75,10 @@ public class Finder extends BaseEditor {
 		ObjectAccess.close(this);
 	}
 	
+	public void onSelect (Event evt) {
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object select = data.get("value");
+		setSelection(select);
+	}
+	
 }

@@ -206,6 +206,14 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
 	    _node.value = this.getValue();
     	this.domListen_(_node, "onBlur", '_doBlur');
 	}
+	else if (_type == 'table') {
+		var cellValues = this.getCellValues();
+		for	(var index = 0; index < cellValues.length; index++) {
+            jq('#' + this.uuid + '-radioselect_' + index).iCheck({radioClass: "iradio_minimal", increaseArea: "10%"});
+			var _self = this;
+			jq('#' + this.uuid + '-radioselect_' + index).on("ifToggled", function() { _self._selectIndex(this.value); });
+		}
+	}
   },
   
   unbind_ : function(evt) {
@@ -223,18 +231,30 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   	this._doBlur();
   }, 
 
+  _selectIndex: function(idx) {
+  	var _type = this.getType();
+  	if (_type == 'table') {
+    	this.fire('onSelect', {value: idx}, {toServer: true});
+	}
+  },
+
   _doBlur: function(evt) {
   	var _textNode = this._getTextNode();
   	var _textNodeValue = null;
   	var _type = this.getType();
+  	var flag = false;
   	
   	if (_type == 'checkbox') {
   		_textNodeValue = _textNode.checked;
+  		flag = true;
+	}
+  	else if (_type == 'table') {
 	}
 	else {
   		_textNodeValue = _textNode.value;
+  		flag = true;
 	}
-	if (this._value != _textNodeValue) {
+	if (flag && this._value != _textNodeValue) {
 		this._value = _textNodeValue;
     	this.fire('onChange', {value: _textNodeValue}, {toServer: true});
     }
