@@ -15,9 +15,20 @@ public class BaseEditor extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 	
 	protected void initiate () {
+		this.name = null;
 //		this.appendChild(new Layout());
 //		this.setZclass("label label-default");
 //		this.setSclass("default");
+	}
+	
+	protected String name;
+	
+	public String getName () {
+		return this.name;
+	}
+	
+	public void setName (String newValue) {
+		this.name = newValue;
 	}
 	
 	protected Object _value = ""; // a data member

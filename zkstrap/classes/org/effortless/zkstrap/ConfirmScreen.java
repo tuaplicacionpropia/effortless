@@ -3,9 +3,9 @@ package org.effortless.zkstrap;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
-public class Editor extends BaseEditor {
+public class ConfirmScreen extends BaseEditor {
 
-	public Editor () {
+	public ConfirmScreen () {
 		super();
 //		org.zkoss.zk.ui.util.Template t = null;
 //		
@@ -16,12 +16,13 @@ public class Editor extends BaseEditor {
 //		div bottom buttons
 	}
 
-	public void save () {
+	public void ok () {
 		java.util.Map data = new java.util.HashMap();
 		data.put("name", this.name);
 		data.put("value", this._value);
+		data.put("op", "ok");
 		
-		Event evt = new Event("onSave", this, data);
+		Event evt = new Event("onOk", this, data);
 		ObjectAccess.execAppAction(evt);
 //		
 //		System.out.println("GUARDANDO " + this._value);
@@ -29,8 +30,13 @@ public class Editor extends BaseEditor {
 	}
 	
 	public void cancel () {
-		System.out.println("CANCELANDO " + this._value);
-		ObjectAccess.close(this);
+		java.util.Map data = new java.util.HashMap();
+		data.put("name", this.name);
+		data.put("value", this._value);
+		data.put("op", "cancel");
+		
+		Event evt = new Event("onCancel", this, data);
+		ObjectAccess.execAppAction(evt);
 	}
 	
 }

@@ -168,13 +168,7 @@ public class ObjectAccess extends Object {
 	public static void close(Component cmp) {
 		if (cmp != null) {
 			AdminApp app = getApp(cmp);
-			cmp.detach();
-			if (app != null) {
-				Component lastChild = app.getLastChild();
-				if (lastChild != null) {
-					lastChild.setVisible(true);
-				}
-			}
+			app.close(cmp);
 		}
 	}
 
@@ -278,6 +272,22 @@ public class ObjectAccess extends Object {
 			}
 		}
 		return result;
+	}
+
+	public static void runMethodCmpBean(Component cmp, String method, String actionName) {
+		Object cmpBean = getCmpBean(cmp);
+		method = (method != null ? method.trim() : "");
+		if (cmpBean != null && method.length() > 0) {
+			try {
+				MethodUtils.invokeExactMethod(cmpBean, method, new Object[] {actionName});
+			} catch (NoSuchMethodException e) {
+				throw new UiException(e);
+			} catch (IllegalAccessException e) {
+				throw new UiException(e);
+			} catch (InvocationTargetException e) {
+				throw new UiException(e);
+			}
+		}
 	}
 	
 }

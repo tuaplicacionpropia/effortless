@@ -37,6 +37,14 @@ public class Btn extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 	
 	public void setName(String newValue) {
+		boolean startWith = (newValue.startsWith("@"));
+		newValue = (startWith ? newValue.substring(1) : newValue);
+		if (startWith) {
+			this.setAttribute("ON_SELECTION", Boolean.TRUE);
+		}
+		else {
+			this.removeAttribute("ON_SELECTION");
+		}
 		if (!this.name.equals(newValue)) {
 			this.name = newValue;
 			smartUpdate("name", this.name);
@@ -74,7 +82,12 @@ public class Btn extends org.zkoss.zk.ui.HtmlBasedComponent {
 			String btnName = (String)data.get("name");
 			btnName = (btnName != null ? btnName.trim() : "");
 			boolean onCmp = (btnName.indexOf("#") == 0);
-			if (!onCmp) {
+			Boolean _onSelection = (Boolean)this.getAttribute("ON_SELECTION");
+			boolean onSelection = (_onSelection != null && _onSelection.booleanValue());
+			if (onSelection) {
+				ObjectAccess.runMethodCmpBean(this, "executeCustom", btnName);
+			}
+			else if (!onCmp) {
 				ObjectAccess.runMethod(this, btnName);
 			}
 			else {

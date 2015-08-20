@@ -138,5 +138,24 @@ public class PageBuilder extends Object {
 		return result;
 	}
 
+	public static PageBuilder createConfirm(AdminApp app, String name, String op, Object value) {
+		PageBuilder result = null;
+		result = new PageBuilder();
+		ConfirmScreen screen = new ConfirmScreen();
+		screen.setName(name);
+		screen.setValue(value);
+		Layout layout = new Layout();
+		screen.appendChild(layout);
+		result.cmpRoot = layout;
+//		result.cmpRoot = editor;
+		result.parentBuilder = null;
+		app.appendChild(screen);
+		
+		result.addBtn("#ok");
+		result.addBtn("#cancel");
+		
+		return result;
+	}
+
 	
 }

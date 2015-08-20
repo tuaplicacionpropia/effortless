@@ -16,4 +16,5 @@
 
   <widget name="Finder"/>
   <widget name="Editor"/>
+  <widget name="ConfirmScreen"/>
 </package>

@@ -164,6 +164,19 @@
     </mold>
   </component>
   
+  <component>
+    <component-name>confirm</component-name>
+    <component-class>org.effortless.zkstrap.ConfirmScreen</component-class>
+    <widget-class>org.effortless.zkstrap.ConfirmScreen</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/confirmScreen.js</mold-uri>
+<!--
+      <css-uri>css/confirmScreen.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+  
   
   
   

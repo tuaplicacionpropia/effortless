@@ -72,6 +72,7 @@ org.effortless.zkstrap.AdminApp = zk.$extends(zk.Widget, {
   _listContent: [],
 
   _addChild: function (child) {
+  console.log('addChild');
     var checkMenu = (child instanceof org.effortless.zkstrap.MenuBs);
     var _parentNode = null;
 	if (checkMenu) {
@@ -81,9 +82,9 @@ org.effortless.zkstrap.AdminApp = zk.$extends(zk.Widget, {
 	  _parentNode = this._getContentNode();
 	}
 	if (!checkMenu) {
-		if (this._listContent.length > 0) {
-		  this._listContent[this._listContent.length - 1].setVisible(false);
-		}
+//		if (this._listContent.length > 0) {
+//		  this._listContent[this._listContent.length - 1].setVisible(false);
+//		}
 		this._listContent.push(child);
 	}
 //	this.removeChildHTML_(child);

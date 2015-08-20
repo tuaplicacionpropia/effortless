@@ -44,7 +44,7 @@ public class MainUi extends UiCtrl {
 		
 		MenuBuilder b = MenuBuilder.create(this.app, this);
 		b.addMenu("menuInicio");
-		b.addMenu("menuEditor");
+//		b.addMenu("menuEditor");
 		b.addMenu("menuFinder");
 	}
 
@@ -106,7 +106,7 @@ public class MainUi extends UiCtrl {
 	public void menuEditor (Event evt) {
 		java.util.Map data = (java.util.Map)evt.getData();
 		Object value = data.get("value");
-		
+
 		MyBean obj = (value != null ? (MyBean)value : buildMyBean("Mi nombre"));
 		
 		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
@@ -119,7 +119,7 @@ public class MainUi extends UiCtrl {
 	public void myFinder$onCreate (Event evt) {
 		System.out.println("myFinder$onCreate");
 		
-		MyBean obj = buildMyBean("Mi nombre");
+		MyBean obj = buildMyBean("New");
 		
 		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
 		b.addText("name");
@@ -132,7 +132,9 @@ public class MainUi extends UiCtrl {
 		System.out.println("myEditor$onSave");
 		java.util.Map data = (java.util.Map)evt.getData();
 		Object value = data.get("value");
-		this.list.add(value);
+		if (!this.list.contains(value)) {
+			this.list.add(value);
+		}
 		ObjectAccess.close(evt.getTarget());
 	}
 
@@ -146,13 +148,40 @@ public class MainUi extends UiCtrl {
 		menuEditor(evt);
 	}
 	
+	public void myFinder$onDelete (Event evt) {
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		PageBuilder.createConfirm(this.app, "myConfirm", "delete", value);
+		System.out.println("myFinder$onDelete");
+	}
+	
+	public void myConfirm (Event evt) {
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		String op = (String)data.get("op");
+		if ("ok".equals(op)) {
+			if (this.list.contains(value)) {
+				this.list.remove(value);
+			}
+//			this.app.reopen("myFinder");
+		}
+		ObjectAccess.close(evt.getTarget());
+	}
+	
 	public void menuFinder (Event evt) {
-		java.util.List obj = buildListMyBean();
+		if (this.list.size() <= 0) {
+			java.util.List obj = buildListMyBean();
+			if (obj != null) {
+				this.list.addAll(obj);
+			}
+		}
 		
-		FinderBuilder b = FinderBuilder.createFinder(this.app, obj, "myFinder");
-		b.addBtn("ejecutar");
-		b.addBtn("descargar");
-		b.setProperties("name,surnames");
+		if (!this.app.reopen("myFinder")) {
+			FinderBuilder b = FinderBuilder.createFinder(this.app, this.list, "myFinder");
+			b.addBtn("@ejecutar");
+			b.addBtn("@descargar");
+			b.setProperties("name,surnames");
+		}
 	}
 
 	
@@ -264,6 +293,7 @@ public class MainUi extends UiCtrl {
 	     
 	     public void ejecutar () {
 	    	 System.out.println("Ejecutando: " + this.name);
+	    	 this.name += "1";
 	     }
 
 	     public void descargar () {
