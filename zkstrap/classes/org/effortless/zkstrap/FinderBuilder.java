@@ -32,6 +32,7 @@ public class FinderBuilder extends PageBuilder {
 		{
 			layoutFilter = new Layout();
 			layout.appendChild(layoutFilter);
+			result.layoutFilter = layoutFilter;
 		}
 		
 		Layout layoutFilterButtons = null;
@@ -84,17 +85,26 @@ public class FinderBuilder extends PageBuilder {
 		if (this.status == INIT) {
 			super.addCmp(cmp);
 		}
-		else if (this.status == LIST_BUTTONS) {
-			this.cmpRoot.insertBefore(cmp, this.btnCreate);
-		}
 		else {
-			super.addCmp(cmp);
+			Btn btn = null; try { btn = (Btn)cmp; } catch (ClassCastException e) {}
+			if (btn == null) {
+				this.layoutFilter.appendChild(cmp);
+			}
+			else {
+				if (this.status == LIST_BUTTONS) {
+					this.cmpRoot.insertBefore(cmp, this.btnCreate);
+				}
+				else {
+					super.addCmp(cmp);
+				}
+			}
 		}
 	}
 	
 	protected Component btnSearch;
 	protected Component btnCreate;
 	protected Component listTable;
+	protected Component layoutFilter;
 
 	protected byte status = 0;
 	

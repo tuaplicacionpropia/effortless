@@ -48,7 +48,85 @@ public class MainUi extends UiCtrl {
 		b.addMenu("menuFinder");
 	}
 
-	protected java.util.List list = new java.util.ArrayList();
+	protected java.util.List list = new FilterList();
+	
+	public static class FilterList extends java.util.ArrayList {
+		
+		public FilterList () {
+			super();
+		}
+		
+	     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+	     public void addPropertyChangeListener(PropertyChangeListener listener) {
+	         this.pcs.addPropertyChangeListener(listener);
+	     }
+
+	     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+	         this.pcs.addPropertyChangeListener(propertyName, listener);
+	     }
+
+	     public void removePropertyChangeListener(PropertyChangeListener listener) {
+	         this.pcs.removePropertyChangeListener(listener);
+	     }
+
+	     protected String name;
+
+	     public String getName() {
+	         return this.name;
+	     }
+
+	     public void setName(String newValue) {
+	         String oldValue = this.name;
+	         if (!ObjectAccess.equals(oldValue, newValue)) {
+		         this.name = newValue;
+		         this.pcs.firePropertyChange("name", oldValue, newValue);
+	         }
+	     }
+
+		public int size () {
+			int result = 0;
+			int _size = super.size();
+			for (int i = 0; i < _size; i++) {
+				Object item = super.get(i);
+				if (item != null && _checkFilter(item)) {
+					result += 1;
+				}
+			}
+//			result = super.size();
+			return result;
+		}
+		
+		protected boolean _checkFilter(Object item) {
+			boolean result = false;
+			if (item != null) {
+				MyBean bean = (MyBean)item;
+				String name = (this.name != null ? this.name.trim(): "");
+				
+				result = result || name.length() <= 0;
+				result = result || name.equals(bean.getName());
+			}
+			return result;
+		}
+
+		public Object get (int index) {
+			Object result = null;
+//			result = super.get(index);
+			do {
+				Object item = super.get(index);
+				if (_checkFilter(item)) {
+					result = item;
+				}
+				else {
+					index += 1;
+				}
+			} while (result == null);
+
+			return result;
+		}
+		
+		
+	}
 	
 	protected MyBean buildMyBean (String name) {
 		MyBean result = new MyBean();
@@ -116,6 +194,15 @@ public class MainUi extends UiCtrl {
 		b.addBtn("descargar");
 	}
 	
+	public void myFinder$onSearch (Event evt) {
+		System.out.println("myFinder$onSearch");
+		java.util.Map data = (java.util.Map)evt.getData();
+		java.util.List value = (java.util.List)data.get("value");
+
+		
+		this.app.reopen("myFinder");
+	}
+
 	public void myFinder$onCreate (Event evt) {
 		System.out.println("myFinder$onCreate");
 		
@@ -178,6 +265,7 @@ public class MainUi extends UiCtrl {
 		
 		if (!this.app.reopen("myFinder")) {
 			FinderBuilder b = FinderBuilder.createFinder(this.app, this.list, "myFinder");
+			b.addText("name");
 			b.addBtn("@ejecutar");
 			b.addBtn("@descargar");
 			b.setProperties("name,surnames");
