@@ -4,12 +4,18 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.Richlet;
+import org.zkoss.zk.ui.RichletConfig;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.metainfo.LanguageDefinition;
 
-public class AdminApp extends Screen {
+public class AdminApp extends Screen implements Richlet {
 
 	public AdminApp () {
 		super();
@@ -174,7 +180,8 @@ public class AdminApp extends Screen {
 	protected void clickMenu (Event evt, String menu) {
 		String method = menu;
 		try {
-			MethodUtils.invokeExactMethod(this.ctrl, method, new Object[] {evt}, new Class[] {Event.class});
+//			MethodUtils.invokeExactMethod(this.ctrl, method, new Object[] {evt}, new Class[] {Event.class});
+			MethodUtils.invokeExactMethod(this, method, new Object[] {evt}, new Class[] {Event.class});
 		} catch (NoSuchMethodException e) {
 			throw new UiException(e);
 		} catch (IllegalAccessException e) {
@@ -203,14 +210,49 @@ public class AdminApp extends Screen {
 		this.cmpRoot = this;
 	}
 
-	protected Object ctrl;
-	
-	public Object getCtrl () {
-		return this.ctrl;
+//	protected Object ctrl;
+//	
+//	public Object getCtrl () {
+//		return this.ctrl;
+//	}
+//	
+//	public void setCtrl(Object newValue) {
+//		this.ctrl = newValue;
+//	}
+
+	@Override
+	public void destroy() {
 	}
-	
-	public void setCtrl(Object newValue) {
-		this.ctrl = newValue;
+
+	@Override
+	public LanguageDefinition getLanguageDefinition() {
+		return LanguageDefinition.lookup("xul/html");
+	}
+
+	@Override
+	public void init(RichletConfig config) {
+	}
+
+	@Override
+	public void service(Page page) throws Exception {
+		String requestPath = page.getRequestPath();
+		Session session = Sessions.getCurrent();
+		Object nativeSession = (session != null ? session.getNativeSession() : null);
+//		if (true || this.app == null) {
+//			this.app = new AdminApp();
+//			if (this.app != null) {
+				this.setAttribute("CTRL", this);
+				buildApp();
+//			}
+//		}
+		this.setPage(page);
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected void buildApp() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
