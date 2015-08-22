@@ -3,7 +3,7 @@ package org.effortless.zkstrap;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
-public class ConfirmScreen extends BaseEditor {
+public class ConfirmScreen extends Screen {
 
 	public ConfirmScreen () {
 		super();

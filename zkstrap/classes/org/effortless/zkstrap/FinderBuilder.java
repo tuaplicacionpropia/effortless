@@ -17,7 +17,7 @@ public class FinderBuilder extends PageBuilder {
 		((Input)this.listTable).setProperties(newValue);
 	}
 	
-	public static FinderBuilder create (AdminApp app, Object value, String name) {
+	public static FinderBuilder create2 (AdminApp app, Object value, String name) {
 		FinderBuilder result = null;
 		result = new FinderBuilder();
 		

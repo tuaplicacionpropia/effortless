@@ -103,9 +103,11 @@ public class MainUi extends UiCtrl {
 			if (item != null) {
 				MyBean bean = (MyBean)item;
 				String name = (this.name != null ? this.name.trim(): "");
+				String beanName = bean.getName();
+				beanName = (beanName != null ? beanName.trim() : "");
 				
 				result = result || name.length() <= 0;
-				result = result || name.equals(bean.getName());
+				result = result || beanName.contains(name);
 			}
 			return result;
 		}
@@ -292,7 +294,7 @@ public class MainUi extends UiCtrl {
 		}
 		
 		if (!this.app.reopen("myFinder")) {
-			FinderBuilder b = FinderBuilder.createFinder(this.app, this.list, "myFinder");
+			Finder b = new Finder(this.app, this.list, "myFinder");
 			b.addText("name");
 			b.addBtn("@ejecutar");
 			b.addBtn("@descargar");

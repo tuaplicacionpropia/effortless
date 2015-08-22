@@ -1,9 +1,10 @@
 package org.effortless.zkstrap;
 
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
-public class Finder extends BaseEditor {
+public class Finder extends Screen {
 
 	public Finder () {
 		super();
@@ -15,6 +16,11 @@ public class Finder extends BaseEditor {
 //		div list
 //		div bottom buttons
 	}
+	
+	public Finder (Component parent, Object value, String name) {
+		super(parent, value, name);
+	}
+	
 
 	protected Object selection;
 	
@@ -99,4 +105,162 @@ public class Finder extends BaseEditor {
 		}
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void setProperties (String newValue) {
+		((Input)this.listTable).setProperties(newValue);
+	}
+	
+	
+	protected Component buildSkeleton(Component parent) {
+		Component result = null;
+
+		result = super.buildSkeleton(parent);
+		
+		Layout layoutFilter = null;
+		{
+			setStatus(INIT);
+			
+			layoutFilter = new Layout();
+			layoutFilter.setId("layoutFilter");
+			result.appendChild(layoutFilter);
+			this.layoutFilter = layoutFilter;
+			setStatus(FILTER);
+			
+//			this.status = FILTER;
+//			this.cmpRoot = layoutFilterButtons;
+		}
+		
+		Layout layoutFilterButtons = null;
+		{
+			setStatus(INIT);
+			
+			layoutFilterButtons = new Layout();
+			layoutFilterButtons.setId("layoutFilterButtons");
+			result.appendChild(layoutFilterButtons);
+			this.layoutFilterButtons = layoutFilterButtons;
+			
+//			this.status = FILTER_BUTTONS;
+//			this.cmpRoot = layoutFilterButtons;
+			
+			setStatus(FILTER_BUTTONS);
+			addBtn("#search");
+			this.btnSearch = this.lastCmp;
+		}
+		
+		Layout layoutList = null;
+		{
+			setStatus(INIT);
+			
+			layoutList = new Layout();
+			layoutList.setId("layoutList");
+			result.appendChild(layoutList);
+			this.layoutList = layoutList;
+			
+			setStatus(LIST);
+			this.addTable("#");
+			this.listTable = this.lastCmp;
+			
+//			result.addText("name");
+		}
+		
+		Layout layoutListButtons = null;
+		{
+			setStatus(INIT);
+			
+			layoutListButtons = new Layout();
+			layoutListButtons.setId("layoutListButtons");
+			result.appendChild(layoutListButtons);
+			this.layoutListButtons = layoutListButtons;
+			setStatus(LIST_BUTTONS);
+			
+			this.addBtn("#create");
+			Component btnCreate = this.lastCmp;
+			this.addBtn("#read");
+			this.addBtn("#update");
+			this.addBtn("#delete");
+			
+			this.btnCreate = btnCreate;
+		}
+		
+		setStatus(LIST_BUTTONS);
+		result = layoutListButtons;
+		
+		return result;
+	}
+
+	protected void updateCmpRoot() {
+		if (this.status == INIT) {
+			this.cmpRoot = this.getFirstChild();
+		}
+		else if (this.status == FILTER) {
+			this.cmpRoot = this.layoutFilter;
+		}
+		else if (this.status == FILTER_BUTTONS) {
+			this.cmpRoot = this.layoutFilterButtons;
+		}
+		else if (this.status == LIST) {
+			this.cmpRoot = this.layoutList;
+		}
+		else if (this.status == LIST_BUTTONS) {
+			this.cmpRoot = this.layoutListButtons;
+		}
+	}
+
+	protected boolean doInsertBefore(Component child, Component refChild) {
+		boolean result = false;
+		
+		Btn btn = null; try { btn = (Btn)child; } catch (ClassCastException e) {}
+		if (btn == null && this.status == LIST_BUTTONS) {
+			result = this.layoutFilter.insertBefore(child, refChild);
+		}
+		else if (this.status == LIST_BUTTONS) {
+			refChild = (refChild != null ? refChild : this.btnCreate);
+			result = super.doInsertBefore(child, refChild);
+		}
+		else {
+			result = super.doInsertBefore(child, refChild);
+		}
+
+		return result;
+	}
+	
+//	protected boolean doAppendChild(Component child) {
+//		boolean result = false;
+//		Btn btn = null; try { btn = (Btn)child; } catch (ClassCastException e) {}
+//		if (btn == null) {
+//			result = this.layoutFilter.appendChild(child);
+//		}
+//		else if (this.status == LIST_BUTTONS) {
+//			result = super.doInsertBefore(child, this.btnCreate);
+//		}
+//		else {
+//			result = super.doAppendChild(child);
+//		}
+//		return result;
+//	}
+
+	
+
+	protected Component btnSearch;
+	protected Component btnCreate;
+	protected Component listTable;
+	
+	protected Component layoutFilter;
+	protected Component layoutFilterButtons;
+	protected Component layoutList;
+	protected Component layoutListButtons;
+
+	
+	public static final byte FILTER = 1;
+	public static final byte FILTER_BUTTONS = 2;
+	public static final byte LIST = 3;
+	public static final byte LIST_BUTTONS = 4;
+
 }

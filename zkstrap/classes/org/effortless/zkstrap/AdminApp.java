@@ -84,14 +84,14 @@ public class AdminApp extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 
 
-	public BaseEditor getScreen(String name) {
-		BaseEditor result = null;
+	public Screen getScreen(String name) {
+		Screen result = null;
 		if (name != null) {
 			java.util.List children = this.getChildren();
 			int length = (children != null ? children.size() : 0);
 			for (int i = 0; i < length; i++) {
 				Object child = children.get(i);
-				BaseEditor item = null; try { item = (BaseEditor)child; } catch (ClassCastException e) {}
+				Screen item = null; try { item = (Screen)child; } catch (ClassCastException e) {}
 				if (item != null && name.equals(item.getName())) {
 					result = item;
 					break;

@@ -3,7 +3,7 @@ package org.effortless.zkstrap;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
-public class Editor extends BaseEditor {
+public class Editor extends Screen {
 
 	public Editor () {
 		super();

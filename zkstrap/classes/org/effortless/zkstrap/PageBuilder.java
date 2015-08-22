@@ -22,8 +22,8 @@ public class PageBuilder extends Object {
 		return MenuBuilder.create(app, ctrl);
 	}
 	
-	public static FinderBuilder createFinder (AdminApp app, Object value, String name) {
-		return FinderBuilder.create(app, value, name);
+	public static FinderBuilder createFinder2 (AdminApp app, Object value, String name) {
+		return FinderBuilder.create2(app, value, name);
 	}
 	
 	public static EditorBuilder createEditor (AdminApp app, Object value, String name) {
@@ -33,7 +33,7 @@ public class PageBuilder extends Object {
 	public static PageBuilder createBaseEditor (AdminApp app, Object value) {
 		PageBuilder result = null;
 		result = new PageBuilder();
-		BaseEditor editor = new BaseEditor();
+		Screen editor = new Screen();
 		editor.setValue(value);
 		Layout layout = new Layout();
 		editor.appendChild(layout);

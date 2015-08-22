@@ -116,7 +116,7 @@ public class ObjectAccess extends Object {
 		if (cmp != null) {
 			java.util.Map atts = cmp.getAttributes();
 			boolean contains = atts.containsKey(_BEAN);
-			BaseEditor baseEditor = null; try { baseEditor = (BaseEditor)cmp; } catch (ClassCastException e) {}
+			Screen baseEditor = null; try { baseEditor = (Screen)cmp; } catch (ClassCastException e) {}
 			if (contains && baseEditor != null) {
 				result = cmp;
 			}
