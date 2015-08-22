@@ -118,32 +118,28 @@ public class Finder extends Screen {
 	}
 	
 	
-	protected Component buildSkeleton(Component parent) {
-		Component result = null;
-
-		result = super.buildSkeleton(parent);
-		
+	protected void buildLayoutFilter (Component parent) {
 		Layout layoutFilter = null;
 		{
 			setStatus(INIT);
 			
 			layoutFilter = new Layout();
-			layoutFilter.setId("layoutFilter");
-			result.appendChild(layoutFilter);
+			parent.appendChild(layoutFilter);
 			this.layoutFilter = layoutFilter;
 			setStatus(FILTER);
 			
 //			this.status = FILTER;
 //			this.cmpRoot = layoutFilterButtons;
 		}
-		
+	}
+	
+	protected void buildLayoutFilterButtons (Component parent) {
 		Layout layoutFilterButtons = null;
 		{
 			setStatus(INIT);
 			
 			layoutFilterButtons = new Layout();
-			layoutFilterButtons.setId("layoutFilterButtons");
-			result.appendChild(layoutFilterButtons);
+			parent.appendChild(layoutFilterButtons);
 			this.layoutFilterButtons = layoutFilterButtons;
 			
 //			this.status = FILTER_BUTTONS;
@@ -153,14 +149,15 @@ public class Finder extends Screen {
 			addBtn("#search");
 			this.btnSearch = this.lastCmp;
 		}
-		
+	}
+	
+	protected void buildLayoutList (Component parent) {
 		Layout layoutList = null;
 		{
 			setStatus(INIT);
 			
 			layoutList = new Layout();
-			layoutList.setId("layoutList");
-			result.appendChild(layoutList);
+			parent.appendChild(layoutList);
 			this.layoutList = layoutList;
 			
 			setStatus(LIST);
@@ -169,14 +166,15 @@ public class Finder extends Screen {
 			
 //			result.addText("name");
 		}
-		
+	}
+	
+	protected void buildLayoutListButtons (Component parent) {
 		Layout layoutListButtons = null;
 		{
 			setStatus(INIT);
 			
 			layoutListButtons = new Layout();
-			layoutListButtons.setId("layoutListButtons");
-			result.appendChild(layoutListButtons);
+			parent.appendChild(layoutListButtons);
 			this.layoutListButtons = layoutListButtons;
 			setStatus(LIST_BUTTONS);
 			
@@ -188,9 +186,20 @@ public class Finder extends Screen {
 			
 			this.btnCreate = btnCreate;
 		}
+	}
+	
+	protected Component buildSkeleton(Component parent) {
+		Component result = null;
+
+		result = super.buildSkeleton(parent);
+		
+		buildLayoutFilter(result);
+		buildLayoutFilterButtons(result);
+		buildLayoutList(result);
+		buildLayoutListButtons(result);
 		
 		setStatus(LIST_BUTTONS);
-		result = layoutListButtons;
+		result = this.layoutListButtons;
 		
 		return result;
 	}
@@ -231,23 +240,6 @@ public class Finder extends Screen {
 		return result;
 	}
 	
-//	protected boolean doAppendChild(Component child) {
-//		boolean result = false;
-//		Btn btn = null; try { btn = (Btn)child; } catch (ClassCastException e) {}
-//		if (btn == null) {
-//			result = this.layoutFilter.appendChild(child);
-//		}
-//		else if (this.status == LIST_BUTTONS) {
-//			result = super.doInsertBefore(child, this.btnCreate);
-//		}
-//		else {
-//			result = super.doAppendChild(child);
-//		}
-//		return result;
-//	}
-
-	
-
 	protected Component btnSearch;
 	protected Component btnCreate;
 	protected Component listTable;

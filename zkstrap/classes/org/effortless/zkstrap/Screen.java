@@ -23,7 +23,6 @@ public class Screen extends org.zkoss.zk.ui.HtmlBasedComponent {
 		Component result = null;
 
 		Layout layout = new Layout();
-		layout.setId("layout");
 		this.appendChild(layout);
 		
 		result = layout;

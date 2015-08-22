@@ -1,6 +1,5 @@
 package org.effortless.zkstrap;
 
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -29,6 +28,7 @@ public class MainUi extends UiCtrl {
 //		final MainUi _main = this;
 		this.app.setLabel("Mi aplicación");
 		this.app.setAttribute("INC", Integer.valueOf(0));
+		this.app.setCtrl(this);
 		
 //		MenuBuilder b = MenuBuilder.create(app, this);
 //		b.addMenu("Inicio", new EventListener() { public void onEvent(Event evt) throws Exception {
@@ -43,10 +43,9 @@ public class MainUi extends UiCtrl {
 //		}});
 		
 		
-		MenuBuilder b = MenuBuilder.create(this.app, this);
-		b.addMenu("menuInicio");
+		this.app.addMenu("menuInicio");
 //		b.addMenu("menuEditor");
-		b.addMenu("menuFinder");
+		this.app.addMenu("menuFinder");
 	}
 
 	protected java.util.List list = new FilterList();
@@ -217,7 +216,7 @@ public class MainUi extends UiCtrl {
 
 		MyBean obj = (value != null ? (MyBean)value : buildMyBean("Mi nombre"));
 		
-		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
+		Editor b = new Editor(this.app, obj, "myEditor");
 		b.addText("name");
 		b.addText("surnames");
 		b.addBtn("ejecutar");
@@ -238,7 +237,7 @@ public class MainUi extends UiCtrl {
 		
 		MyBean obj = buildMyBean("New");
 		
-		PageBuilder b = PageBuilder.createEditor(this.app, obj, "myEditor");
+		Editor b = new Editor(this.app, obj, "myEditor");
 		b.addText("name");
 		b.addText("surnames");
 		b.addBtn("ejecutar");
@@ -268,7 +267,7 @@ public class MainUi extends UiCtrl {
 	public void myFinder$onDelete (Event evt) {
 		java.util.Map data = (java.util.Map)evt.getData();
 		Object value = data.get("value");
-		PageBuilder.createConfirm(this.app, "myConfirm", "delete", value);
+		new ConfirmScreen(this.app, value, "myConfirm");
 		System.out.println("myFinder$onDelete");
 	}
 	
