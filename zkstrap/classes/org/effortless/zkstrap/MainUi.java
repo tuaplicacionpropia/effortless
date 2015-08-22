@@ -4,6 +4,7 @@ package org.effortless.zkstrap;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Iterator;
 
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
@@ -122,6 +123,33 @@ public class MainUi extends UiCtrl {
 				}
 			} while (result == null);
 
+			return result;
+		}
+		
+		public Iterator iterator () {
+			Iterator result = null;
+			final FilterList _this = this;
+			final int _size = this.size();
+			result = new Iterator () {
+
+				protected int idx = 0;
+				
+				@Override
+				public boolean hasNext() {
+					boolean result = false;
+					result = (this.idx < _size);
+					return result;
+				}
+
+				@Override
+				public Object next() {
+					Object result = null;
+					result = _this.get(this.idx);
+					this.idx += 1;
+					return result;
+				}
+				
+			};
 			return result;
 		}
 		
