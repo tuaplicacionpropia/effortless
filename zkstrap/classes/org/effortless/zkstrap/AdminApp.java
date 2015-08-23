@@ -2,6 +2,8 @@ package org.effortless.zkstrap;
 
 import java.lang.reflect.InvocationTargetException;
 
+import net.sf.jasperreports.engine.util.ObjectUtils;
+
 import org.apache.commons.beanutils.MethodUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
@@ -23,6 +25,9 @@ public class AdminApp extends Screen implements Richlet {
 	}
 	
 	protected void initiate () {
+		this.label = "";
+		this.adminPage = "";
+		this.skin = "";
 //		this.setZclass("label label-default");
 //		this.setSclass("default");
 	}
@@ -40,8 +45,21 @@ public class AdminApp extends Screen implements Richlet {
 		}
 	}
 
+	public String adminPage;
 	
-	public String skin = ""; // a data member
+	public String getAdminPage () {
+		return this.adminPage;
+	}
+	
+	public void setAdminPage (String newValue) {
+		String oldValue = this.adminPage;
+		if (!ObjectUtils.equals(oldValue, newValue)) {
+			this.adminPage = newValue;
+			smartUpdate("adminPage", this.adminPage);
+		}
+	}
+	
+	protected String skin = ""; // a data member
 
 	public String getSkin() {
 		return this.skin;
@@ -58,6 +76,7 @@ public class AdminApp extends Screen implements Richlet {
 		super.renderProperties(renderer);
 		render(renderer, "label", this.label);
 		render(renderer, "skin", this.skin);
+		render(renderer, "adminPage", this.adminPage);
 	}
 
 	protected boolean _checkMenu (Component child) {
@@ -78,8 +97,8 @@ public class AdminApp extends Screen implements Richlet {
 	
 	static {
 		addClientEvent(AdminApp.class, Events.ON_CLICK, CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(AdminApp.class, "onLogin", CE_IMPORTANT|CE_REPEAT_IGNORE);
 	}
-
 
 	public Screen getScreen(String name) {
 		Screen result = null;
@@ -121,21 +140,23 @@ public class AdminApp extends Screen implements Richlet {
 		return result;
 	}
 	
-//	public void service(org.zkoss.zk.au.AuRequest request, boolean
-//			everError) {
-//			final String cmd = request.getCommand();
-////			System.out.println("SSSSSSSSERVICE >>>>>>>>>>>" + cmd);
-//			if (cmd.equals(ClearEvent.NAME)) {
-//			ClearEvent evt = ClearEvent.getClearEvent(request);
-//			_cleared = evt.getCleared();
-////			setCleared(!_cleared);
-//			Events.postEvent(evt);
-//			} else
-//			super.service(request, everError);
-//			}
+	public void service(org.zkoss.zk.au.AuRequest request, boolean everError) {
+		final String cmd = request.getCommand();
+		if (cmd.equals("onLogin")) {
+			java.util.Map data = request.getData();
+			String login = (String)data.get("login");
+			String password = (String)data.get("password");
+			String rememberMe = (String)data.get("rememberMe");
+			if ("root".equals(login) && "123".equals(password)) {
+				this.setAdminPage("");
+//				this.invalidate();
+			}
+			System.out.println("onLogin = " + login + " -> " + password + " --> " + rememberMe);
+		} else {
+			super.service(request, everError);
+		}
+	}
 
-
-	
 //	public void setBclass (String newValue) {
 //		setZclass("label label-" + newValue);
 //	}

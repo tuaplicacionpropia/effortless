@@ -15,6 +15,24 @@ org.effortless.zkstrap.AdminApp = zk.$extends(zk.Widget, {
     }
   },
   
+  _adminPage : '', // default value
+
+  getAdminPage : function() {
+    return this._adminPage;
+  },
+
+  setAdminPage : function(newValue) {
+    if (this._adminPage != newValue) {
+      this._adminPage = newValue;
+      if (this.desktop) {
+      console.log('app rerender begin');
+//        this.rerenderNow_();
+        this.rerender(-1);
+      console.log('app rerender end');
+      }
+    }
+  },
+  
   _skin : '', // default value
 
   getSkin : function() {
@@ -41,12 +59,45 @@ org.effortless.zkstrap.AdminApp = zk.$extends(zk.Widget, {
     this.updateSkin_();
     this._loadI18nLocale();
     this._manageNavigateButtons();
+    this._bindLoginPage();
   },
 
   unbind_ : function(evt) {
+    this._unbindLoginPage();
     this.$supers('unbind_', arguments);
   },
+
+  _getNodeInputLogin: function() {
+    return jq('#' + this.uuid + '-inputlogin').get()[0];
+  },
   
+  _getNodeInputPassword: function() {
+    return jq('#' + this.uuid + '-inputpassword').get()[0];
+  },
+  
+  _getNodeInputRememberMe: function() {
+    return jq('#' + this.uuid + '-inputrememberme').get()[0];
+  },
+  
+  _getNodeBtnLogin: function() {
+    return jq('#' + this.uuid + '-btnlogin').get()[0];
+  },
+
+  _bindLoginPage : function() {
+    this.domListen_(this.$n('btnlogin'), "onClick", '_doRunCheckLogin');
+  },
+
+  _doRunCheckLogin: function(evt) {
+    var _login = this._getNodeInputLogin().value;
+    var _password = this._getNodeInputPassword().value;
+    var _rememberMe = (this._getNodeInputRememberMe().checked ? 'true' : 'false');
+    this.fire('onLogin', {login: _login, password: _password, rememberMe: _rememberMe}, {toServer: true});
+  },
+
+  _unbindLoginPage : function() {
+    this.domUnlisten_(this.$n('btnlogin'), "onClick", '_doRunCheckLogin');
+  },
+
   _manageNavigateButtons : function () {
     window.onpopstate = function(event) {
       alert("location: " + document.location + ", state: " + JSON.stringify(event.state));

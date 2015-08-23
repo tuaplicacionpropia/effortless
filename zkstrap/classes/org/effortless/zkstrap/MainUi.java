@@ -27,6 +27,7 @@ public class MainUi extends AdminApp {
 	
 	protected void buildApp() {
 		super.buildApp();
+		setAdminPage("login");
 		setLabel("Mi aplicación");
 		setAttribute("INC", Integer.valueOf(0));
 		

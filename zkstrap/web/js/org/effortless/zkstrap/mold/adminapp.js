@@ -134,6 +134,39 @@ function (out) {
 	var wAuthorName = 'Almsaeed Studio';//this.getAuthorName();//Almsaeed Studio
 	var wAppVersion = '2.0';//this.getAppVersion();//2.0
 	
+	
+  if (this._adminPage == 'login') {
+    out.push('<div id="', uuid, '-login" class="login-box">');
+      out.push('<div class="login-logo">');
+        out.push('<a href="javascript:;"><b>Admin</b>LTE</a>');
+      out.push('</div>');
+      out.push('<div class="login-box-body">');
+        out.push('<p class="login-box-msg">Inicio de sesión</p>');
+          out.push('<div class="form-group has-feedback">');
+            out.push('<input id="', uuid, '-inputlogin" type="text" class="form-control" placeholder="Login" />');
+            out.push('<span class="glyphicon glyphicon-user form-control-feedback"></span>');
+          out.push('</div>');
+          out.push('<div class="form-group has-feedback">');
+            out.push('<input id="', uuid, '-inputpassword" type="password" class="form-control" placeholder="Password" />');
+            out.push('<span class="glyphicon glyphicon-lock form-control-feedback"></span>');
+          out.push('</div>');
+          out.push('<div class="row">');
+            out.push('<div class="col-xs-8">');
+              out.push('<div class="checkbox icheck">');
+                out.push('<label>');
+                  out.push('<input id="', uuid, '-inputrememberme" type="checkbox"> Recuérdame');
+                out.push('</label>');
+              out.push('</div>');
+            out.push('</div>');
+            out.push('<div class="col-xs-4">');
+              out.push('<button id="', uuid, '-btnlogin" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>');
+            out.push('</div>');
+          out.push('</div>');
+        out.push('</div>');
+      out.push('</div>');
+    out.push('</div>');
+  }
+  else {
     out.push('<div id="', uuid, '" class="wrapper">');
       
       out.push('<header class="main-header">');
@@ -263,4 +296,5 @@ function (out) {
     out.push('</footer>');
 
   out.push('</div>');
+  }  
 }
