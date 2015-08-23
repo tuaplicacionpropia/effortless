@@ -146,9 +146,11 @@ function (out) {
         // Header Navbar: style can be found in header.less
 		out.push('<nav class="navbar navbar-static-top" role="navigation">');
           // Sidebar toggle button
+/*
 		  out.push('<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">');
 		    out.push('<span class="sr-only">Toggle navigation</span>');
 		  out.push('</a>');
+*/
 		  out.push('<div class="navbar-custom-menu">');
 		    out.push('<ul class="nav navbar-nav">');
               // User Account: style can be found in dropdown.less
@@ -188,6 +190,7 @@ function (out) {
         // sidebar: style can be found in sidebar.less
         out.push('<section id="', uuid , '-menu" class="sidebar">');
           // Sidebar user panel
+/*
 		  out.push('<div class="user-panel">');
 		    out.push('<div class="pull-left image">');
 		      out.push('<img src="', wUserIcon, '" class="img-circle" alt="User Image" />');
@@ -197,7 +200,8 @@ function (out) {
 		      out.push('<a href="#"><i class="fa fa-circle text-success"></i> Online</a>');
 		    out.push('</div>');
 		  out.push('</div>');
-          
+*/
+/*          
           // search form
 		  out.push('<div class="input-group sidebar-form">');
 		    out.push('<input type="text" name="q" class="form-control" placeholder="Search..."/>');
@@ -205,6 +209,7 @@ function (out) {
 		      out.push('<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>');
 		    out.push('</span>');
 		  out.push('</div>');
+*/
 
           // MENU
           if (this.nChildren > 0) {
@@ -226,10 +231,12 @@ function (out) {
 		    out.push('Dashboard');
 		    out.push('<small>Control panel</small>');
 		  out.push('</h1>');
+/*
 		  out.push('<ol class="breadcrumb">');
 		    out.push('<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>');
 		    out.push('<li class="active">Dashboard</li>');
 		  out.push('</ol>');
+*/
 		out.push('</section>');
 
         // Main content

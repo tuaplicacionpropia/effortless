@@ -2,6 +2,7 @@ package org.effortless.zkstrap;
 
 import java.util.Map;
 
+import org.effortless.core.ObjectUtils;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -39,7 +40,7 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	
 	public void setValue(Object value) {
 		Object _oldValue = this.getValue();
-		if (!ObjectAccess.equals(_oldValue, value)) {
+		if (!ObjectUtils.equals(_oldValue, value)) {
 			this._rawValue = value;
 			this._readValue = false;
 			ObjectAccess.setProperty(this, this._name, value);
@@ -50,7 +51,7 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 	
 	public void reloadValue (Object value) {
-		boolean hasChanges = (!this._readValue ? !ObjectAccess.equals(this._rawValue, value) : true);
+		boolean hasChanges = (!this._readValue ? !ObjectUtils.equals(this._rawValue, value) : true);
 		if (!this._$processingClient && hasChanges) {
 			this._readValue = false;
 			this._rawValue = value;
@@ -66,7 +67,7 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	
 	public void setSelection(Object newValue) {
 		Object oldValue = this.selection;
-		if (!ObjectAccess.equals(oldValue, newValue)) {
+		if (!ObjectUtils.equals(oldValue, newValue)) {
 			this.selection = newValue;
 			
 			java.util.Map data = new java.util.HashMap();

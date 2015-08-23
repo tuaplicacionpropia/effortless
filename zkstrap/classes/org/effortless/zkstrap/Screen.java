@@ -1,5 +1,6 @@
 package org.effortless.zkstrap;
 
+import org.effortless.core.ObjectUtils;
 import org.zkoss.zk.ui.Component;
 
 public class Screen extends org.zkoss.zk.ui.HtmlBasedComponent {
@@ -57,7 +58,7 @@ public class Screen extends org.zkoss.zk.ui.HtmlBasedComponent {
 	
 	public void setValue(Object value) {
 		Object _oldValue = this._value;
-		if (!ObjectAccess.equals(_oldValue, value)) {
+		if (!ObjectUtils.equals(_oldValue, value)) {
 			this._value = value;
 			ObjectAccess.setBean(this, this._value);
 		}

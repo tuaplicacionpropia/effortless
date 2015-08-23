@@ -3,7 +3,6 @@ package org.effortless.zkstrap;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.MethodUtils;
-import org.effortless.zkstrap.impl.MyBean;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;

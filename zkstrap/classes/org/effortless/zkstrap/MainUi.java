@@ -5,8 +5,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 
-import org.effortless.zkstrap.impl.FilterList;
-import org.effortless.zkstrap.impl.MyBean;
+import org.effortless.orm.FilterList;
+import org.effortless.orm.MyBean;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;

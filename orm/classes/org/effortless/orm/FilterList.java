@@ -1,10 +1,10 @@
-package org.effortless.zkstrap.impl;
+package org.effortless.orm;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 
-import org.effortless.zkstrap.ObjectAccess;
+import org.effortless.core.ObjectUtils;
 
 public class FilterList extends java.util.ArrayList {
 	
@@ -34,7 +34,7 @@ public class FilterList extends java.util.ArrayList {
 
      public void setName(String newValue) {
          String oldValue = this.name;
-         if (!ObjectAccess.equals(oldValue, newValue)) {
+         if (!ObjectUtils.equals(oldValue, newValue)) {
 	         this.name = newValue;
 	         this.pcs.firePropertyChange("name", oldValue, newValue);
          }

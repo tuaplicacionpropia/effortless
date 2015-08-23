@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="zkstrap/classes"/>
+	<classpathentry kind="src" path="orm/classes"/>
+	<classpathentry kind="src" path="core/classes"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/bsh.jar"/>
 	<classpathentry kind="lib" path="libs/ckez.jar"/>

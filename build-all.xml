@@ -1,0 +1,7 @@
+<project name="effortless" default="build" basedir=".">
+	<target name="build" description="">
+		<ant antfile="build-core.xml" target="build" inheritAll="true" />
+		<ant antfile="build-orm.xml" target="build" inheritAll="true" />
+		<ant antfile="build-zkstrap.xml" target="build" inheritAll="true" />
+	</target>
+</project>

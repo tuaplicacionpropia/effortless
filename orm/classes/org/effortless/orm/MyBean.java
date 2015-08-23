@@ -1,11 +1,10 @@
-package org.effortless.zkstrap.impl;
+package org.effortless.orm;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import org.effortless.zkstrap.IBean;
-import org.effortless.zkstrap.ObjectAccess;
+import org.effortless.core.ObjectUtils;
 
 public class MyBean extends Object implements IBean {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -30,7 +29,7 @@ public class MyBean extends Object implements IBean {
 
     public void setName(String newValue) {
         String oldValue = this.name;
-        if (!ObjectAccess.equals(oldValue, newValue)) {
+        if (!ObjectUtils.equals(oldValue, newValue)) {
 	         this.name = newValue;
 	         this.pcs.firePropertyChange("name", oldValue, newValue);
         }
@@ -44,7 +43,7 @@ public class MyBean extends Object implements IBean {
 
     public void setSurnames(String newValue) {
         String oldValue = this.surnames;
-        if (!ObjectAccess.equals(oldValue, newValue)) {
+        if (!ObjectUtils.equals(oldValue, newValue)) {
 	         this.surnames = newValue;
 	         this.pcs.firePropertyChange("surnames", oldValue, newValue);
         }
@@ -58,7 +57,7 @@ public class MyBean extends Object implements IBean {
 
     public void setListado(java.util.List newValue) {
    	 java.util.List oldValue = this.listado;
-        if (!ObjectAccess.equals(oldValue, newValue)) {
+        if (!ObjectUtils.equals(oldValue, newValue)) {
 	         this.listado = newValue;
 	         this.pcs.firePropertyChange("listado", oldValue, newValue);
         }

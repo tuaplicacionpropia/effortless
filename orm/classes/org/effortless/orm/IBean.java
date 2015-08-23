@@ -1,4 +1,4 @@
-package org.effortless.zkstrap;
+package org.effortless.orm;
 
 import java.beans.PropertyChangeListener;
 

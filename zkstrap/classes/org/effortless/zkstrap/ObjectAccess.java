@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.effortless.orm.IBean;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
@@ -132,12 +133,6 @@ public class ObjectAccess extends Object {
 		if (cmp != null) {
 			cmp.setAttribute(_BEAN, newValue);
 		}
-	}
-
-	public static boolean equals(Object value1, Object value2) {
-		boolean result = false;
-		result = (value1 == value2 || (value1 != null && value2 != null && value1.equals(value2)));
-		return result;
 	}
 
 	public static void runMethod(Component cmp, String method) {
