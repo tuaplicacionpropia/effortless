@@ -110,5 +110,8 @@ public class FilterList extends java.util.ArrayList {
 		return result;
 	}
 	
+	public static Class getTargetClass () {
+		return MyBean.class;
+	}
 	
 }

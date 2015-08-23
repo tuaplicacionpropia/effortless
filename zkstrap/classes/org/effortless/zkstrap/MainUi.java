@@ -34,19 +34,6 @@ public class MainUi extends AdminApp {
 		addMenu("menuFinder");
 	}
 
-	protected java.util.List list = new FilterList();
-	
-	protected java.util.List buildListMyBean () {
-		java.util.List result = null;
-		result = new java.util.ArrayList();
-		
-		result.add(MyBean.buildMyBean("Mi nombre"));
-		result.add(MyBean.buildMyBean("España"));
-		result.add(MyBean.buildMyBean("Canarias"));
-		
-		return result;
-	}
-	
 	public void menuInicio (Event evt) {
 		Integer inc = (Integer)getAttribute("INC");
 		inc = Integer.valueOf(inc.intValue() + 1);
@@ -56,90 +43,14 @@ public class MainUi extends AdminApp {
 		appendChild(label);
 	}
 	
-	public void menuEditor (Event evt) {
-		java.util.Map data = (java.util.Map)evt.getData();
-		Object value = data.get("value");
-
-		MyBean obj = (value != null ? (MyBean)value : MyBean.buildMyBean("Mi nombre"));
-		
-		Editor b = new Editor(this, obj, "myEditor");
-		b.addText("name");
-		b.addText("surnames");
-		b.addBtn("ejecutar");
-		b.addBtn("descargar");
-	}
-	
-	public void myFinder$onSearch (Event evt) {
-		System.out.println("myFinder$onSearch");
-		java.util.Map data = (java.util.Map)evt.getData();
-		java.util.List value = (java.util.List)data.get("value");
-
-		
-		reopen("myFinder");
-	}
-
-	public void myFinder$onCreate (Event evt) {
-		System.out.println("myFinder$onCreate");
-		
-		MyBean obj = MyBean.buildMyBean("New");
-		
-		Editor b = new Editor(this, obj, "myEditor");
-		b.addText("name");
-		b.addText("surnames");
-		b.addBtn("ejecutar");
-		b.addBtn("descargar");
-	}
-
-	public void myEditor$onSave (Event evt) {
-		System.out.println("myEditor$onSave");
-		java.util.Map data = (java.util.Map)evt.getData();
-		Object value = data.get("value");
-		if (!this.list.contains(value)) {
-			this.list.add(value);
-		}
-		ObjectAccess.close(evt.getTarget());
-	}
-
-	public void myFinder$onRead (Event evt) {
-		System.out.println("myFinder$onRead");
-		menuEditor(evt);
-	}
-	
-	public void myFinder$onUpdate (Event evt) {
-		System.out.println("myFinder$onUpdate");
-		menuEditor(evt);
-	}
-	
-	public void myFinder$onDelete (Event evt) {
-		java.util.Map data = (java.util.Map)evt.getData();
-		Object value = data.get("value");
-		new ConfirmScreen(this, value, "myConfirm");
-		System.out.println("myFinder$onDelete");
-	}
-	
-	public void myConfirm (Event evt) {
-		java.util.Map data = (java.util.Map)evt.getData();
-		Object value = data.get("value");
-		String op = (String)data.get("op");
-		if ("ok".equals(op)) {
-			if (this.list.contains(value)) {
-				this.list.remove(value);
-			}
-//			this.app.reopen("myFinder");
-		}
-		ObjectAccess.close(evt.getTarget());
-	}
-	
 	public void menuFinder (Event evt) {
-		if (this.list.size() <= 0) {
-			java.util.List obj = buildListMyBean();
-			if (obj != null) {
-				this.list.addAll(obj);
-			}
-		}
-		
 		if (!reopen("myFinder")) {
-			Finder b = new Finder(this, this.list, "myFinder");
+			FilterList list = new FilterList();
+			list.add(MyBean.buildMyBean("Mi nombre"));
+			list.add(MyBean.buildMyBean("España"));
+			list.add(MyBean.buildMyBean("Canarias"));
+
+			Finder b = new Finder(this, list, "myFinder");
 			b.addText("name");
 			b.addBtn("@ejecutar");
 			b.addBtn("@descargar");
@@ -147,4 +58,76 @@ public class MainUi extends AdminApp {
 		}
 	}
 
+	public void menuEditor (Event evt) {
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+
+		MyBean obj = (value != null ? (MyBean)value : MyBean.buildMyBean("Mi nombre"));
+		
+		Editor b = new Editor(this, obj, "myEditor");
+		b.setAttribute("CALLER", data.get("CALLER"));
+		b.addText("name");
+		b.addText("surnames");
+		b.addBtn("ejecutar");
+		b.addBtn("descargar");
+	}
+	
+//	public void myFinder$onSearch (Event evt) {
+//		System.out.println("myFinder$onSearch");
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		java.util.List value = (java.util.List)data.get("value");
+//
+//		
+//		reopen("myFinder");
+//	}
+
+//	public void myFinder$onCreate (Event evt) {
+//		System.out.println("myFinder$onCreate");
+//		
+//		MyBean obj = MyBean.buildMyBean("New");
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		data.put("value", obj);
+//		menuEditor(evt);
+//	}
+
+//	public void myEditor$onSave (Event evt) {
+//		System.out.println("myEditor$onSave");
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		Object value = data.get("value");
+//		if (!this.list.contains(value)) {
+//			this.list.add(value);
+//		}
+//		ObjectAccess.close(evt.getTarget());
+//	}
+
+//	public void myFinder$onRead (Event evt) {
+//		System.out.println("myFinder$onRead");
+//		menuEditor(evt);
+//	}
+//	
+//	public void myFinder$onUpdate (Event evt) {
+//		System.out.println("myFinder$onUpdate");
+//		menuEditor(evt);
+//	}
+	
+//	public void myFinder$onDelete (Event evt) {
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		Object value = data.get("value");
+//		new ConfirmScreen(this, value, "myConfirm");
+//		System.out.println("myFinder$onDelete");
+//	}
+	
+//	public void myConfirm (Event evt) {
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		Object value = data.get("value");
+//		String op = (String)data.get("op");
+//		if ("ok".equals(op)) {
+//			if (this.list.contains(value)) {
+//				this.list.remove(value);
+//			}
+////			this.app.reopen("myFinder");
+//		}
+//		ObjectAccess.close(evt.getTarget());
+//	}
+	
 }

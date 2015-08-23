@@ -1,6 +1,10 @@
 package org.effortless.zkstrap;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.MethodUtils;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -28,7 +32,32 @@ public class ConfirmScreen extends Screen {
 		data.put("op", "ok");
 		
 		Event evt = new Event("onOk", this, data);
-		ObjectAccess.execAppAction(evt);
+		
+		
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				Object caller = getAttribute("CALLER");
+
+				try {
+					MethodUtils.invokeExactMethod(caller, this.name, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+			}
+			else {
+				throw e;
+			}
+		}
+		
 //		
 //		System.out.println("GUARDANDO " + this._value);
 //		ObjectAccess.close(this);
@@ -41,7 +70,30 @@ public class ConfirmScreen extends Screen {
 		data.put("op", "cancel");
 		
 		Event evt = new Event("onCancel", this, data);
-		ObjectAccess.execAppAction(evt);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				Object caller = getAttribute("CALLER");
+
+				try {
+					MethodUtils.invokeExactMethod(caller, this.name, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+			}
+			else {
+				throw e;
+			}
+		}
 	}
 
 	protected Component buildSkeleton(Component parent) {

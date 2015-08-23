@@ -1,6 +1,11 @@
 package org.effortless.zkstrap;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.MethodUtils;
+import org.effortless.zkstrap.impl.MyBean;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -39,7 +44,24 @@ public class Finder extends Screen {
 		data.put("selection", this.selection);
 		data.put("op", "search");
 		Event evt = new Event("onSearch", this, data);
-		ObjectAccess.execAppAction(evt);
+		
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("DEFAULT myFinder$onSearch");
+
+				AdminApp app = ObjectAccess.getApp(this);
+
+				app.reopen(this.name);
+			}
+			else {
+				throw e;
+			}
+		}
 //		System.out.println("finder search " + this._value);
 //		ObjectAccess.close(this);
 	}
@@ -49,8 +71,62 @@ public class Finder extends Screen {
 		data.put("name", this.name);
 		data.put("value", this.selection);
 		data.put("op", "create");
+		data.put("CALLER", this);
 		Event evt = new Event("onCreate", this, data);
-		ObjectAccess.execAppAction(evt);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("myFinder$onCreate");
+				
+//				MyBean obj = MyBean.buildMyBean("New");
+				Object obj = null;
+				
+				Class classObject = null;
+				java.util.List list = (java.util.List)this._value;
+				
+				try {
+					classObject = (Class)MethodUtils.invokeStaticMethod(list.getClass(), "getTargetClass", null);
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+
+				try {
+					obj = classObject.newInstance();
+				} catch (InstantiationException e2) {
+					throw new UiException(e2);
+				} catch (IllegalAccessException e2) {
+					throw new UiException(e2);
+				}
+				
+				
+				data = (java.util.Map)evt.getData();
+				data.put("value", obj);
+
+				AdminApp app = ObjectAccess.getApp(this);
+				String method = "menuEditor";
+				try {
+					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+			}
+			else {
+				throw e;
+			}
+		}
 //		ObjectAccess.close(this);
 	}
 	
@@ -59,8 +135,35 @@ public class Finder extends Screen {
 		data.put("name", this.name);
 		data.put("value", this.selection);
 		data.put("op", "read");
+		data.put("CALLER", this);
 		Event evt = new Event("onRead", this, data);
-		ObjectAccess.execAppAction(evt);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("myFinder$onRead");
+
+				AdminApp app = ObjectAccess.getApp(this);
+				String method = "menuEditor";
+				try {
+					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+
+			}
+			else {
+				throw e;
+			}
+		}
 //		System.out.println("finder read " + this._value);
 //		ObjectAccess.close(this);
 	}
@@ -70,11 +173,60 @@ public class Finder extends Screen {
 		data.put("name", this.name);
 		data.put("value", this.selection);
 		data.put("op", "update");
+		data.put("CALLER", this);
 		Event evt = new Event("onUpdate", this, data);
-		ObjectAccess.execAppAction(evt);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("myFinder$onUpdate");
+
+				AdminApp app = ObjectAccess.getApp(this);
+				String method = "menuEditor";
+				try {
+					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+
+			}
+			else {
+				throw e;
+			}
+		}
 //		System.out.println("finder update " + this._value);
 //		ObjectAccess.close(this);
 	}
+
+//	public void myFinder$onCreate (Event evt) {
+//		System.out.println("myFinder$onCreate");
+//		
+//		MyBean obj = MyBean.buildMyBean("New");
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		data.put("value", obj);
+//		menuEditor(evt);
+//	}
+	
+	
+	
+//	public void myFinder$onRead (Event evt) {
+//		menuEditor(evt);
+//	}
+//	
+//	public void myFinder$onUpdate (Event evt) {
+//		System.out.println("myFinder$onUpdate");
+//		menuEditor(evt);
+//	}
+	
+	
 	
 	public void delete () {
 //		System.out.println("finder delete " + this._value);
@@ -84,13 +236,44 @@ public class Finder extends Screen {
 			data.put("name", this.name);
 			data.put("value", this.selection);
 			data.put("op", "delete");
+			data.put("CALLER", this);
 			Event evt = new Event("onDelete", this, data);
-			ObjectAccess.execAppAction(evt);
+			
+			try {
+				ObjectAccess.execAppAction(evt);
+			}
+			catch (UiException e) {
+				Object _cause = e.getCause();
+				NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+				if (cause != null) {
+					AdminApp app = ObjectAccess.getApp(this);
+					ConfirmScreen screen = new ConfirmScreen(app, this.selection, "myConfirm");
+					screen.setAttribute("CALLER", this);
+					System.out.println("myFinder$onDelete");
+				}
+				else {
+					throw e;
+				}
+			}
 		}
 		
 		
 //		ObjectAccess.close(this);
 	}
+
+	public void myConfirm (Event evt) {
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		String op = (String)data.get("op");
+		if ("ok".equals(op)) {
+			java.util.List list = (java.util.List)this._value;
+			if (list.contains(value)) {
+				list.remove(value);
+			}
+		}
+		ObjectAccess.close(evt.getTarget());
+	}
+	
 	
 	public void onSelect (Event evt) {
 		java.util.Map data = (java.util.Map)evt.getData();
@@ -107,6 +290,16 @@ public class Finder extends Screen {
 	
 	
 	
+	public void myEditor$onSave (Event evt) {
+		System.out.println("myEditor$onSave");
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		java.util.List list = (java.util.List)this._value;
+		if (!list.contains(value)) {
+			list.add(value);
+		}
+		ObjectAccess.close(evt.getTarget());
+	}
 	
 	
 	

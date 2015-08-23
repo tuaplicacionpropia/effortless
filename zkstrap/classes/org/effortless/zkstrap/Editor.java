@@ -1,6 +1,10 @@
 package org.effortless.zkstrap;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.MethodUtils;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 
 public class Editor extends Screen {
@@ -28,7 +32,30 @@ public class Editor extends Screen {
 		data.put("value", this._value);
 		
 		Event evt = new Event("onSave", this, data);
-		ObjectAccess.execAppAction(evt);
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				Object caller = getAttribute("CALLER");
+
+				String method = this.name +"$" + "onSave";
+				try {
+					MethodUtils.invokeExactMethod(caller, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+			}
+			else {
+				throw e;
+			}
+		}
 //		
 //		System.out.println("GUARDANDO " + this._value);
 //		ObjectAccess.close(this);
