@@ -136,7 +136,7 @@ function (out) {
 	
 	
   if (this._adminPage == 'login') {
-    out.push('<div id="', uuid, '-login" class="login-box">');
+    out.push('<div id="', uuid, '" class="login-box">');
       out.push('<div class="login-logo">');
         out.push('<a href="javascript:;"><b>Admin</b>LTE</a>');
       out.push('</div>');

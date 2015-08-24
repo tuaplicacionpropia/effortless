@@ -12,7 +12,7 @@
 
   <widget name="Layout"/>
   
-  <widget name="BaseEditor"/>
+  <widget name="Screen"/>
 
   <widget name="Finder"/>
   <widget name="Editor"/>

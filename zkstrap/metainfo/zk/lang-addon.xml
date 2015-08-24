@@ -126,13 +126,13 @@
   
   <component>
     <component-name>baseEditor</component-name>
-    <component-class>org.effortless.zkstrap.BaseEditor</component-class>
-    <widget-class>org.effortless.zkstrap.BaseEditor</widget-class>
+    <component-class>org.effortless.zkstrap.Screen</component-class>
+    <widget-class>org.effortless.zkstrap.Screen</widget-class>
     <mold>
       <mold-name>default</mold-name>
-      <mold-uri>mold/baseeditor.js</mold-uri>
+      <mold-uri>mold/screen.js</mold-uri>
 <!--
-      <css-uri>css/baseeditor.css.dsp</css-uri>
+      <css-uri>css/screen.css.dsp</css-uri>
 -->
     </mold>
   </component>
