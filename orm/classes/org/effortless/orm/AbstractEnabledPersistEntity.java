@@ -1,7 +1,5 @@
 package org.effortless.orm;
 
-import java.sql.ResultSet;
-
 public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity implements EnabledPersistEntity {
 
 	public AbstractEnabledPersistEntity () {

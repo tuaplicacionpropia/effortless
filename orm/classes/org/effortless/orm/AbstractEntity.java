@@ -222,9 +222,6 @@ public abstract class AbstractEntity extends Object implements Entity {
 			}
 	}
 	
-	
-	
-	
 	protected void _doPersist (EntityDefinition def) {
 		Serializable id = doGetIdentifier();
 		boolean update = (id != null);
