@@ -2410,6 +2410,11 @@ public abstract class AbstractEntity extends Object implements Entity {
 
 	public int hashCode () {
 		int result = 0;
+//		result = 17;
+//		int mult = 37;
+//		result = (result * mult) + "propertyName".hashCode();
+//		result = (result * mult) + "propertyValue".hashCode();
+		
 		Serializable identifier = this.doGetIdentifier();
 		org.apache.commons.lang.builder.HashCodeBuilder hcBuilder = new org.apache.commons.lang.builder.HashCodeBuilder();
 		if (identifier != null) {
