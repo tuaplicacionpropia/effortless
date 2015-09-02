@@ -32,7 +32,7 @@ public class AdminApp extends Screen implements Richlet {
 //		this.setSclass("default");
 	}
 	
-	public String label = ""; // a data member
+	protected String label = ""; // a data member
 
 	public String getLabel() {
 		return this.label;
@@ -45,7 +45,7 @@ public class AdminApp extends Screen implements Richlet {
 		}
 	}
 
-	public String adminPage;
+	protected String adminPage;
 	
 	public String getAdminPage () {
 		return this.adminPage;

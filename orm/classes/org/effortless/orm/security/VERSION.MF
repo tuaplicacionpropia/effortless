@@ -1,0 +1,8 @@
+#Sat, 21 Feb 2015 12:37:40 +0000
+#Build Number for ANT. Do not edit!
+#Sat Feb 21 12:37:40 WET 2015
+version=1.0alpha
+build.number=143
+build.date=20150221123740+0000
+id=effortless-security
+build.author=
