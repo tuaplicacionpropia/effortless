@@ -1,6 +1,7 @@
 package org.effortless.orm;
 
 //import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -496,7 +497,7 @@ public abstract class DbManager extends Object {
 	
 	protected DbStatement _currentStm;
 	
-	public void apply (java.util.List<Object> params) {
+	public void apply (Object[] params) {
 		if (this._currentStm != null) {
 			this._currentStm.apply(params);
 		}
@@ -759,20 +760,20 @@ public abstract class DbManager extends Object {
 	}
 
 	
-	public DbManager insert (String table, java.util.List<String> columns, Object owner, Class[] types) {
+	public DbManager insert (String table, String[] columns, Object owner, Class[] types) {
 		return insert(table, columns, owner, SqlMapper.classes2Encoders(types));
 	}
 	
 	
 	
 	//INSERT INTO EMPRESA1_APP1.TEST (ID, NAME) VALUES (1, 'Norway');
-	public DbManager insert (String table, java.util.List<String> columns, Object owner, ColumnEncoder[] encoders) {
+	public DbManager insert (String table, String[] columns, Object owner, ColumnEncoder[] encoders) {
 		String fullTableName = applyCurrentSchema(table);
 		String columnsStm = "";
 		String valuesStm = "";
-		int columnsLength = (columns != null ? columns.size() : 0);
+		int columnsLength = (columns != null ? columns.length : 0);
 		for (int i = 0; i < columnsLength; i++) {
-			String column = columns.get(i);
+			String column = columns[i];
 			column = (column != null ? column : "");
 			columnsStm += (columnsStm.length() > 0 && column.length() > 0 ? ", " : "") + column;
 			valuesStm += (valuesStm.length() > 0 ? ", " : "") + "?";
@@ -807,23 +808,23 @@ public abstract class DbManager extends Object {
 	
 	
 
-	public DbManager update (String table, java.util.List<String> columns, Object owner, Class[] types) {
+	public DbManager update (String table, String[] columns, Object owner, Class[] types) {
 		return update(table, columns, owner, SqlMapper.classes2Encoders(types));
 	}
 	
 	//UPDATE EMPRESA1_APP1.TEST SET NAME='Norway1' WHERE ID=1;
-	public DbManager update (String table, java.util.List<String> columns, Object owner, ColumnEncoder[] encoders) {
+	public DbManager update (String table, String[] columns, Object owner, ColumnEncoder[] encoders) {
 		String fullTableName = applyCurrentSchema(table);
 		String assignStm = "";
-		int columnsLength = (columns != null ? columns.size() : 0);
+		int columnsLength = (columns != null ? columns.length : 0);
 		for (int i = 0; i < columnsLength - 1; i++) {
-			String column = columns.get(i);
+			String column = columns[i];
 			column = (column != null ? column : "");
 			String assign = column + " = " + "?";
 			
 			assignStm += (assignStm.length() > 0 && assign.length() > 0 ? ", " : "") + assign;
 		}
-		String pkColumn = columns.get(columns.size() - 1);
+		String pkColumn = columns[columns.length - 1];
 		
 		String stm = buildUpdateSql(fullTableName, assignStm, pkColumn);//"UPDATE " + fullTableName + " SET " + assignStm + "" + " WHERE " + pkColumn + " = ?";
 		addStm(stm, owner, encoders);
@@ -1436,8 +1437,28 @@ public abstract class DbManager extends Object {
 		}
 	}
 	
+	protected java.util.Map _defs = null;
+	
+	protected EntityDefinition _loadDefinition (Class<?> type) {
+		EntityDefinition result = null;
+		this._defs = (this._defs == null ? new java.util.HashMap() : this._defs);
+		result = (EntityDefinition)this._defs.get(type);
+		if (result == null) {
+			try {
+				Field reqField = type.getDeclaredField("__DEFINITION__");
+				reqField.setAccessible(true);
+				result = (EntityDefinition)reqField.get(null);
+			}
+			catch (Throwable t) {
+				throw new RuntimeException(t);
+			}
+			this._defs.put(type, result);
+		}
+		return result;
+	}
+	
 	public void reset (Class<?> type) {
-		EntityDefinition def = AbstractEntity._loadDefinition(type);
+		EntityDefinition def = _loadDefinition(type);
 		if (true) {
 			this.deleteEntity(def);
 			this.commit();
@@ -1468,7 +1489,7 @@ public abstract class DbManager extends Object {
 	}
 	
 	public void update (Class<?> type) {
-		EntityDefinition def = AbstractEntity._loadDefinition(type);
+		EntityDefinition def = _loadDefinition(type);
 		this.updateEntity(def);
 	}
 	

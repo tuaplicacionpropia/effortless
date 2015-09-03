@@ -656,4 +656,9 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 		return _concatAllParameterChanges(new Object[] {Collections.asList("FILE_NAME", "FILE_DESCRIPTION", "FILE_COMMENT", "FILE_CONTENT_TYPE", "FILE_FORMAT", "FILE_SIZE", "FILE_PATH", "FILE_EMBEDDED", "FILE_CONTENT"), Collections.asList(this.name, this.description, this.comment, this.contentType, this.format, this.size, this.path, this.embedded, this.content)}, super._getAllParameterChanges());
 	}
 
+	@Override
+	protected EntityDefinition _loadDefinition() {
+		return FileEntity.__DEFINITION__;
+	}
+
 }

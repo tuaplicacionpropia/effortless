@@ -1,6 +1,5 @@
 package org.effortless.orm;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Locale;
@@ -8,7 +7,7 @@ import java.util.Locale;
 import org.effortless.core.ClassUtils;
 import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.impl.ChangeRegistry;
-import org.effortless.orm.impl.PropertiesLoader;
+import org.effortless.orm.impl.EntityFilter;
 import org.effortless.orm.util.ToLabel;
 
 //@Entity
@@ -460,7 +459,12 @@ public class LogData extends AbstractIdEntity {
 	}
 
 	public static Filter listAll () {
-		return AbstractEntity.listBy(LogData.class);
+		return EntityFilter.buildEntityFilter(__DEFINITION__, __DEFINITION__.getDefaultLoader());
+	}
+
+	@Override
+	protected EntityDefinition _loadDefinition() {
+		return LogData.__DEFINITION__;
 	}
 	
 }

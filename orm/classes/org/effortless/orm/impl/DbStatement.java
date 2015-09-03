@@ -156,12 +156,12 @@ public class DbStatement extends Object {
 		}
 	}
 
-	public DbStatement apply (java.util.List<Object> params) {
+	public DbStatement apply (Object[] params) {
 		_doBatch(false);
 		int idx = 1;
-		int paramsLength = (params != null ? params.size() : 0);
+		int paramsLength = (params != null ? params.length : 0);
 		for (int i = 0; i < paramsLength; i++) {
-			this.encoders[i].encode(this.owner, this._ps, idx++, params.get(i));
+			this.encoders[i].encode(this.owner, this._ps, idx++, params[i]);
 //			this._ps.setObject(idx++, params[i], this.types[i]);
 		}
 		this._numInpPs++;

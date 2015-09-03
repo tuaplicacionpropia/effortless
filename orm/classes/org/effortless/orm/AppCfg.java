@@ -308,5 +308,10 @@ public class AppCfg extends AbstractIdEntity {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	protected EntityDefinition _loadDefinition() {
+		return AppCfg.__DEFINITION__;
+	}
 	
 }

@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +22,6 @@ import org.effortless.core.PropertyUtils;
 import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.impl.ChangeRegistry;
 import org.effortless.orm.impl.ColumnEncoder;
-import org.effortless.orm.impl.EntityFilter;
 import org.effortless.orm.impl.PropertiesLoader;
 import org.effortless.orm.impl.PropertyList;
 import org.effortless.orm.restrictions.Restriction;
@@ -56,15 +51,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 		this._changeRegistry = new ChangeRegistry(this);
 		this._loadOnDemandEnabled = true;
 	}
-	
-	
-	protected DbManager loadDefaultDb () {
-//		return (DbManager)MySession.getAttribute("CURRENT_DB");
-		return MySession.getDb();
-	}
-	
-//	protected DbManager _db;
-	
+
 	protected java.util.Map attributes;
 	
 	protected void initiateAttributes() {
@@ -132,7 +119,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 	
 	
 	
-	protected void _doPersist (EntityDefinition def, java.util.List<String> columnNames, java.util.List<Object> pValues) {
+	protected void _doPersist (EntityDefinition def, String[] columnNames, Object[] pValues) {
 		Serializable id = this.doGetIdentifier();
 		boolean update = (id != null);
 		ColumnEncoder[] encoders = def.getColumnEncoders(columnNames);
@@ -143,7 +130,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 		else {
 			id = db.getNextValSequence(def.getSequenceName());
 			doSetIdentifier(id);
-			pValues.set(pValues.size() - 1, id);
+			pValues[pValues.length - 1] = id;
 			db.insert(def.getTableName(), columnNames, this, encoders);
 		}
 		db.apply(pValues);
@@ -185,8 +172,8 @@ public abstract class AbstractEntity extends Object implements Entity {
 	protected void _doCreate (EntityDefinition def) {
 			Object[] parameterChanges = _getAllParameterChanges();
 			if (parameterChanges != null && parameterChanges.length >= 2) {
-				java.util.List<String> columnNames = (java.util.List<String>)parameterChanges[0];
-				java.util.List<Object> pValues = (java.util.List<Object>)parameterChanges[1];
+				String[] columnNames = (String[])parameterChanges[0];
+				Object[] pValues = (Object[])parameterChanges[1];
 				_doPersist(def, columnNames, pValues);
 			}
 //			if (parameterChanges.length > 2) {
@@ -208,12 +195,12 @@ public abstract class AbstractEntity extends Object implements Entity {
 			Object[] parameterChanges = def.getParameterChanges(this._changeRegistry, true);
 			if (parameterChanges != null && parameterChanges.length >= 2) {
 				Serializable id = doGetIdentifier();
-				java.util.List<String> columnNames = (java.util.List<String>)parameterChanges[0];
-				java.util.List<Object> pValues = (java.util.List<Object>)parameterChanges[1];
-				if (columnNames != null && columnNames.size() > 0) {
+				String[] columnNames = (String[])parameterChanges[0];
+				Object[] pValues = (Object[])parameterChanges[1];
+				if (columnNames != null && columnNames.length > 0) {
 	//				columnNames.set(columnNames.size() - 1, "ID");
 	//				pValues.set(pValues.size() - 1,  id);
-	
+
 					columnNames.add("ID");
 					pValues.add(id);
 					
@@ -289,21 +276,6 @@ public abstract class AbstractEntity extends Object implements Entity {
 	protected void _doChangeProperty (String propertyName, Object oldValue, Object newValue) {
 	}
 	
-//	protected Object _setProperty (String propertyName, Object oldValue, Object newValue) {
-//		boolean _loaded = checkLoaded(propertyName, true);
-////		String oldValue = (_loaded ? this.getText() : null);
-//		if (!_loaded || !_equals(oldValue, newValue)) {
-////			this.text = newValue;
-//			if (_loaded) {
-//				_doChangeProperty(propertyName, oldValue, newValue);
-//				firePropertyChange(propertyName, oldValue, newValue);
-//			}
-//		}
-//		return oldValue;
-//	}
-
-	
-	
 	
 	
 	
@@ -319,11 +291,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 	
 	//this.comentario = (String)_loadOnDemand("comentario", this.comentario);
 	protected void _loadOnDemand(String propertyName, Object currentValue) {
-		this._loadOnDemand(propertyName, currentValue, _doGetEntityDefinition());
-	}
-
-	protected EntityDefinition _doGetEntityDefinition() {
-		return null;
+		this._loadOnDemand(propertyName, currentValue, this._loadDefinition());
 	}
 
 	protected void _loadOnDemand(String propertyName, Object currentValue, EntityDefinition def) {
@@ -495,32 +463,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 	
 	
 	
-	protected EntityDefinition _loadDefinition () {
-		EntityDefinition result = null;
-		Class<?> type = getClass();
-		result = AbstractEntity._loadDefinition(type);
-		return result;
-	}
-
-	protected static EntityDefinition _loadDefinition (Class<?> type) {
-		EntityDefinition result = null;
-		try {
-			Field reqField = type.getDeclaredField("__DEFINITION__");
-			reqField.setAccessible(true);
-			result = (EntityDefinition)reqField.get(null);
-		}
-		catch (Throwable t) {
-			throw new RuntimeException(t);
-		}
-		return result;
-	}
-
-	
-
-	
-	
-	
-	
+	protected abstract EntityDefinition _loadDefinition ();
 
 	public abstract Serializable doGetIdentifier ();
 	
@@ -2042,12 +1985,12 @@ public abstract class AbstractEntity extends Object implements Entity {
 //		return result;
 //	}
 	
-	public static AbstractFilter listBy (Class<?> clazz) {
-		AbstractFilter result = null;
-		EntityDefinition def = AbstractEntity._loadDefinition(clazz);
-		result = _doListBy(def);
-		return result;
-	}
+//	public static AbstractFilter listBy (Class<?> clazz) {
+//		AbstractFilter result = null;
+//		EntityDefinition def = AbstractEntity._loadDefinition(clazz);
+//		result = _doListBy(def);
+//		return result;
+//	}
 	
 	
 	
@@ -2057,11 +2000,11 @@ public abstract class AbstractEntity extends Object implements Entity {
 //		return result;
 //	}
 	
-	protected static AbstractFilter _doListBy (EntityDefinition def) {
-		AbstractFilter result = null;
-		result = _doListBy(def, def.getDefaultLoader());
-		return result;
-	}
+//	protected static AbstractFilter _doListBy (EntityDefinition def) {
+//		AbstractFilter result = null;
+//		result = _doListBy(def, def.getDefaultLoader());
+//		return result;
+//	}
 	
 //	protected static <Type extends AbstractEntity> AbstractFilter<Type> _doListBy (EntityDefinition def, PropertiesLoader loader) {
 //		AbstractFilter<Type> result = null;
@@ -2075,18 +2018,18 @@ public abstract class AbstractEntity extends Object implements Entity {
 //		return result;
 //	}
 //	
-	protected static AbstractFilter _doListBy (EntityDefinition def, PropertiesLoader loader) {
-		AbstractFilter result = null;
-		result = EntityFilter.buildEntityFilter(def, loader);
-//		String columns = def.getPrimaryKey().getColumnName() + ", " + loader.getColumns();//"ID, NOMBRE"
-//		Class<?>[] types = null;//decoder.getTypes();//Long.class, String.class
-//		DbManager db = MySession.getDb();
-//		result = new EntityFilter(def.getTableName(), db, loader, columns, types);
-//		result.setPageIndex(0);
-//		result.setPageSize(25);
-//		result.orderBy(def.getDefaultOrderBy());
-		return result;
-	}
+//	protected static AbstractFilter _doListBy (EntityDefinition def, PropertiesLoader loader) {
+//		AbstractFilter result = null;
+//		result = EntityFilter.buildEntityFilter(def, loader);
+////		String columns = def.getPrimaryKey().getColumnName() + ", " + loader.getColumns();//"ID, NOMBRE"
+////		Class<?>[] types = null;//decoder.getTypes();//Long.class, String.class
+////		DbManager db = MySession.getDb();
+////		result = new EntityFilter(def.getTableName(), db, loader, columns, types);
+////		result.setPageIndex(0);
+////		result.setPageSize(25);
+////		result.orderBy(def.getDefaultOrderBy());
+//		return result;
+//	}
 	
 	protected static void _doCreateDb (DbManager db, EntityDefinition def) {
 		db.createEntity(def);

@@ -290,12 +290,12 @@ if (false) {
 		return result;
 	}
 	
-	public ColumnEncoder[] getColumnEncoders(java.util.List<String> columns) {
+	public ColumnEncoder[] getColumnEncoders(String[] columns) {
 		ColumnEncoder[] result = null;
-		int length = (columns != null ? columns.size() : 0);
+		int length = (columns != null ? columns.length : 0);
 		result = new ColumnEncoder[length];
 		for (int i = 0; i < length; i++) {
-			ColumnEncoder encoder = getColumnEncoder(columns.get(i));
+			ColumnEncoder encoder = getColumnEncoder(columns[i]);
 			result[i] = encoder;
 		}
 		return result;
