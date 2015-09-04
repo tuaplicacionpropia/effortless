@@ -2,7 +2,6 @@ package org.effortless.orm.definition;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import org.effortless.orm.impl.ChangeRegistry;
 import org.effortless.orm.impl.ChangeRegistryItem;
@@ -383,12 +382,16 @@ if (false) {
 	public Object[] getParameterChanges(ChangeRegistry registry, boolean forUpdate) {
 		Object[] result = null;
 		if (registry != null && registry.hasChanges()) {
-			java.util.List<String> columnNames = new java.util.ArrayList<String>();
-			java.util.List<Object> pValues = new java.util.ArrayList<Object>();
-
 			java.util.List<ChangeRegistryItem> changes = registry.getChangesList();
 			if (changes != null) {
 				int changesSize = changes.size();
+				
+//				java.util.List columnNames = new java.util.ArrayList();
+//				java.util.List pValues = new java.util.ArrayList();
+
+				String[] columnNames = new String[changesSize + 1];
+				Object[] pValues = new Object[changesSize + 1];
+				
 //				int inc = (forUpdate ? 1 : 0);
 //				int realSize = changesSize + inc;
 //				columnNames = new String[realSize];
@@ -400,15 +403,22 @@ if (false) {
 					if (columnName != null) {
 	//					columnNames[i] = columnName;
 	//					pValues[i] = change.getNewValue();
-						columnNames.add(columnName);
-						pValues.add(change.getNewValue());
+
+//						columnNames.add(columnName);
+//						pValues.add(change.getNewValue());
+
+						columnNames[i] = columnName;
+						pValues[i] = change.getNewValue();
 					}
 				}
+				
+				result = new Object[2];
+//				result[0] = columnNames.toArray(new String[0]);
+//				result[1] = pValues.toArray(new Object[0]);
+				result[0] = columnNames;
+				result[1] = pValues;
 			}
 
-			result = new Object[2];
-			result[0] = columnNames;
-			result[1] = pValues;
 		}
 		return result;
 	}
@@ -498,7 +508,11 @@ if (false) {
 			this.attributes.put(name, value);
 		}
 	}
-	
-	
+
+	public PropertyEntity getPropertyFromColumn(String column) {
+		PropertyEntity result = null;
+		result = (PropertyEntity)this._mapColumns.get(column);
+		return result;
+	}
 	
 }

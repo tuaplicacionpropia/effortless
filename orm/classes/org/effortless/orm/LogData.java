@@ -359,14 +359,6 @@ public class LogData extends AbstractIdEntity {
 	
 	
 	
-	protected String _columnsEager () {
-		return "type, targetCode, authorCode, authorType, targetType, targetId, authorId, date, locationKeyFrom, locationDescriptionFrom, locationAliasFrom, comment, executionTime, pending";
-	}
-
-	protected String _columnsLazy () {
-		return "extraData";
-	}
-	
 	protected Object _newInstance () {
 		return new LogData();
 	}
@@ -455,9 +447,23 @@ public class LogData extends AbstractIdEntity {
 
 	@Override
 	protected Object[] _getAllParameterChanges() {
-		return new Object[] {new String[] {"LOG_TYPE", "LOG_TARGET_CODE", "LOG_AUTHOR_CODE", "ID"}, new Object[] {this.type, this.targetCode, this.authorCode, this.id}};
+//		return new Object[] {new String[] {"LOG_TYPE", "LOG_TARGET_CODE", "LOG_AUTHOR_CODE", "ID"}, new Object[] {this.type, this.targetCode, this.authorCode, this.id}};
+		return new Object[] {
+			new String[] {"LOG_TYPE", "LOG_TARGET_CODE", "LOG_AUTHOR_CODE", "LOG_AUTHOR_TYPE", "LOG_TARGET_TYPE", "LOG_TARGET", "LOG_AUTHOR", "LOG_DATE", "LOG_LOCATION_KEY_FROM", "LOG_LOCATION_DESCRIPTION_FROM", "LOG_LOCATION_ALIAS_FROM", "LOG_COMMENT", "LOG_EXECUTION_TIME", "LOG_PENDING", "LOG_EXTRA", "ID"}, 
+			new Object[] {this.type, this.targetCode, this.authorCode, this.authorType, this.targetType, this.targetId, this.authorId, this.date, this.locationKeyFrom, this.locationDescriptionFrom, this.locationAliasFrom, this.comment, this.executionTime, this.pending, this.extraData, this.id}
+		};
 	}
 
+	protected String _columnsEager () {
+		return "LOG_TYPE, LOG_TARGET_CODE, LOG_AUTHOR_CODE, LOG_AUTHOR_CODE, LOG_TARGET_TYPE, LOG_TARGET, LOG_AUTHOR, LOG_DATE, LOG_LOCATION_KEY_FROM, LOG_LOCATION_DESCRIPTION_FROM, LOG_LOCATION_ALIAS_FROM, LOG_COMMENT, LOG_EXECUTION_TIME, LOG_PENDING";
+	}
+
+	protected String _columnsLazy () {
+		return "LOG_EXTRA";
+	}
+	
+	
+	
 	public static Filter listAll () {
 		return EntityFilter.buildEntityFilter(__DEFINITION__, __DEFINITION__.getDefaultLoader());
 	}

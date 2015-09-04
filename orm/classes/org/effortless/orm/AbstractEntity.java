@@ -14,12 +14,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.effortless.core.ClassUtils;
+import org.effortless.core.Collections;
 import org.effortless.core.MethodUtils;
 import org.effortless.core.UnusualException;
 import org.effortless.core.ObjectUtils;
 import org.effortless.core.PropertyUtils;
 import org.effortless.orm.definition.EntityDefinition;
+import org.effortless.orm.definition.PropertyEntity;
 import org.effortless.orm.impl.ChangeRegistry;
 import org.effortless.orm.impl.ColumnEncoder;
 import org.effortless.orm.impl.PropertiesLoader;
@@ -132,10 +135,23 @@ public abstract class AbstractEntity extends Object implements Entity {
 			doSetIdentifier(id);
 			pValues[pValues.length - 1] = id;
 			db.insert(def.getTableName(), columnNames, this, encoders);
+			
+			this._markLoadedColumns(columnNames);
 		}
 		db.apply(pValues);
 		db.commit();
 		this._changeRegistry.clear();
+	}
+	
+	protected void _markLoadedColumns (String[] columns) {
+		EntityDefinition def = this._loadDefinition();
+		int length = (columns != null ? columns.length : 0);
+		for (int i = 0; i < length; i++) {
+			String column = columns[i];
+			PropertyEntity property = def.getPropertyFromColumn(column);
+			String propertyName = property.getPropertyName();
+			this._changeRegistry.setupLoaded(propertyName);
+		}
 	}
 
 	protected void _doPersist (PropertyList list) {
@@ -197,12 +213,19 @@ public abstract class AbstractEntity extends Object implements Entity {
 				Serializable id = doGetIdentifier();
 				String[] columnNames = (String[])parameterChanges[0];
 				Object[] pValues = (Object[])parameterChanges[1];
-				if (columnNames != null && columnNames.length > 0) {
+				int length = (columnNames != null ? columnNames.length : 0);
+				if (length > 1) {
 	//				columnNames.set(columnNames.size() - 1, "ID");
 	//				pValues.set(pValues.size() - 1,  id);
 
-					columnNames.add("ID");
-					pValues.add(id);
+//					columnNames = Collections.add(columnNames, "ID");
+//					pValues = Collections.add(pValues, id);
+					
+					columnNames[length - 1] = "ID";
+					pValues[length - 1] = id;
+
+//					columnNames.add("ID");
+//					pValues.add(id);
 					
 					_doPersist(def, columnNames, pValues);
 				}
@@ -230,8 +253,8 @@ public abstract class AbstractEntity extends Object implements Entity {
 			String pkColumnName = def.getPrimaryKey().getColumnName();
 			DbManager db = this.loadDbManager();
 			db.delete(def.getTableName(), pkColumnName, this, def.getColumnEncoder(pkColumnName));
-			java.util.ArrayList<Object> asList = new java.util.ArrayList<Object>();
-			asList.add(id);
+			Object[] asList = new Object[1];
+			asList[0] = id;
 			db.apply(asList);
 			db.commit();
 		}

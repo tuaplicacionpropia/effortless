@@ -160,4 +160,22 @@ public class Collections {
 		return result;
 	}
 	
+	public static Object[] add (Object[] array, Object element) {
+		Object[] result = null;
+		int length = (array != null ? array.length : 0);
+		result = new Object[length + 1];
+		System.arraycopy(array, 0, result, 0, length);
+		result[length] = element;
+		return result;
+	}
+	
+	public static String[] add (String[] array, String element) {
+		String[] result = null;
+		int length = (array != null ? array.length : 0);
+		result = new String[length + 1];
+		System.arraycopy(array, 0, result, 0, length);
+		result[length] = element;
+		return result;
+	}
+	
 }

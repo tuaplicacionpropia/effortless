@@ -98,16 +98,31 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE UPPER(SCHEMA_NAME) = UPPER(?)";
 	}
 
-	protected String buildExistsIndexSql (String schemaName, String tableName, String indexName) {
-		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE UPPER(TABLE_SCHEMA) = UPPER(?) AND UPPER(TABLE_NAME) = UPPER(?) AND UPPER(INDEX_NAME) = UPPER(?)";
+	protected String buildExistsIndexSql (String tableName, String indexName, String schemaName) {
+		String result = null;
+		result = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE UPPER(TABLE_NAME) = UPPER(?) AND UPPER(INDEX_NAME) = UPPER(?)";
+		if (schemaName != null) {
+			result += " AND UPPER(TABLE_SCHEMA) = UPPER(?)";
+		}
+		return result;
 	}
 
-	protected String buildExistsTableSql (String schemaName, String tableName) {
-		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE UPPER(TABLE_SCHEMA) = UPPER(?) AND UPPER(TABLE_NAME) = UPPER(?)";
+	protected String buildExistsTableSql (String tableName, String schemaName) {
+		String result = null;
+		result = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE UPPER(TABLE_NAME) = UPPER(?)";
+		if (schemaName != null) {
+			result += " AND UPPER(TABLE_SCHEMA) = UPPER(?)";
+		}
+		return result;
 	}
 
-	protected String buildExistsSequenceSql (String schemaName, String seqName) {
-		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE UPPER(SEQUENCE_SCHEMA) = UPPER(?) AND UPPER(SEQUENCE_NAME) = UPPER(?)";
+	protected String buildExistsSequenceSql (String seqName, String schemaName) {
+		String result = null;
+		result = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE UPPER(SEQUENCE_NAME) = UPPER(?)";
+		if (schemaName != null) {
+			result += " AND UPPER(SEQUENCE_SCHEMA) = UPPER(?)";
+		}
+		return result;
 	}
 
 	protected String buildDropTableSql (String fullTableName) {
@@ -126,8 +141,13 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return "CREATE OR REPLACE FORCE VIEW " + _upper(fullViewName) + " AS " + query;
 	}
 
-	protected String buildLoadColumnsSql (String schemaName, String tableName) {
-		return "SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE UPPER(TABLE_SCHEMA) = UPPER(?) AND UPPER(TABLE_NAME) = UPPER(?)";
+	protected String buildLoadColumnsSql (String tableName, String schemaName) {
+		String result = null;
+		result = "SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE UPPER(TABLE_NAME) = UPPER(?)";
+		if (schemaName != null) {
+			result += " AND UPPER(TABLE_SCHEMA) = UPPER(?)";
+		}
+		return result;
 	}
 
 	protected String buildAddColumnSql (String fullTableName, String column) {

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.sql.Statement;
 
+import org.effortless.core.StringUtils;
 import org.effortless.core.UnusualException;
 import org.effortless.orm.DbManager;
 import org.effortless.orm.AbstractFilter;
@@ -645,9 +646,11 @@ public abstract class DbManager extends Object {
 		String schemaName = (idx > -1 ? fullTableName.substring(0, idx) : this.currentSchema);
 		String shortTableName = (idx > -1 ? fullTableName.substring(idx + 1) : tableName);
 
-		String stm = buildExistsIndexSql(schemaName, shortTableName, indexName);//"SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = ?";
+		String stm = buildExistsIndexSql(shortTableName, indexName, schemaName);//"SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = ?";
 
-		ResultSet rs = execQuery(stm, new Object[] {schemaName, shortTableName, indexName}, new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR, java.sql.Types.VARCHAR});
+		Object[] rsValues = (schemaName != null ? new Object[] {shortTableName, indexName, schemaName} : new Object[] {shortTableName, indexName});
+		int[] rsTypes = (schemaName != null ? new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR, java.sql.Types.VARCHAR} : new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR});
+		ResultSet rs = execQuery(stm, rsValues, rsTypes);
 		try {
 			result = (rs.next() ? rs.getLong(1) > 0 : false);
 		} catch (SQLException e) {
@@ -674,9 +677,11 @@ public abstract class DbManager extends Object {
 			String schemaName = (idx > -1 ? fullTableName.substring(0, idx) : this.currentSchema);
 			String shortTableName = (idx > -1 ? fullTableName.substring(idx + 1) : tableName);
 
-			String stm = buildExistsTableSql(schemaName, shortTableName);//"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
+			String stm = buildExistsTableSql(shortTableName, schemaName);//"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
 
-			ResultSet rs = execQuery(stm, new Object[] {schemaName, shortTableName}, new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR});
+			Object[] rsValues = (schemaName != null ? new Object[] {shortTableName, schemaName} : new Object[] {shortTableName});
+			int[] rsTypes = (schemaName != null ? new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR} : new int[] {java.sql.Types.VARCHAR});
+			ResultSet rs = execQuery(stm, rsValues, rsTypes);
 			try {
 				result = (rs.next() ? rs.getLong(1) > 0 : false);
 			} catch (SQLException e) {
@@ -695,9 +700,11 @@ public abstract class DbManager extends Object {
 		String schemaName = (idx > -1 ? fullSeqName.substring(0, idx) : this.currentSchema);
 		String shortSeqName = (idx > -1 ? fullSeqName.substring(idx + 1) : seqName);
 		
-		String stm = buildExistsSequenceSql(schemaName, shortSeqName);//"SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ? AND SEQUENCE_NAME = ?";
+		String stm = buildExistsSequenceSql(shortSeqName, schemaName);//"SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ? AND SEQUENCE_NAME = ?";
 
-		ResultSet rs = execQuery(stm, new Object[] {schemaName, shortSeqName}, new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR});
+		Object[] rsValues = (schemaName != null ? new Object[] {shortSeqName, schemaName} : new Object[] {shortSeqName});
+		int[] rsTypes = (schemaName != null ? new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR} : new int[] {java.sql.Types.VARCHAR});
+		ResultSet rs = execQuery(stm, rsValues, rsTypes);
 		try {
 			result = (rs.next() ? rs.getLong(1) > 0 : false);
 		} catch (SQLException e) {
@@ -995,9 +1002,11 @@ public abstract class DbManager extends Object {
 		String schemaName = (idx > -1 ? fullTableName.substring(0, idx) : this.currentSchema);
 		String shortTableName = (idx > -1 ? fullTableName.substring(idx + 1) : tableName);
 		
-		String stm = buildLoadColumnsSql(schemaName, shortTableName);//"SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
+		String stm = buildLoadColumnsSql(shortTableName, schemaName);//"SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
 
-		ResultSet rs = execQuery(stm, new Object[] {schemaName, shortTableName}, new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR});
+		Object[] rsValues = (schemaName != null ? new Object[] {shortTableName, schemaName} : new Object[] {shortTableName});
+		int[] rsTypes = (schemaName != null ? new int[] {java.sql.Types.VARCHAR, java.sql.Types.VARCHAR} : new int[] {java.sql.Types.VARCHAR});
+		ResultSet rs = execQuery(stm, rsValues, rsTypes);
 		
 		java.util.List columns = new java.util.ArrayList<Object[]>();
 		try {
@@ -1073,11 +1082,13 @@ public abstract class DbManager extends Object {
 
 	public boolean doCreateEntity(String tableName, String seqName, boolean applyCommit, java.util.List<String> columns) {
 		boolean result = false;
-		String schemaName = this.getCurrentSchema();
-		boolean existsSchema = existsSchema(schemaName);
-		if (!existsSchema) {
-			String user = this.getDbUser();
-			createSchema(schemaName, user);
+		String schemaName = StringUtils.emptyNotAllow(this.getCurrentSchema());
+		if (schemaName != null) {
+			boolean existsSchema = existsSchema(schemaName);
+			if (!existsSchema) {
+				String user = this.getDbUser();
+				createSchema(schemaName, user);
+			}
 		}
 		boolean existsTable = existsTable(tableName);
 		if (!existsTable) {
@@ -1315,15 +1326,15 @@ public abstract class DbManager extends Object {
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 //	}
 
-	protected abstract String buildExistsIndexSql (String schemaName, String tableName, String indexName);
+	protected abstract String buildExistsIndexSql (String tableName, String indexName, String schemaName);
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = ?";
 //	}
 
-	protected abstract String buildExistsTableSql (String schemaName, String tableName);
+	protected abstract String buildExistsTableSql (String tableName, String schemaName);
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
 //	}
 
-	protected abstract String buildExistsSequenceSql (String schemaName, String seqName);
+	protected abstract String buildExistsSequenceSql (String seqName, String schemaName);
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ? AND SEQUENCE_NAME = ?";
 //	}
 
@@ -1371,7 +1382,7 @@ public abstract class DbManager extends Object {
 		return "SELECT count(*) FROM " + fullTableName;
 	}
 
-	protected abstract String buildLoadColumnsSql (String schemaName, String tableName);
+	protected abstract String buildLoadColumnsSql (String tableName, String schemaName);
 //		return "SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
 //	}
 

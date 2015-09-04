@@ -354,6 +354,13 @@ public class SqlMapper {
 				SqlMapper._throwException(e);
 			}
 		}
+		else if (java.util.Date.class.equals(type)) {
+			try {
+				result = rs.getTimestamp(index);
+			} catch (SQLException e) {
+				SqlMapper._throwException(e);
+			}
+		}
 		else if (Long.class.equals(type)) {
 			try {
 				result = Long.valueOf(rs.getLong(index));
@@ -362,6 +369,13 @@ public class SqlMapper {
 			}
 		}
 		else if (java.io.File.class.equals(type)) {
+			try {
+				result = rs.getBlob(index);
+			} catch (SQLException e) {
+				SqlMapper._throwException(e);
+			}
+		}
+		else {
 			try {
 				result = rs.getBlob(index);
 			} catch (SQLException e) {
@@ -397,10 +411,16 @@ public class SqlMapper {
 		else if (java.sql.Timestamp.class.equals(type)) {
 			result = java.sql.Types.TIMESTAMP;
 		}
+		else if (java.util.Date.class.equals(type)) {
+			result = java.sql.Types.TIMESTAMP;
+		}
 		else if (Long.class.equals(type)) {
 			result = java.sql.Types.BIGINT;
 		}
 		else if (java.io.File.class.equals(type)) {
+			result = java.sql.Types.BLOB;
+		}
+		else {
 			result = java.sql.Types.BLOB;
 		}
 		return result;
@@ -431,10 +451,16 @@ public class SqlMapper {
 		else if (java.sql.Timestamp.class.equals(type)) {
 			result = "TIMESTAMP";
 		}
+		else if (java.util.Date.class.equals(type)) {
+			result = "TIMESTAMP";
+		}
 		else if (Long.class.equals(type)) {
 			result = "BIGINT";
 		}
 		else if (java.io.File.class.equals(type) || type == null) {
+			result = "BLOB" + precision;
+		}
+		else {
 			result = "BLOB" + precision;
 		}
 		return result;
@@ -463,10 +489,16 @@ public class SqlMapper {
 		else if (java.sql.Timestamp.class.equals(type)) {
 			result = TIMESTAMP_DECODER;
 		}
+		else if (java.util.Date.class.equals(type)) {
+			result = TIMESTAMP_DECODER;
+		}
 		else if (Long.class.equals(type)) {
 			result = LONG_DECODER;
 		}
 		else if (java.io.File.class.equals(type) || type == null) {
+			result = BLOB_DECODER;
+		}
+		else {
 			result = BLOB_DECODER;
 		}
 		return result;
@@ -495,10 +527,16 @@ public class SqlMapper {
 		else if (java.sql.Timestamp.class.equals(type)) {
 			result = TIMESTAMP_ENCODER;
 		}
+		else if (java.util.Date.class.equals(type)) {
+			result = TIMESTAMP_ENCODER;
+		}
 		else if (Long.class.equals(type)) {
 			result = LONG_ENCODER;
 		}
 		else if (java.io.File.class.equals(type) || type == null) {
+			result = BLOB_ENCODER;
+		}
+		else {
 			result = BLOB_ENCODER;
 		}
 		return result;
