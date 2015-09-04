@@ -3,13 +3,14 @@ package org.effortless.orm.impl;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChangeRegistry extends ChangeSupport {//java.beans.PropertyChangeSupport {
+public class ChangeRegistry extends ChangeSupport implements Serializable {//java.beans.PropertyChangeSupport {
 
 //	protected ChangeRegistry () {
 //		super();
