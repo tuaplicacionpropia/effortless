@@ -168,13 +168,14 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 
 	public void setContent(File newValue) {
 		_loadOnDemand("content", this.content);
-		boolean change = _setProperty("content", this.content, this.content = newValue);
-		if (change) {
-			updateContent();
-		}
+		/*boolean change = */_setProperty("content", this.content, this.content = newValue);
+//		if (change) {
+//			updateContent();
+//		}
 	}
 
 	protected void _doChangeProperty (String propertyName, Object oldValue, Object newValue) {
+		super._doChangeProperty(propertyName, oldValue, newValue);
 		if ("content".equals(propertyName)) {
 			updateContent();
 		}

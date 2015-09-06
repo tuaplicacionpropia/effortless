@@ -37,9 +37,9 @@ public class FileHashes extends Object {
 	public static final boolean ENABLE_HASH_32 = true;
 	
 	
-	public static final boolean ENABLE_HASH1 = true;
-	public static final boolean ENABLE_HASH2 = false;
-	public static final boolean ENABLE_HASH3 = false;
+	public static final boolean ENABLE_HASH1 = false;
+	public static final boolean ENABLE_HASH2 = true;
+	public static final boolean ENABLE_HASH3 = true;
 
 	
 	protected CRC32 crc32;
@@ -51,7 +51,7 @@ public class FileHashes extends Object {
 	protected void initHash1 () {
     	if (ENABLE_HASH1) {
     		if (ENABLE_HASH_32) {
-	    	    XXHashFactory factory = XXHashFactory.fastestJavaInstance();
+	    	    XXHashFactory factory = XXHashFactory.unsafeInstance();//.fastestJavaInstance();
 	    	    this.hash32 = factory.newStreamingHash32(HASH32_SEED);
     		}
     	    if (this.hash32 == null) {

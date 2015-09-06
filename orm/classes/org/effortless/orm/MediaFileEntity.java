@@ -21,12 +21,14 @@ import javax.activation.MimetypesFileTypeMap;
 //import javax.persistence.Table;
 
 
+
 import org.effortless.core.FileUtils;
 import org.effortless.core.FilenameUtils;
 import org.effortless.core.Hex;
 import org.effortless.core.IOUtils;
 import org.effortless.core.MetadataFiles;
 import org.effortless.core.ObjectUtils;
+import org.effortless.core.StringUtils;
 import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.impl.ColumnExtraType;
 import org.effortless.orm.impl.EntityFilter;
@@ -34,6 +36,7 @@ import org.effortless.orm.impl.PropertiesLoader;
 import org.effortless.orm.util.FileHashes;
 //import org.hibernate.annotations.Tuplizer;
 //import org.hibernate.tuple.entity.PojoEntityTuplizer;
+
 
 
 import com.esotericsoftware.kryo.Kryo;
@@ -1065,14 +1068,6 @@ public class MediaFileEntity extends FileEntity {
 */
 	
 	
-	protected String _columnsEager () {
-		return "FILE_HASH1, FILE_HASH2, FILE_HASH3, FILE_REGISTER_DATE, FILE_LAST_MODIFICATION, FILE_TITLE, FILE_SUBJECT, FILE_AUTHOR, FILE_KEYWORDS, FILE_COMPRESS, FILE_WIDTH, FILE_HEIGHT, FILE_HAS_VIDEO, FILE_HAS_AUDIO, FILE_CAN_SEEK_ON_TIME, FILE_BITS_PER_SAMPLE, FILE_TOTAL_DATA_RATE, FILE_VIDEO_DATA_RATE, FILE_AUDIO_DATA_RATE, FILE_DURATION, FILE_FRAME_RATE, FILE_BYTE_LENGTH, FILE_VERSION, FILE_SAMPLE_RATE, FILE_CHANNELS, FILE_AUDIO_CHANNEL_TYPE, FILE_AUDIO_COMPRESSOR, FILE_LANGUAGE, FILE_SOFTWARE, FILE_IMAGE_COUNT, FILE_PARAGRAPH_COUNT, FILE_PAGE_COUNT, FILE_OBJECT_COUNT, FILE_CHARACTER_COUNT, FILE_TABLE_COUNT, FILE_WORD_COUNT, FILE_REVISION_NUMBER, FILE_EDIT_TIME_SECONDS, FILE_PRINT_DATE, FILE_LASTMODIFIED, FILE_CREATIONDATE";
-	}
-
-//	protected String _columnsLazy () {
-//		return "FILE_CONTENT";
-//	}
-	
 	protected Object _newInstance () {
 		return new MediaFileEntity();
 	}
@@ -1269,20 +1264,29 @@ public class MediaFileEntity extends FileEntity {
 		.setDefaultLoader(new EagerPropertiesLoader(MediaFileEntity._pivot))
 		.addLoader(new LazyPropertiesLoader(MediaFileEntity._pivot));
 
-		
-		
-	
-//	public static AbstractFilter<AbstractCfg> listBy () {
-//		return AbstractCfg.listBy(AbstractCfg.class);
+	protected Object[] _getAllParameterChanges() {
+		return super._concatAllParameterChanges(
+			new Object[] {
+				new String[] {"FILE_HASH1", "FILE_HASH2", "FILE_HASH3", "FILE_REGISTER_DATE", "FILE_LAST_MODIFICATION", "FILE_TITLE", "FILE_SUBJECT", "FILE_AUTHOR", "FILE_KEYWORDS", "FILE_COMPRESS", "FILE_WIDTH", "FILE_HEIGHT", "FILE_HAS_VIDEO", "FILE_HAS_AUDIO", "FILE_CAN_SEEK_ON_TIME", "FILE_BITS_PER_SAMPLE", "FILE_TOTAL_DATA_RATE", "FILE_VIDEO_DATA_RATE", "FILE_AUDIO_DATA_RATE", "FILE_DURATION", "FILE_FRAME_RATE", "FILE_BYTE_LENGTH", "FILE_VERSION", "FILE_SAMPLE_RATE", "FILE_CHANNELS", "FILE_AUDIO_CHANNEL_TYPE", "FILE_AUDIO_COMPRESSOR", "FILE_LANGUAGE", "FILE_SOFTWARE", "FILE_IMAGE_COUNT", "FILE_PARAGRAPH_COUNT", "FILE_PAGE_COUNT", "FILE_OBJECT_COUNT", "FILE_CHARACTER_COUNT", "FILE_TABLE_COUNT", "FILE_WORD_COUNT", "FILE_REVISION_NUMBER", "FILE_EDIT_TIME_SECONDS", "FILE_PRINT_DATE", "FILE_LASTMODIFIED", "FILE_CREATIONDATE"}, 
+				new Object[] {this.hash1, this.hash2, this.hash3, this.registerDate, this.lastModification, this.title, this.subject, this.author, this.keywords, this.compress, this.width, this.height, this.hasVideo, this.hasAudio, this.canSeekOnTime, this.bitsPerSample, this.totalDataRate, this.videoDataRate, this.audioDataRate, this.duration, this.frameRate, this.byteLength, this.fileVersion, this.sampleRate, this.channels, this.audioChannelType, this.audioCompressor, this.language, this.software, this.imageCount, this.paragraphCount, this.pageCount, this.objectCount, this.characterCount, this.tableCount, this.wordCount, this.revisionNumber, this.editTimeSeconds, this.printDate, this.lastModified, this.creationDate}
+			}, 
+			super._getAllParameterChanges());
+	}
+
+	protected String _columnsEager () {
+		return StringUtils.concat(super._columnsEager(), "FILE_HASH1, FILE_HASH2, FILE_HASH3, FILE_REGISTER_DATE, FILE_LAST_MODIFICATION, FILE_TITLE, FILE_SUBJECT, FILE_AUTHOR, FILE_KEYWORDS, FILE_COMPRESS, FILE_WIDTH, FILE_HEIGHT, FILE_HAS_VIDEO, FILE_HAS_AUDIO, FILE_CAN_SEEK_ON_TIME, FILE_BITS_PER_SAMPLE, FILE_TOTAL_DATA_RATE, FILE_VIDEO_DATA_RATE, FILE_AUDIO_DATA_RATE, FILE_DURATION, FILE_FRAME_RATE, FILE_BYTE_LENGTH, FILE_VERSION, FILE_SAMPLE_RATE, FILE_CHANNELS, FILE_AUDIO_CHANNEL_TYPE, FILE_AUDIO_COMPRESSOR, FILE_LANGUAGE, FILE_SOFTWARE, FILE_IMAGE_COUNT, FILE_PARAGRAPH_COUNT, FILE_PAGE_COUNT, FILE_OBJECT_COUNT, FILE_CHARACTER_COUNT, FILE_TABLE_COUNT, FILE_WORD_COUNT, FILE_REVISION_NUMBER, FILE_EDIT_TIME_SECONDS, FILE_PRINT_DATE, FILE_LASTMODIFIED, FILE_CREATIONDATE", ", ");
+	}
+
+//	protected String _columnsLazy () {
+//		return StringUtils.concat(super._columnsLazy(), "FILE_CONTENT", ", ");
 //	}
 
 	public static Filter listAll () {
-		return EntityFilter.buildEntityFilter(__DEFINITION__, __DEFINITION__.getDefaultLoader());
-	}	
+		return EntityFilter.buildEntityFilter(MediaFileEntity.__DEFINITION__, MediaFileEntity.__DEFINITION__.getDefaultLoader());
+	}
 
-	@Override
-	protected Object[] _getAllParameterChanges() {
-		return new Object[] {new String[] {"FILE_HASH1", "FILE_HASH2", "FILE_HASH3", "FILE_REGISTER_DATE", "FILE_LAST_MODIFICATION", "FILE_TITLE", "FILE_SUBJECT", "FILE_AUTHOR", "FILE_KEYWORDS", "FILE_COMPRESS", "FILE_WIDTH", "FILE_HEIGHT", "FILE_HAS_VIDEO", "FILE_HAS_AUDIO", "FILE_CAN_SEEK_ON_TIME", "FILE_BITS_PER_SAMPLE", "FILE_TOTAL_DATA_RATE", "FILE_VIDEO_DATA_RATE", "FILE_AUDIO_DATA_RATE", "FILE_DURATION", "FILE_FRAME_RATE", "FILE_BYTE_LENGTH", "FILE_VERSION", "FILE_SAMPLE_RATE", "FILE_CHANNELS", "FILE_AUDIO_CHANNEL_TYPE", "FILE_AUDIO_COMPRESSOR", "FILE_LANGUAGE", "FILE_SOFTWARE", "FILE_IMAGE_COUNT", "FILE_PARAGRAPH_COUNT", "FILE_PAGE_COUNT", "FILE_OBJECT_COUNT", "FILE_CHARACTER_COUNT", "FILE_TABLE_COUNT", "FILE_WORD_COUNT", "FILE_REVISION_NUMBER", "FILE_EDIT_TIME_SECONDS", "FILE_PRINT_DATE", "FILE_LASTMODIFIED", "FILE_CREATIONDATE", "ID"}, new Object[] {this.hash1, this.hash2, this.hash3,	this.registerDate, this.lastModification, this.title, this.subject, this.author, this.keywords, this.compress, this.width, this.height, this.hasVideo, this.hasAudio, this.canSeekOnTime, this.bitsPerSample, this.totalDataRate, this.videoDataRate, this.audioDataRate, this.duration, this.frameRate, this.byteLength, this.fileVersion, this.sampleRate, this.channels, this.audioChannelType, this.audioCompressor, this.language, this.software, this.imageCount, this.paragraphCount, this.pageCount, this.objectCount, this.characterCount, this.tableCount, this.wordCount, this.revisionNumber, this.editTimeSeconds, this.printDate, this.lastModified, this.creationDate, this.id}};
+	protected EntityDefinition _loadDefinition() {
+		return MediaFileEntity.__DEFINITION__;
 	}
 
 }
