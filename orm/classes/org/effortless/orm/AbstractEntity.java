@@ -253,9 +253,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 			String pkColumnName = def.getPrimaryKey().getColumnName();
 			DbManager db = this.loadDbManager();
 			db.delete(def.getTableName(), pkColumnName, this, def.getColumnEncoder(pkColumnName));
-			Object[] asList = new Object[1];
-			asList[0] = id;
-			db.apply(asList);
+			db.apply(new Object[] {id});
 			db.commit();
 		}
 	}
@@ -314,7 +312,9 @@ public abstract class AbstractEntity extends Object implements Entity {
 	
 	//this.comentario = (String)_loadOnDemand("comentario", this.comentario);
 	protected void _loadOnDemand(String propertyName, Object currentValue) {
-		this._loadOnDemand(propertyName, currentValue, this._loadDefinition());
+		EntityDefinition def = this._loadDefinition();
+		DbManager.trySetup(def);
+		this._loadOnDemand(propertyName, currentValue, def);
 	}
 
 	protected void _loadOnDemand(String propertyName, Object currentValue, EntityDefinition def) {
@@ -1391,6 +1391,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 
 	protected void doCreate() {// throws ModelException {
 		EntityDefinition def = _loadDefinition();
+		DbManager.trySetup(def);
 		_doCreate(def);
 	}
 		
@@ -1504,7 +1505,9 @@ public abstract class AbstractEntity extends Object implements Entity {
 	}
 
 	protected void doErase() {// throws ModelException {
-		_doErase(this._loadDefinition());		
+		EntityDefinition def = this._loadDefinition();
+		DbManager.trySetup(def);
+		_doErase(def);
 	}
 	
 	
@@ -1779,6 +1782,7 @@ public abstract class AbstractEntity extends Object implements Entity {
 		boolean result = false;
 		if (id != null) {
 			EntityDefinition def = this._loadDefinition();
+			DbManager.trySetup(def);
 
 			String pkColumn = def.getPrimaryKey().getColumnName();
 			DbManager db = this.loadDbManager();
@@ -1986,7 +1990,9 @@ public abstract class AbstractEntity extends Object implements Entity {
 	}
 
 	protected void doUpdate() {// throws ModelException {
-		_doUpdate(this._loadDefinition());
+		EntityDefinition def = this._loadDefinition();
+		DbManager.trySetup(def);
+		_doUpdate(def);
 	}
 
 //	public static <Type extends Object> List<Type> listBy (Class<Type> clazz, String methodName, Object... parameters) {
@@ -2574,9 +2580,6 @@ public abstract class AbstractEntity extends Object implements Entity {
 
 	
 
-	
-	
-	
 	
 	
 	

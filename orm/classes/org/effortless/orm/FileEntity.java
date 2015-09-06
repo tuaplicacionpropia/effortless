@@ -21,6 +21,7 @@ import javax.activation.MimetypesFileTypeMap;
 //import javax.persistence.Table;
 
 
+
 import org.effortless.core.Collections;
 import org.effortless.core.FileUtils;
 import org.effortless.core.FilenameUtils;
@@ -28,6 +29,7 @@ import org.effortless.core.Hex;
 import org.effortless.core.IOUtils;
 import org.effortless.core.MetadataFiles;
 import org.effortless.core.ObjectUtils;
+import org.effortless.core.StringUtils;
 import org.effortless.core.UnusualException;
 import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.impl.ColumnExtraType;
@@ -71,10 +73,6 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 		initiateEmbedded();
 		
 		initiateContent();
-	}
-
-	protected EntityDefinition _doGetEntityDefinition() {
-		return FileEntity.__DEFINITION__;
 	}
 
 	protected String name;
@@ -568,14 +566,6 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 	"FILE_CREATIONDATE" public Date getCreationDate() {
 */
 	
-	protected String _columnsEager () {
-		return _concatPropertiesLoader("FILE_NAME, FILE_DESCRIPTION, FILE_COMMENT, FILE_CONTENT_TYPE, FILE_FORMAT, FILE_SIZE, FILE_PATH, FILE_EMBEDDED", super._columnsEager());
-	}
-
-	protected String _columnsLazy () {
-		return _concatPropertiesLoader("FILE_CONTENT", super._columnsLazy());
-	}
-	
 	protected Object _newInstance () {
 		return new FileEntity();
 	}
@@ -636,27 +626,31 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 
 		.addFileProperty("content", "FILE_CONTENT", java.io.File.class, null, "LAZY")
 		
-		.setDefaultOrderBy("FILE_NAME ASC, ID ASC")
+		.setDefaultOrderBy("name ASC, ID DESC")
 		.setDefaultLoader(new EagerPropertiesLoader(FileEntity._pivot))
 		.addLoader(new LazyPropertiesLoader(FileEntity._pivot));
 
-		
-		
-	
-//	public static AbstractFilter<AbstractCfg> listBy () {
-//		return AbstractCfg.listBy(AbstractCfg.class);
-//	}
+	protected Object[] _getAllParameterChanges() {
+		return super._concatAllParameterChanges(
+			new Object[] {
+				new String[] {"FILE_NAME", "FILE_DESCRIPTION", "FILE_COMMENT", "FILE_CONTENT_TYPE", "FILE_FORMAT", "FILE_SIZE", "FILE_PATH", "FILE_EMBEDDED", "FILE_CONTENT"}, 
+				new Object[] {this.name, this.description, this.comment, this.contentType, this.format, this.size, this.path, this.embedded, this.content}
+			}, 
+			super._getAllParameterChanges());
+	}
+
+	protected String _columnsEager () {
+		return StringUtils.concat(super._columnsEager(), "FILE_NAME, FILE_DESCRIPTION, FILE_COMMENT, FILE_CONTENT_TYPE, FILE_FORMAT, FILE_SIZE, FILE_PATH, FILE_EMBEDDED", ", ");
+	}
+
+	protected String _columnsLazy () {
+		return StringUtils.concat(super._columnsLazy(), "FILE_CONTENT", ", ");
+	}
 
 	public static Filter listAll () {
-		return EntityFilter.buildEntityFilter(__DEFINITION__);
+		return EntityFilter.buildEntityFilter(__DEFINITION__, __DEFINITION__.getDefaultLoader());
 	}
 
-	@Override
-	protected Object[] _getAllParameterChanges() {
-		return _concatAllParameterChanges(new Object[] {Collections.asList("FILE_NAME", "FILE_DESCRIPTION", "FILE_COMMENT", "FILE_CONTENT_TYPE", "FILE_FORMAT", "FILE_SIZE", "FILE_PATH", "FILE_EMBEDDED", "FILE_CONTENT"), Collections.asList(this.name, this.description, this.comment, this.contentType, this.format, this.size, this.path, this.embedded, this.content)}, super._getAllParameterChanges());
-	}
-
-	@Override
 	protected EntityDefinition _loadDefinition() {
 		return FileEntity.__DEFINITION__;
 	}

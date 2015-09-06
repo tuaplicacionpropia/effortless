@@ -31,7 +31,7 @@ import org.effortless.orm.impl.TableIndex;
 http://www.tutorialspoint.com/jdbc/index.htm
  * 
  */
-public abstract class DbManager extends Object {
+public class DbManager extends Object {
 
 	public DbManager () {
 		super();
@@ -44,7 +44,22 @@ public abstract class DbManager extends Object {
 		initiateDbUser();
 		initiateDbPass();
 		initiateCurrentSchema();
+		initiateDbDriver();
 //		initiateMetaDb();
+	}
+	
+	protected DbDriver dbDriver;
+	
+	protected void initiateDbDriver () {
+		this.dbDriver = null;
+	}
+	
+	public DbDriver getDbDriver () {
+		return this.dbDriver;
+	}
+	
+	public void setDbDriver (DbDriver newValue) {
+		this.dbDriver = newValue;
 	}
 	
 //	protected DbManager metaDb;
@@ -80,6 +95,10 @@ public abstract class DbManager extends Object {
 		}
 	}
 	
+	public boolean checkLogged () {
+		return (this.conn != null);
+	}
+	
 	protected void _throwException (Exception e) {
 		throw new UnusualException(e);
 	}
@@ -92,7 +111,9 @@ public abstract class DbManager extends Object {
 		}
 	}
 
-	protected abstract String loadDriverClass ();
+	protected String loadDriverClass () {
+		return this.dbDriver.loadDriverClass();
+	}
 
 	protected Connection conn;
 
@@ -169,11 +190,11 @@ public abstract class DbManager extends Object {
 	}
 	
 	public void backup () {
-		
+		this.dbDriver.backup(this);
 	}
 	
 	public void restore () {
-		
+		this.dbDriver.restore(this);
 	}
 	
 	protected String currentSchema;
@@ -505,6 +526,7 @@ public abstract class DbManager extends Object {
 	}
 	
 	protected void addStm (String stm, Object owner, ColumnEncoder[] encoders) {
+		System.out.println("[DEBUG] SQL = " + stm);
 		if (this._currentStm == null) {
 			Connection conn = this.conn;
 			this._currentStm = new DbStatement(conn, stm, owner, encoders);
@@ -1131,6 +1153,7 @@ public abstract class DbManager extends Object {
 		if (commit) {
 			commit();
 		}
+		def.setAttribute("_CREATE_ENTITY_", Boolean.TRUE);
 		return this; 
 	}
 
@@ -1290,67 +1313,99 @@ public abstract class DbManager extends Object {
 	
 	
 	
-	protected abstract String buildCreateUserSql (String login, String pass);
+	protected String buildCreateUserSql (String login, String pass) {
+		return this.dbDriver.buildCreateUserSql(login, pass);
+	}
 //		return "CREATE USER IF NOT EXISTS " + login + " PASSWORD '" + pass + "'";
 //	}
 
-	protected abstract String buildDropUserSql (String login);
+	protected String buildDropUserSql (String login) {
+		return this.dbDriver.buildDropUserSql(login);
+	}
 //		return "DROP USER IF EXISTS " + login;
 //	}
 
-	protected abstract String buildCreateSchemaSql (String schemaName, String user);
+	protected String buildCreateSchemaSql (String schemaName, String user) {
+		return this.dbDriver.buildCreateSchemaSql(schemaName, user);
+	}
 //		return "CREATE SCHEMA IF NOT EXISTS " + schemaName + " AUTHORIZATION " + user;
 //	}
 
-	protected abstract String buildDropSchemaSql (String schemaName);
+	protected String buildDropSchemaSql (String schemaName) {
+		return this.dbDriver.buildDropSchemaSql(schemaName);
+	}
 //		return "DROP SCHEMA IF EXISTS " + schemaName;
 //	}
 
-	protected abstract String buildCreateSequenceSql (String fullSeqName);
+	protected String buildCreateSequenceSql (String fullSeqName) {
+		return this.dbDriver.buildCreateSequenceSql(fullSeqName);
+	}
 //		return "CREATE SEQUENCE IF NOT EXISTS " + fullSeqName + " START WITH 1 INCREMENT BY 1";
 //	}
 
-	protected abstract String buildDropSequenceSql (String fullSeqName);
+	protected String buildDropSequenceSql (String fullSeqName) {
+		return this.dbDriver.buildDropSequenceSql(fullSeqName);
+	}
 //		return "DROP SEQUENCE IF EXISTS " + fullSeqName;
 //	}
 
-	protected abstract String buildSelectSequenceSql (String fullSeqName);
+	protected String buildSelectSequenceSql (String fullSeqName) {
+		return this.dbDriver.buildSelectSequenceSql(fullSeqName);
+	}
 //		return "SELECT " + fullSeqName + ".nextval";
 //	}
 	
-	protected abstract String buildCreateTableSql (String fullTableName, String columnsStm);
+	protected String buildCreateTableSql (String fullTableName, String columnsStm) {
+		return this.dbDriver.buildCreateTableSql(fullTableName, columnsStm);
+	}
 //		return "CREATE TABLE IF NOT EXISTS " + fullTableName + "(" + columnsStm + ")";
 //	}
 
-	protected abstract String buildExistsSchemaSql (String schemaName);
+	protected String buildExistsSchemaSql (String schemaName) {
+		return this.dbDriver.buildExistsSchemaSql(schemaName);
+	}
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 //	}
 
-	protected abstract String buildExistsIndexSql (String tableName, String indexName, String schemaName);
+	protected String buildExistsIndexSql (String tableName, String indexName, String schemaName) {
+		return this.dbDriver.buildExistsIndexSql(tableName, indexName, schemaName);
+	}
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND INDEX_NAME = ?";
 //	}
 
-	protected abstract String buildExistsTableSql (String tableName, String schemaName);
+	protected String buildExistsTableSql (String tableName, String schemaName) {
+		return this.dbDriver.buildExistsTableSql(tableName, schemaName);
+	}
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
 //	}
 
-	protected abstract String buildExistsSequenceSql (String seqName, String schemaName);
+	protected String buildExistsSequenceSql (String seqName, String schemaName) {
+		return this.dbDriver.buildExistsSequenceSql(seqName, schemaName);
+	}
 //		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = ? AND SEQUENCE_NAME = ?";
 //	}
 
-	protected abstract String buildDropTableSql (String fullTableName);
+	protected String buildDropTableSql (String fullTableName) {
+		return this.dbDriver.buildDropTableSql(fullTableName);
+	}
 //		return "DROP TABLE IF EXISTS " + fullTableName;
 //	}
 
-	protected abstract String buildCreateIndexSql (boolean unique, String fullIndexName, String fullTableName, String columnsStm);
+	protected String buildCreateIndexSql (boolean unique, String fullIndexName, String fullTableName, String columnsStm) {
+		return this.dbDriver.buildCreateIndexSql(unique, fullIndexName, fullTableName, columnsStm);
+	}
 //		return "CREATE " + (unique ? "UNIQUE" : "HASH") + " INDEX IF NOT EXISTS " + fullIndexName + " ON " + fullTableName + "(" + columnsStm + ")";
 //	}
 
-	protected abstract String buildDropIndexSql (String fullIndexName);
+	protected String buildDropIndexSql (String fullIndexName) {
+		return this.dbDriver.buildDropIndexSql(fullIndexName);
+	}
 //		return "DROP INDEX IF EXISTS " + fullIndexName;
 //	}
 
-	protected abstract String buildCreateViewSql (String fullViewName, String query);
+	protected String buildCreateViewSql (String fullViewName, String query) {
+		return this.dbDriver.buildCreateViewSql(fullViewName, query);
+	}
 //		return "CREATE OR REPLACE FORCE VIEW " + fullViewName + " AS " + query;
 //	}
 
@@ -1382,11 +1437,15 @@ public abstract class DbManager extends Object {
 		return "SELECT count(*) FROM " + fullTableName;
 	}
 
-	protected abstract String buildLoadColumnsSql (String tableName, String schemaName);
+	protected String buildLoadColumnsSql (String tableName, String schemaName) {
+		return this.dbDriver.buildLoadColumnsSql(tableName, schemaName);
+	}
 //		return "SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?";
 //	}
 
-	protected abstract String buildAddColumnSql (String fullTableName, String column);
+	protected String buildAddColumnSql (String fullTableName, String column) {
+		return this.dbDriver.buildAddColumnSql(fullTableName, column);
+	}
 //		return "ALTER TABLE " + fullTableName + " ADD IF NOT EXISTS " + column;
 //	}
 
@@ -1505,5 +1564,29 @@ public abstract class DbManager extends Object {
 	}
 	
 
+	
+	public static void trySetup (EntityDefinition def) {
+		Boolean _createEntity = (Boolean)def.getAttribute("_CREATE_ENTITY_");
+		if (_createEntity == null || _createEntity.booleanValue() == false) {
+			DbManager db = MySession.getDb();
+			if (db == null) {
+				db = new DbManager();
+				db.setDbUrl("jdbc:h2:~/db_effortless_test");
+				db.setDbUser("root");
+				db.setDbPass("pass");
+				db.setDbDriver(new H2DbManager());
+//				db.login();
+				MySession.setDb(db);
+			}
+			if (!db.checkLogged()) {
+				db.login();
+			}
+			db.createEntity(def);
+			def.setAttribute("_CREATE_ENTITY_", Boolean.TRUE);
+		}
+	}
+
+	
+	
 
 }

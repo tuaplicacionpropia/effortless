@@ -1,7 +1,6 @@
 package org.effortless.orm;
 
 import java.beans.PropertyChangeEvent;
-
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;
@@ -210,6 +209,7 @@ public interface Filter extends List, Bindable {
 	public void addPropertyChangeListener (PropertyChangeListener listener);
 	public void propertyChange(PropertyChangeEvent event);
 	
-	
-	
+
+	public Object findUnique ();
+
 }

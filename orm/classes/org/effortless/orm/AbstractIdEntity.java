@@ -67,18 +67,19 @@ public abstract class AbstractIdEntity extends AbstractEntity implements IdEntit
 	}
 
 	protected Object[] _getAllParameterChanges() {
-		return new Object[] {Collections.asList("DELETED", "VERSION", "ID"), Collections.asList(this.deleted, this.version, this.id)};
-//		return new Object[] {new String[] {"DELETED", "VERSION", "ID"}, new Object[] {this.deleted, this.version, this.id}};
+//		return new Object[] {Collections.asList("DELETED", "VERSION", "ID"), Collections.asList(this.deleted, this.version, this.id)};
+		return new Object[] {new String[] {"DELETED", "VERSION", "ID"}, new Object[] {this.deleted, this.version, this.id}};
 	}
 	
 	protected Object[] _concatAllParameterChanges (Object[] target, Object[] concat) {
-		if (concat[0] != null) {
-			((java.util.List)target[0]).addAll((java.util.Collection)concat[0]);
-		}
-		if (concat[1] != null) {
-			((java.util.List)target[1]).addAll((java.util.Collection)concat[1]);
-		}
-		return target;
+//		if (concat[0] != null) {
+//			((java.util.List)target[0]).addAll((java.util.Collection)concat[0]);
+//		}
+//		if (concat[1] != null) {
+//			((java.util.List)target[1]).addAll((java.util.Collection)concat[1]);
+//		}
+//		return target;
+		return new Object[] {Collections.addAll(((String[])target[0]), ((String[])concat[0])), Collections.addAll(((Object[])target[1]), ((Object[])concat[1]))};
 	}
 	
 	protected String _concatPropertiesLoader (String properties, String concat) {
@@ -189,7 +190,7 @@ public abstract class AbstractIdEntity extends AbstractEntity implements IdEntit
 	
 	
 	protected String _columnsEager () {
-		return "ID, VERSION, DELETED";
+		return "VERSION, DELETED";
 	}
 
 	protected String _columnsLazy () {

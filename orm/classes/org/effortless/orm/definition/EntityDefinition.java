@@ -512,6 +512,9 @@ if (false) {
 	public PropertyEntity getPropertyFromColumn(String column) {
 		PropertyEntity result = null;
 		result = (PropertyEntity)this._mapColumns.get(column);
+		if (result == null && this.parent != null) {
+			result = this.parent.getPropertyFromColumn(column);
+		}
 		return result;
 	}
 	

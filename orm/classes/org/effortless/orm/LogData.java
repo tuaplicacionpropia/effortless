@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.effortless.core.ClassUtils;
+import org.effortless.core.StringUtils;
 import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.impl.ChangeRegistry;
 import org.effortless.orm.impl.EntityFilter;
@@ -425,7 +426,8 @@ public class LogData extends AbstractIdEntity {
 	public static final EntityDefinition __DEFINITION__ = new EntityDefinition()
 		.setTableName(_TABLE)
 		.setSequenceName(_SEQ)
-		.setPrimaryKey("id", "ID", Long.class)
+		.addParent(AbstractIdEntity.__DEFINITION__)
+//		.setPrimaryKey("id", "ID", Long.class)
 		.addProperty("type", "LOG_TYPE", String.class, "255", null, "EAGER")
 		.addProperty("targetCode", "LOG_TARGET_CODE", String.class, "255", null, "EAGER")
 		.addProperty("authorCode", "LOG_AUTHOR_CODE", String.class, "255", null, "EAGER")
@@ -441,34 +443,32 @@ public class LogData extends AbstractIdEntity {
 		.addProperty("executionTime", "LOG_EXECUTION_TIME", Long.class, null, null, "EAGER")
 		.addProperty("pending", "LOG_PENDING", Boolean.class, null, null, "EAGER")
 		.addProperty("extraData", "LOG_EXTRA", ChangeRegistry.class, null, null, "EAGER")
-		.setDefaultOrderBy("date ASC, id ASC")
+		.setDefaultOrderBy("date DESC, id ASC")
 		.setDefaultLoader(new EagerPropertiesLoader(LogData._pivot))
 		.addLoader(new LazyPropertiesLoader(LogData._pivot));
 
-	@Override
 	protected Object[] _getAllParameterChanges() {
 //		return new Object[] {new String[] {"LOG_TYPE", "LOG_TARGET_CODE", "LOG_AUTHOR_CODE", "ID"}, new Object[] {this.type, this.targetCode, this.authorCode, this.id}};
-		return new Object[] {
-			new String[] {"LOG_TYPE", "LOG_TARGET_CODE", "LOG_AUTHOR_CODE", "LOG_AUTHOR_TYPE", "LOG_TARGET_TYPE", "LOG_TARGET", "LOG_AUTHOR", "LOG_DATE", "LOG_LOCATION_KEY_FROM", "LOG_LOCATION_DESCRIPTION_FROM", "LOG_LOCATION_ALIAS_FROM", "LOG_COMMENT", "LOG_EXECUTION_TIME", "LOG_PENDING", "LOG_EXTRA", "ID"}, 
-			new Object[] {this.type, this.targetCode, this.authorCode, this.authorType, this.targetType, this.targetId, this.authorId, this.date, this.locationKeyFrom, this.locationDescriptionFrom, this.locationAliasFrom, this.comment, this.executionTime, this.pending, this.extraData, this.id}
-		};
+		return super._concatAllParameterChanges(
+			new Object[] {
+				new String[] {"LOG_TYPE", "LOG_TARGET_CODE", "LOG_AUTHOR_CODE", "LOG_AUTHOR_TYPE", "LOG_TARGET_TYPE", "LOG_TARGET", "LOG_AUTHOR", "LOG_DATE", "LOG_LOCATION_KEY_FROM", "LOG_LOCATION_DESCRIPTION_FROM", "LOG_LOCATION_ALIAS_FROM", "LOG_COMMENT", "LOG_EXECUTION_TIME", "LOG_PENDING", "LOG_EXTRA"}, 
+				new Object[] {this.type, this.targetCode, this.authorCode, this.authorType, this.targetType, this.targetId, this.authorId, this.date, this.locationKeyFrom, this.locationDescriptionFrom, this.locationAliasFrom, this.comment, this.executionTime, this.pending, this.extraData}
+			}, 
+			super._getAllParameterChanges());
 	}
 
 	protected String _columnsEager () {
-		return "LOG_TYPE, LOG_TARGET_CODE, LOG_AUTHOR_CODE, LOG_AUTHOR_CODE, LOG_TARGET_TYPE, LOG_TARGET, LOG_AUTHOR, LOG_DATE, LOG_LOCATION_KEY_FROM, LOG_LOCATION_DESCRIPTION_FROM, LOG_LOCATION_ALIAS_FROM, LOG_COMMENT, LOG_EXECUTION_TIME, LOG_PENDING";
+		return StringUtils.concat(super._columnsEager(), "LOG_TYPE, LOG_TARGET_CODE, LOG_AUTHOR_CODE, LOG_AUTHOR_TYPE, LOG_TARGET_TYPE, LOG_TARGET, LOG_AUTHOR, LOG_DATE, LOG_LOCATION_KEY_FROM, LOG_LOCATION_DESCRIPTION_FROM, LOG_LOCATION_ALIAS_FROM, LOG_COMMENT, LOG_EXECUTION_TIME, LOG_PENDING", ", ");
 	}
 
 	protected String _columnsLazy () {
-		return "LOG_EXTRA";
+		return StringUtils.concat(super._columnsLazy(), "LOG_EXTRA", ", ");
 	}
-	
-	
-	
+
 	public static Filter listAll () {
 		return EntityFilter.buildEntityFilter(__DEFINITION__, __DEFINITION__.getDefaultLoader());
 	}
 
-	@Override
 	protected EntityDefinition _loadDefinition() {
 		return LogData.__DEFINITION__;
 	}

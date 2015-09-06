@@ -177,5 +177,28 @@ public class Collections {
 		result[length] = element;
 		return result;
 	}
+
+	
+	public static Object[] addAll (Object[] array1, Object[] array2) {
+		Object[] result = null;
+		int length1 = (array1 != null ? array1.length : 0);
+		int length2 = (array2 != null ? array2.length : 0);
+		result = new Object[length1 + length2];
+		System.arraycopy(array1, 0, result, 0, length1);
+		System.arraycopy(array2, 0, result, length1, length2);
+		return result;
+	}
+	
+	public static String[] addAll (String[] array1, String[] array2) {
+		String[] result = null;
+		int length1 = (array1 != null ? array1.length : 0);
+		int length2 = (array2 != null ? array2.length : 0);
+		result = new String[length1 + length2];
+		System.arraycopy(array1, 0, result, 0, length1);
+		System.arraycopy(array2, 0, result, length1, length2);
+		return result;
+	}
+	
+	
 	
 }

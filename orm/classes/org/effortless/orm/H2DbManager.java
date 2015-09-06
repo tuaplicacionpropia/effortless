@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.effortless.core.UnusualException;
 import org.effortless.orm.DbManager;
 
-public class H2DbManager extends DbManager {
+public class H2DbManager extends Object implements DbDriver {
 
 	public H2DbManager () {
 		super();
@@ -28,7 +28,7 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 	 */
 	
 	
-	protected String loadDriverClass () {
+	public String loadDriverClass () {
         return "org.h2.Driver";
 	}
 
@@ -36,19 +36,19 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		throw new UnusualException(e);
 	}
 	
-	public void backup () {
+	public void backup (DbManager db) {
 //		java org.h2.tools.Script -url jdbc:h2:~/test -user sa -script test.zip -options compression zip
 		try {
-			org.h2.tools.Script.main("-url", this.dbUrl, "-user", this.dbUser, "-script", "test.zip", "-options", "compression", "zip");
+			org.h2.tools.Script.main("-url", db.dbUrl, "-user", db.dbUser, "-script", "test.zip", "-options", "compression", "zip");
 		} catch (SQLException e) {
 			_throwException(e);
 		}
 	}
 	
-	public void restore () {
+	public void restore (DbManager db) {
 //		java org.h2.tools.RunScript -url jdbc:h2:~/test -user sa -script test.zip -options compression zip//
 		try {
-			org.h2.tools.RunScript.main("-url", this.dbUrl, "-user", this.dbUser, "-script", "test.zip", "-options", "compression", "zip//");
+			org.h2.tools.RunScript.main("-url", db.dbUrl, "-user", db.dbUser, "-script", "test.zip", "-options", "compression", "zip//");
 		} catch (SQLException e) {
 			_throwException(e);
 		}
@@ -62,43 +62,43 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return (value != null ? value.toUpperCase() : value);
 	}
 	
-	protected String buildCreateUserSql (String login, String pass) {
+	public String buildCreateUserSql (String login, String pass) {
 		return "CREATE USER IF NOT EXISTS " + _upper(login) + " PASSWORD '" + pass + "'";
 	}
 
-	protected String buildDropUserSql (String login) {
+	public String buildDropUserSql (String login) {
 		return "DROP USER IF EXISTS " + _upper(login);
 	}
 
-	protected String buildCreateSchemaSql (String schemaName, String user) {
+	public String buildCreateSchemaSql (String schemaName, String user) {
 		return "CREATE SCHEMA IF NOT EXISTS " + _upper(schemaName) + " AUTHORIZATION " + _upper(user);
 	}
 
-	protected String buildDropSchemaSql (String schemaName) {
+	public String buildDropSchemaSql (String schemaName) {
 		return "DROP SCHEMA IF EXISTS " + _upper(schemaName);
 	}
 
-	protected String buildCreateSequenceSql (String fullSeqName) {
+	public String buildCreateSequenceSql (String fullSeqName) {
 		return "CREATE SEQUENCE IF NOT EXISTS " + _upper(fullSeqName) + " START WITH 1 INCREMENT BY 1";
 	}
 
-	protected String buildDropSequenceSql (String fullSeqName) {
+	public String buildDropSequenceSql (String fullSeqName) {
 		return "DROP SEQUENCE IF EXISTS " + _upper(fullSeqName);
 	}
 
-	protected String buildSelectSequenceSql (String fullSeqName) {
+	public String buildSelectSequenceSql (String fullSeqName) {
 		return "SELECT " + _upper(fullSeqName) + ".nextval";
 	}
 	
-	protected String buildCreateTableSql (String fullTableName, String columnsStm) {
+	public String buildCreateTableSql (String fullTableName, String columnsStm) {
 		return "CREATE TABLE IF NOT EXISTS " + _upper(fullTableName) + "(" + columnsStm + ")";
 	}
 
-	protected String buildExistsSchemaSql (String schemaName) {
+	public String buildExistsSchemaSql (String schemaName) {
 		return "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE UPPER(SCHEMA_NAME) = UPPER(?)";
 	}
 
-	protected String buildExistsIndexSql (String tableName, String indexName, String schemaName) {
+	public String buildExistsIndexSql (String tableName, String indexName, String schemaName) {
 		String result = null;
 		result = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.INDEXES WHERE UPPER(TABLE_NAME) = UPPER(?) AND UPPER(INDEX_NAME) = UPPER(?)";
 		if (schemaName != null) {
@@ -107,7 +107,7 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return result;
 	}
 
-	protected String buildExistsTableSql (String tableName, String schemaName) {
+	public String buildExistsTableSql (String tableName, String schemaName) {
 		String result = null;
 		result = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE UPPER(TABLE_NAME) = UPPER(?)";
 		if (schemaName != null) {
@@ -116,7 +116,7 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return result;
 	}
 
-	protected String buildExistsSequenceSql (String seqName, String schemaName) {
+	public String buildExistsSequenceSql (String seqName, String schemaName) {
 		String result = null;
 		result = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SEQUENCES WHERE UPPER(SEQUENCE_NAME) = UPPER(?)";
 		if (schemaName != null) {
@@ -125,23 +125,23 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return result;
 	}
 
-	protected String buildDropTableSql (String fullTableName) {
+	public String buildDropTableSql (String fullTableName) {
 		return "DROP TABLE IF EXISTS " + _upper(fullTableName);
 	}
 
-	protected String buildCreateIndexSql (boolean unique, String fullIndexName, String fullTableName, String columnsStm) {
+	public String buildCreateIndexSql (boolean unique, String fullIndexName, String fullTableName, String columnsStm) {
 		return "CREATE " + (unique ? "UNIQUE" : "HASH") + " INDEX IF NOT EXISTS " + _upper(fullIndexName) + " ON " + _upper(fullTableName) + "(" + columnsStm + ")";
 	}
 
-	protected String buildDropIndexSql (String fullIndexName) {
+	public String buildDropIndexSql (String fullIndexName) {
 		return "DROP INDEX IF EXISTS " + _upper(fullIndexName);
 	}
 
-	protected String buildCreateViewSql (String fullViewName, String query) {
+	public String buildCreateViewSql (String fullViewName, String query) {
 		return "CREATE OR REPLACE FORCE VIEW " + _upper(fullViewName) + " AS " + query;
 	}
 
-	protected String buildLoadColumnsSql (String tableName, String schemaName) {
+	public String buildLoadColumnsSql (String tableName, String schemaName) {
 		String result = null;
 		result = "SELECT COLUMN_NAME, TYPE_NAME, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE UPPER(TABLE_NAME) = UPPER(?)";
 		if (schemaName != null) {
@@ -150,7 +150,7 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		return result;
 	}
 
-	protected String buildAddColumnSql (String fullTableName, String column) {
+	public String buildAddColumnSql (String fullTableName, String column) {
 		return "ALTER TABLE " + _upper(fullTableName) + " ADD IF NOT EXISTS " + column;
 	}
 

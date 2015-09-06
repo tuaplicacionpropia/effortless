@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.effortless.core.ObjectUtils;
+import org.effortless.core.StringUtils;
 import org.effortless.core.UnusualException;
 import org.effortless.orm.definition.EntityDefinition;
+import org.effortless.orm.impl.ChangeRegistry;
 import org.effortless.orm.impl.EntityFilter;
 
 public class AppCfg extends AbstractIdEntity {
@@ -201,6 +203,11 @@ public class AppCfg extends AbstractIdEntity {
 				setProperties(properties);
 			}
 			properties.put(property, newValue);
+			
+			_doChangeProperty(property, oldValue, newValue);
+			this._changeRegistry.add("properties", oldValue, newValue);
+			this._changeRegistry.firePropertyChange("properties", null, properties);
+			
 			firePropertyChange(property, oldValue, newValue);
 		}
 		result = oldValue;
@@ -209,35 +216,11 @@ public class AppCfg extends AbstractIdEntity {
 
 	public static AppCfg getCurrent () {
 		AppCfg result = null;
-		
-		Filter filter = AppCfg.listAll().isTrue("enable").sortBy("lastModification DESC");
-		filter.setPageIndex(Integer.valueOf(0));
-		filter.setPageSize(Integer.valueOf(1));
-		filter.setPaginated(Boolean.TRUE);
-		if (filter.size() > 0) {
-			try {
-				result = (AppCfg)filter.get(0);
-			}
-			catch (Throwable t) {
-				throw new UnusualException(t);
-			}
-		}
-		try {
-			result = (result != null ? result : (AppCfg)AppCfg._pivot._newInstance());
-		} catch (Throwable e) {
-			throw new UnusualException(e);
-		}
+		result = (AppCfg)AppCfg.listAll().isTrue("enable").sortBy("creationDate DESC").findUnique();
+		result = (result != null ? result : (AppCfg)AppCfg._pivot._newInstance());
 		return result;
 	}
 
-	protected String _columnsEager () {
-		return "CFG_CREATIONDATE, CFG_LASTMODIFICATION, CFG_ENABLE, CFG_AUTHOR, CFG_DEFAULTPAGESIZE, CFG_COMMENT";
-	}
-
-	protected String _columnsLazy () {
-		return "";
-	}
-	
 	protected Object _newInstance () {
 		return new AppCfg();
 	}
@@ -267,6 +250,10 @@ public class AppCfg extends AbstractIdEntity {
 	
 	protected void _loadLazy (Object target, DbManager db, ResultSet rs) {
 		super._loadLazy(target, db, rs);
+		AppCfg result = (AppCfg)target;
+
+		result.properties = (Map)__DEFINITION__.loadValue("CFG_PROPERTIES", rs);
+		result._setupLoaded("properties");
 	}
 	
 	protected static final AppCfg _pivot = new AppCfg();
@@ -283,6 +270,7 @@ public class AppCfg extends AbstractIdEntity {
 		.addProperty("author", "CFG_AUTHOR", String.class, "255", null, "EAGER")
 		.addProperty("defaultPageSize", "CFG_DEFAULTPAGESIZE", Integer.class, null, null, "EAGER")
 		.addProperty("comment", "CFG_COMMENT", String.class, "3072", null, "EAGER")
+		.addProperty("properties", "CFG_PROPERTIES", Map.class, null, null, "LAZY")
 
 //	@javax.persistence.Column(name="CFG_PROPERTIES")
 //	@Lob
@@ -291,7 +279,7 @@ public class AppCfg extends AbstractIdEntity {
 //	protected Map<String, Object> getProperties() {
 
 		
-		.setDefaultOrderBy("NOMBRE ASC, ID ASC")
+		.setDefaultOrderBy("creationDate DESC, id ASC")
 		.setDefaultLoader(new EagerPropertiesLoader(AppCfg._pivot))
 		.addLoader(new LazyPropertiesLoader(AppCfg._pivot));
 
@@ -305,11 +293,22 @@ public class AppCfg extends AbstractIdEntity {
 
 	@Override
 	protected Object[] _getAllParameterChanges() {
-		// TODO Auto-generated method stub
-		return null;
+		return super._concatAllParameterChanges(
+				new Object[] {
+					new String[] {"CFG_CREATIONDATE", "CFG_LASTMODIFICATION", "CFG_ENABLE", "CFG_AUTHOR", "CFG_DEFAULTPAGESIZE", "CFG_COMMENT", "CFG_PROPERTIES"}, 
+					new Object[] {this.creationDate, this.lastModification, this.enable, this.author, this.defaultPageSize, this.comment, this.properties}
+				}, 
+				super._getAllParameterChanges());
 	}
 
-	@Override
+	protected String _columnsEager () {
+		return StringUtils.concat(super._columnsEager(), "CFG_CREATIONDATE, CFG_LASTMODIFICATION, CFG_ENABLE, CFG_AUTHOR, CFG_DEFAULTPAGESIZE, CFG_COMMENT", ", ");
+	}
+
+	protected String _columnsLazy () {
+		return StringUtils.concat(super._columnsLazy(), "CFG_PROPERTIES", ", ");
+	}
+
 	protected EntityDefinition _loadDefinition() {
 		return AppCfg.__DEFINITION__;
 	}

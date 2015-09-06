@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+
 //import org.apache.commons.lang.ClassUtils;
 //import org.effortless.core.GlobalContext;
 //import org.effortless.core.ModelException;
@@ -189,7 +190,14 @@ public abstract class AbstractFilter extends AbstractList implements Filter, Pro
 			int length = (array != null ? array.length : 0);
 			for (int i = 0; i < length; i++) {
 				String item = array[i].trim();
-				result += (result.length() > 0 ? ", " : "") + "o." + item;
+				String[] parts = item.split(" ");
+				String property = (parts.length > 0 ? parts[0].trim() : "");
+				String orderItem = (parts.length > 1 ? " " + parts[1].trim() : "");
+				
+				String column = _decodeProperty(property, null);
+				
+//				result += (result.length() > 0 ? ", " : "") + "o." + item;
+				result += (result.length() > 0 ? ", " : "") + column + orderItem;
 			}
 		}
 		return result;
@@ -254,6 +262,7 @@ public abstract class AbstractFilter extends AbstractList implements Filter, Pro
 	protected void _init (boolean count) throws SQLException {
 		_closePs();
 		String query = _buildQuery(count);
+		System.out.println("[DEBUG] SQL = " + query);
 		this._ps = _loadDb().getConnection().prepareStatement(query);
 		
 		if (this._checkPaginated()) {
@@ -2370,4 +2379,28 @@ else {
 		return nin(name, param);
 	}
 
+	public Object findUnique () {
+		Object result = null;
+		
+		Integer pageIndex = getPageIndex();
+		Integer pageSize = getPageSize();
+		Boolean paginated = getPaginated();
+		
+		setPageIndex(Integer.valueOf(0));
+		setPageSize(Integer.valueOf(1));
+		setPaginated(Boolean.TRUE);
+		try {
+			result = get(0);
+		}
+		catch (Throwable t) {
+		}
+		finally {
+			setPageIndex(pageIndex);
+			setPageSize(pageSize);
+			setPaginated(paginated);
+		}
+		
+		return result;
+	}
+	
 }

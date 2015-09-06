@@ -56,6 +56,7 @@ public class MediaFileEntity extends FileEntity {
 		initiateHash3();
 		initiateRegisterDate();
 		initiateLastModification();
+		
 		initiateTitle();
 		initiateSubject();
 		initiateAuthor();
