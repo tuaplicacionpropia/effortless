@@ -626,7 +626,7 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 
 		.addFileProperty("content", "FILE_CONTENT", java.io.File.class, null, "LAZY")
 		
-		.setDefaultOrderBy("name ASC, ID DESC")
+		.setDefaultOrderBy("name ASC, id DESC")
 		.setDefaultLoader(new EagerPropertiesLoader(FileEntity._pivot))
 		.addLoader(new LazyPropertiesLoader(FileEntity._pivot));
 
