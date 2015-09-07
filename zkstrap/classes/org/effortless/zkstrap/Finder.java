@@ -3,6 +3,8 @@ package org.effortless.zkstrap;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.MethodUtils;
+import org.effortless.orm.Entity;
+import org.effortless.orm.Filter;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
@@ -37,32 +39,39 @@ public class Finder extends Screen {
 	}
 	
 	public void search () {
-		java.util.Map data = new java.util.HashMap();
-		data.put("name", this.name);
-		data.put("value", this._value);
-		data.put("selection", this.selection);
-		data.put("op", "search");
-		Event evt = new Event("onSearch", this, data);
-		
-		try {
-			ObjectAccess.execAppAction(evt);
+		Filter filter = null;
+		try { filter = (Filter)this._value; } catch (ClassCastException e) {}
+		if (filter != null && this.listTable != null) {
+			this.listTable.invalidate();
 		}
-		catch (UiException e) {
-			Object _cause = e.getCause();
-			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
-			if (cause != null) {
-				System.out.println("DEFAULT myFinder$onSearch");
+		else {
+			java.util.Map data = new java.util.HashMap();
+			data.put("name", this.name);
+			data.put("value", this._value);
+			data.put("selection", this.selection);
+			data.put("op", "search");
+			Event evt = new Event("onSearch", this, data);
 
-				AdminApp app = ObjectAccess.getApp(this);
+			try {
+				ObjectAccess.execAppAction(evt);
+			}
+			catch (UiException e) {
+				Object _cause = e.getCause();
+				NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+				if (cause != null) {
+					System.out.println("DEFAULT myFinder$onSearch");
 
-				app.reopen(this.name);
+					AdminApp app = ObjectAccess.getApp(this);
+
+					app.reopen(this.name);
+				}
+				else {
+					throw e;
+				}
 			}
-			else {
-				throw e;
-			}
+//			System.out.println("finder search " + this._value);
+//			ObjectAccess.close(this);
 		}
-//		System.out.println("finder search " + this._value);
-//		ObjectAccess.close(this);
 	}
 	
 	public void create () {
@@ -88,14 +97,20 @@ public class Finder extends Screen {
 				Class classObject = null;
 				java.util.List list = (java.util.List)this._value;
 				
-				try {
-					classObject = (Class)MethodUtils.invokeStaticMethod(list.getClass(), "getTargetClass", null);
-				} catch (NoSuchMethodException e1) {
-					throw new UiException(e1);
-				} catch (IllegalAccessException e1) {
-					throw new UiException(e1);
-				} catch (InvocationTargetException e1) {
-					throw new UiException(e1);
+				Filter filter = null;
+				try { filter = (Filter)list; } catch (ClassCastException e1) {}
+				classObject = (filter != null ? filter.targetClass() : null);
+				
+				if (classObject == null) {
+					try {
+						classObject = (Class)MethodUtils.invokeStaticMethod(list.getClass(), "getTargetClass", null);
+					} catch (NoSuchMethodException e1) {
+						throw new UiException(e1);
+					} catch (IllegalAccessException e1) {
+						throw new UiException(e1);
+					} catch (InvocationTargetException e1) {
+						throw new UiException(e1);
+					}
 				}
 
 				try {
@@ -265,9 +280,17 @@ public class Finder extends Screen {
 		Object value = data.get("value");
 		String op = (String)data.get("op");
 		if ("ok".equals(op)) {
-			java.util.List list = (java.util.List)this._value;
-			if (list.contains(value)) {
-				list.remove(value);
+			
+			Entity entity = null;
+			try { entity = (Entity)value; } catch (ClassCastException e) {}
+			if (entity != null) {
+				entity.delete();
+			}
+			else {
+				java.util.List list = (java.util.List)this._value;
+				if (list.contains(value)) {
+					list.remove(value);
+				}
 			}
 		}
 		ObjectAccess.close(evt.getTarget());
@@ -293,9 +316,17 @@ public class Finder extends Screen {
 		System.out.println("myEditor$onSave");
 		java.util.Map data = (java.util.Map)evt.getData();
 		Object value = data.get("value");
-		java.util.List list = (java.util.List)this._value;
-		if (!list.contains(value)) {
-			list.add(value);
+		
+		Entity entity = null;
+		try { entity = (Entity)value; } catch (ClassCastException e) {}
+		if (entity != null) {
+			entity.persist();
+		}
+		else {
+			java.util.List list = (java.util.List)this._value;
+			if (!list.contains(value)) {
+				list.add(value);
+			}
 		}
 		ObjectAccess.close(evt.getTarget());
 	}

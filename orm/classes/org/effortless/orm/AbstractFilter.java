@@ -70,7 +70,10 @@ public abstract class AbstractFilter extends AbstractList implements Filter, Pro
 		this._pageSize = 25;
 		this._selectClausule = null;
 		this._cr = new ChangeRegistry(this);
+		this._count = null;
 	}
+	
+	protected Boolean _count;
 	
 	protected DbManager _loadDb () {
 		if (this._db == null) {
@@ -261,6 +264,10 @@ public abstract class AbstractFilter extends AbstractList implements Filter, Pro
 	
 	protected void _init (boolean count) throws SQLException {
 		_closePs();
+		if (this._count != null && this._count.booleanValue() != count) {
+			this._doResetQuery();
+		}
+		this._count = Boolean.valueOf(count);
 		String query = _buildQuery(count);
 		System.out.println("[DEBUG] SQL = " + query);
 		this._ps = _loadDb().getConnection().prepareStatement(query);

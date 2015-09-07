@@ -54,10 +54,10 @@ public class MainUi extends AdminApp {
 //			person.setName("Jesús María");
 //			person.persist();
 			
-			java.util.List list = Person.listAll();
+			java.util.List list = new PersonFinderFilter();//Person.listAll();
 
 			Finder b = new Finder(this, list, "myFinder");
-//			b.addText("name");
+			b.addText("name");
 			b.addBtn("@ejecutar");
 			b.addBtn("@descargar");
 			b.setProperties("name,surnames");

@@ -29,6 +29,11 @@ public class EntityFilter extends AbstractFilter {
 		this._initialize(def);
 	}
 	
+	public EntityFilter (EntityDefinition def, PropertiesLoader loader) {
+		this(def);
+		this._loader = loader;
+	}
+	
 	protected void _initialize (EntityDefinition def) {
 		DbManager.trySetup(def);
 		DbManager db = MySession.getDb();
