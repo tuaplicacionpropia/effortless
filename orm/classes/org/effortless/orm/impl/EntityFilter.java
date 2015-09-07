@@ -30,8 +30,8 @@ public class EntityFilter extends AbstractFilter {
 	}
 	
 	protected void _initialize (EntityDefinition def) {
+		DbManager.trySetup(def);
 		DbManager db = MySession.getDb();
-		db.trySetup(def);
 		String table = def.getTableName();
 		PropertiesLoader loader = def.getDefaultLoader();
 		String columns = def.getPrimaryKey().getColumnName() + ", " + loader.getColumns();//"ID, NOMBRE"

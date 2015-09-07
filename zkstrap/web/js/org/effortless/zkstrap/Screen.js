@@ -1,4 +1,4 @@
-org.effortless.zkstrap.BaseEditor = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.Screen = zk.$extends(zk.Widget, {
 
   bind_ : function(evt) {
     this.$supers('bind_', arguments);

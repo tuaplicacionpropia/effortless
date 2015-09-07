@@ -46,13 +46,18 @@ public class MainUi extends AdminApp {
 	
 	public void menuFinder (Event evt) {
 		if (!reopen("myFinder")) {
-			FilterList list = new FilterList();
-			list.add(MyBean.buildMyBean("Mi nombre"));
-			list.add(MyBean.buildMyBean("España"));
-			list.add(MyBean.buildMyBean("Canarias"));
+//			FilterList list = new FilterList();
+//			list.add(MyBean.buildMyBean("Mi nombre"));
+//			list.add(MyBean.buildMyBean("España"));
+//			list.add(MyBean.buildMyBean("Canarias"));
+//			Person person = new Person();
+//			person.setName("Jesús María");
+//			person.persist();
+			
+			java.util.List list = Person.listAll();
 
 			Finder b = new Finder(this, list, "myFinder");
-			b.addText("name");
+//			b.addText("name");
 			b.addBtn("@ejecutar");
 			b.addBtn("@descargar");
 			b.setProperties("name,surnames");
@@ -63,7 +68,8 @@ public class MainUi extends AdminApp {
 		java.util.Map data = (java.util.Map)evt.getData();
 		Object value = data.get("value");
 
-		MyBean obj = (value != null ? (MyBean)value : MyBean.buildMyBean("Mi nombre"));
+//		MyBean obj = (value != null ? (MyBean)value : MyBean.buildMyBean("Mi nombre"));
+		Person obj = (value != null ? (Person)value : new Person());
 		
 		Editor b = new Editor(this, obj, "myEditor");
 		b.setAttribute("CALLER", data.get("CALLER"));

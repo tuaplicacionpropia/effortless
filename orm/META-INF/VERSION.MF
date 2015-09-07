@@ -1,8 +1,8 @@
-#Sun, 06 Sep 2015 21:35:54 +0100
+#Mon, 07 Sep 2015 00:52:44 +0100
 #Build Number for ANT. Do not edit!
-#Sun Sep 06 21:35:54 WEST 2015
+#Mon Sep 07 00:52:44 WEST 2015
 version=1.0alpha
-build.number=48
-build.date=20150906213554+0100
+build.number=50
+build.date=20150907005244+0100
 build.author=
 id=effortless-orm
