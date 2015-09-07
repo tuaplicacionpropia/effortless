@@ -180,7 +180,9 @@ public class EntityFilter extends AbstractFilter {
 		}
 		return result;
 	}
-	
-	
-	
+
+	public Class targetClass() {
+		return this._def.getEntityClass();
+	}
+
 }

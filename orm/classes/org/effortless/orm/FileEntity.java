@@ -22,6 +22,7 @@ import javax.activation.MimetypesFileTypeMap;
 
 
 
+
 import org.effortless.core.Collections;
 import org.effortless.core.FileUtils;
 import org.effortless.core.FilenameUtils;
@@ -615,6 +616,7 @@ public class FileEntity extends AbstractIdEntity implements IFile {
 	public static final EntityDefinition __DEFINITION__ = new EntityDefinition()
 		.setTableName(_TABLE)
 		.setSequenceName(_SEQ)
+		.setEntityClass(FileEntity.class)
 		.addParent(AbstractIdEntity.__DEFINITION__)
 		.addProperty("name", "FILE_NAME", String.class, "255", null, "EAGER")
 		.addProperty("description", "FILE_DESCRIPTION", String.class, "255", null, "EAGER")

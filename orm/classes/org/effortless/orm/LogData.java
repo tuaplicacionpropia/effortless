@@ -426,6 +426,7 @@ public class LogData extends AbstractIdEntity {
 	public static final EntityDefinition __DEFINITION__ = new EntityDefinition()
 		.setTableName(_TABLE)
 		.setSequenceName(_SEQ)
+		.setEntityClass(LogData.class)
 		.addParent(AbstractIdEntity.__DEFINITION__)
 //		.setPrimaryKey("id", "ID", Long.class)
 		.addProperty("type", "LOG_TYPE", String.class, "255", null, "EAGER")

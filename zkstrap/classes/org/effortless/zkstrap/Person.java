@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 
 import org.effortless.core.StringUtils;
 import org.effortless.orm.AbstractIdEntity;
+import org.effortless.orm.AppCfg;
 import org.effortless.orm.DbManager;
 import org.effortless.orm.EagerPropertiesLoader;
 import org.effortless.orm.Filter;
@@ -105,6 +106,7 @@ public class Person extends AbstractIdEntity {
 	public static final EntityDefinition __DEFINITION__ = new EntityDefinition()
 		.setTableName(_TABLE)
 		.setSequenceName(_SEQ)
+		.setEntityClass(Person.class)
 		.addParent(AbstractIdEntity.__DEFINITION__)
 		.addProperty("name", "NAME", String.class, "255", null, "EAGER")
 		.addProperty("surnames", "SURNAMES", String.class, "255", null, "EAGER")

@@ -22,6 +22,7 @@ import javax.activation.MimetypesFileTypeMap;
 
 
 
+
 import org.effortless.core.FileUtils;
 import org.effortless.core.FilenameUtils;
 import org.effortless.core.Hex;
@@ -36,6 +37,7 @@ import org.effortless.orm.impl.PropertiesLoader;
 import org.effortless.orm.util.FileHashes;
 //import org.hibernate.annotations.Tuplizer;
 //import org.hibernate.tuple.entity.PojoEntityTuplizer;
+
 
 
 
@@ -1211,6 +1213,7 @@ public class MediaFileEntity extends FileEntity {
 	public static final EntityDefinition __DEFINITION__ = new EntityDefinition()
 		.setTableName(_TABLE)
 		.setSequenceName(_SEQ)
+		.setEntityClass(MediaFileEntity.class)
 		.addParent(FileEntity.__DEFINITION__)
 		.addProperty("hash1", "FILE_HASH1", String.class, "1024", null, "EAGER")
 		.addProperty("hash2", "FILE_HASH2", String.class, "1024", null, "EAGER")

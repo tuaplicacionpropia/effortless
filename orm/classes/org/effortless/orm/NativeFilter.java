@@ -46,4 +46,8 @@ public class NativeFilter extends AbstractFilter {
 		return result;
 	}
 
+	public Class targetClass() {
+		return Object.class;
+	}
+
 }

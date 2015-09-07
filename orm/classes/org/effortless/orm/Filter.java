@@ -10,6 +10,8 @@ import org.effortless.orm.Bindable;
 
 public interface Filter extends List, Bindable {
 
+	public Class targetClass ();
+	
 	public Integer getPageIndex ();
 	public Filter setPageIndex (Integer newValue);
 

@@ -263,6 +263,7 @@ public class AppCfg extends AbstractIdEntity {
 	public static final EntityDefinition __DEFINITION__ = new EntityDefinition()
 		.setTableName(_TABLE)
 		.setSequenceName(_SEQ)
+		.setEntityClass(AppCfg.class)
 		.addParent(AbstractIdEntity.__DEFINITION__)
 		.addProperty("creationDate", "CFG_CREATIONDATE", Date.class, null, null, "EAGER")
 		.addProperty("lastModification", "CFG_LASTMODIFICATION", Date.class, null, null, "EAGER")
