@@ -11,6 +11,7 @@ public class PersonFinderFilter extends EntityFilter {
 	protected void initiate () {
 		super.initiate();
 		initiateName();
+		initiateEnabled();
 	}
 	
 	protected String name;
@@ -27,10 +28,26 @@ public class PersonFinderFilter extends EntityFilter {
 		_setProperty("name", this.name, this.name = newValue);
 	}
 	
+	protected Boolean enabled;
+	
+	protected void initiateEnabled () {
+		this.enabled = Boolean.TRUE;
+	}
+	
+	public Boolean getEnabled () {
+		return this.enabled;
+	}
+	
+	public void setEnabled (Boolean newValue) {
+		_setProperty("enabled", this.enabled, this.enabled = newValue);
+	}
+	
 	protected String _buildQuery (boolean count) {
 		String result = null;
 		
 		eq("deleted", Boolean.FALSE);
+		
+		eq("enabled", this.enabled);
 		ilk("name", this.name);
 		
 		result = super._buildQuery(count);

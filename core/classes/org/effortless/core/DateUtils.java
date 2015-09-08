@@ -868,4 +868,15 @@ public class DateUtils extends Object {
 		return result;
 	}
 	
+	public static java.util.Date parse(String value, String format) {
+		java.util.Date result = null;
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		try {
+			result = formatter.parse(value);
+		} catch (ParseException e) {
+			throw new UnusualException(e);
+		}
+		return result;
+	}
+	
 }

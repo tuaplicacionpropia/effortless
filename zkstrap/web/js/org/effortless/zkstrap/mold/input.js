@@ -25,7 +25,7 @@ function (out) {
             out.push('jq("#', uuid, ' input").iCheck();');
         out.push('</script>');
 */
-		out.push('<input id="', uuid, '-input"  type="checkbox">');
+		out.push('<input id="', uuid, '-input" type="checkbox"', (_value ? ' checked' : ''), '>');
 /*		
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").iCheck({checkboxClass: "icheckbox_', _skin, '", radioClass: "iradio_minimal", increaseArea: "20%"}).on("ifToggled", function() { _self._checkIfToggled(); })');

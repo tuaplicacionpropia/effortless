@@ -2,6 +2,7 @@ package org.effortless.zkstrap;
 
 import java.util.Map;
 
+import org.effortless.core.DateUtils;
 import org.effortless.core.ObjectUtils;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.Component;
@@ -126,7 +127,12 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 			result = array;
 		}
 		else {
-			result = (value != null ? value.toString() : null);
+			if ("checkbox".equals(this._type)) {
+				result = (Boolean)value;
+			}
+			else {
+				result = (value != null ? value.toString() : null);
+			}
 		}
 		return result;
 	}
@@ -137,7 +143,36 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 	
 	protected Object _fromClient (Object value) {
-		return (value != null ? value.toString() : null);
+		Object result = null;
+		if ("integer".equals(this._type) || "count".equals(this._type)) {
+			result = (value != null ? Integer.valueOf((String)value) : null);
+		}
+		else if ("checkbox".equals(this._type)) {
+//			result = (value != null ? Boolean.valueOf((String)value) : null);
+			result = (Boolean)value;
+		}
+		else if ("number".equals(this._type)) {
+			result = (value != null ? Double.valueOf((String)value) : null);
+		}
+		else if ("currency".equals(this._type)) {
+			result = (value != null ? Double.valueOf((String)value) : null);
+		}
+		else if ("date".equals(this._type)) {
+			java.util.Date date = (value != null ? DateUtils.parse((String)value, "dd/MM/yyyy") : null);
+			result = (date != null ? new java.util.Date(date.getTime()) : null);
+		}
+		else if ("time".equals(this._type)) {
+			java.util.Date date = (value != null ? DateUtils.parse((String)value, "HH:mm") : null);
+			result = (date != null ? new java.sql.Time(date.getTime()) : null);
+		}
+		else if ("datetime".equals(this._type)) {
+			java.util.Date date = (value != null ? DateUtils.parse((String)value, "dd/MM/yyyy HH:mm") : null);
+			result = (date != null ? new java.sql.Timestamp(date.getTime()) : null);
+		}
+		else {
+			result = (value != null ? value.toString() : null);
+		}
+		return result;
 	}
 	
 	protected String _type = "";

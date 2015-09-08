@@ -58,6 +58,7 @@ public class MainUi extends AdminApp {
 
 			Finder b = new Finder(this, list, "myFinder");
 			b.addText("name");
+			b.addBoolean("enabled");
 			b.addBtn("@ejecutar");
 			b.addBtn("@descargar");
 			b.setProperties("name,surnames");
@@ -75,6 +76,9 @@ public class MainUi extends AdminApp {
 		b.setAttribute("CALLER", data.get("CALLER"));
 		b.addText("name");
 		b.addText("surnames");
+		b.addTextArea("comment");
+		b.addInteger("age");
+		b.addBoolean("enabled");
 		b.addBtn("ejecutar");
 		b.addBtn("descargar");
 	}

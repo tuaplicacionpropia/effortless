@@ -23,6 +23,7 @@ public class Person extends AbstractIdEntity {
 		initiateName();
 		initiateSurnames();
 		initiateComment();
+		initiateAge();
 	}
 
 	protected String name;
@@ -76,6 +77,38 @@ public class Person extends AbstractIdEntity {
 		_setProperty("comment", this.comment, this.comment = newValue);
 	}
 	
+	protected Integer age;
+
+	protected void initiateAge() {
+		this.age = null;
+	}
+
+	public Integer getAge() {
+		_loadOnDemand("age", this.age, Person.__DEFINITION__);
+		return this.age;
+	}
+
+	public void setAge(Integer newValue) {
+		_loadOnDemand("age", this.age, Person.__DEFINITION__);
+		_setProperty("age", this.age, this.age = newValue);
+	}
+	
+	protected Boolean enabled;
+
+	protected void initiateEnabled() {
+		this.enabled = null;
+	}
+
+	public Boolean getEnabled() {
+		_loadOnDemand("enabled", this.enabled, Person.__DEFINITION__);
+		return this.enabled;
+	}
+
+	public void setEnabled(Boolean newValue) {
+		_loadOnDemand("enabled", this.enabled, Person.__DEFINITION__);
+		_setProperty("enabled", this.enabled, this.enabled = newValue);
+	}
+	
 	protected Object _newInstance () {
 		return new Person();
 	}
@@ -92,6 +125,12 @@ public class Person extends AbstractIdEntity {
 
 		result.comment = (String)__DEFINITION__.loadValue("COMMENT", rs);
 		result._setupLoaded("comment");
+
+		result.age = (Integer)__DEFINITION__.loadValue("AGE", rs);
+		result._setupLoaded("age");
+
+		result.enabled = (Boolean)__DEFINITION__.loadValue("ENABLED", rs);
+		result._setupLoaded("enabled");
 	}
 	
 	protected void _loadLazy (Object target, DbManager db, ResultSet rs) {
@@ -110,6 +149,8 @@ public class Person extends AbstractIdEntity {
 		.addParent(AbstractIdEntity.__DEFINITION__)
 		.addProperty("name", "NAME", String.class, "255", null, "EAGER")
 		.addProperty("surnames", "SURNAMES", String.class, "255", null, "EAGER")
+		.addProperty("age", "AGE", Integer.class, null, null, "EAGER")
+		.addProperty("enabled", "ENABLED", Boolean.class, null, null, "EAGER")
 		.addProperty("comment", "COMMENT", String.class, "3072", null, "EAGER")
 
 		.setDefaultOrderBy("surnames ASC, name ASC, id ASC")
@@ -126,14 +167,14 @@ public class Person extends AbstractIdEntity {
 	protected Object[] _getAllParameterChanges() {
 		return super._concatAllParameterChanges(
 				new Object[] {
-					new String[] {"NAME", "SURNAMES", "COMMENT"}, 
-					new Object[] {this.name, this.surnames, this.comment}
+					new String[] {"NAME", "SURNAMES", "COMMENT", "AGE", "ENABLED"}, 
+					new Object[] {this.name, this.surnames, this.comment, this.age, this.enabled}
 				}, 
 				super._getAllParameterChanges());
 	}
 
 	protected String _columnsEager () {
-		return StringUtils.concat(super._columnsEager(), "NAME, SURNAMES, COMMENT", ", ");
+		return StringUtils.concat(super._columnsEager(), "NAME, SURNAMES, COMMENT, AGE, ENABLED", ", ");
 	}
 
 //	protected String _columnsLazy () {
