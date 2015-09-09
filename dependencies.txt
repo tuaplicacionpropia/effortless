@@ -4,3 +4,7 @@ lz4-java -> https://github.com/jpountz/lz4-java (dependencies/lz4-java-1.3.0.tar
 apache tika -> https://tika.apache.org/ (dependencies/tika-app-1.10.jar)
 apache commons configuration --> https://commons.apache.org/proper/commons-configuration/index.html (dependencies/commons-configuration-1.10-bin.tar.gz)
 classindex -> https://github.com/atteo/classindex (dependencies/classindex-3.4.tar.gz) (dependencies/classindex-3.3.jar)
+jackson core -> https://github.com/FasterXML/jackson (dependencies/jackson-core-2.6.1.jar)
+jackson json -> https://github.com/FasterXML/jackson-jr (dependencies/jackson-jr-objects-2.6.1.jar)
+jackson databind -> https://github.com/FasterXML/jackson-databind/ (dependencies/jackson-databind-2.6.1.jar)
+jackson annotation -> https://github.com/FasterXML/jackson-annotations/ (dependencies/jackson-annotations-2.6.0.jar)

@@ -3,9 +3,10 @@ package org.effortless.jast.jdk8u20;
 import java.util.List;
 import java.util.Map;
 
-import org.effortless.ann.Dt;
+import org.effortless.core.Dt;
 import org.effortless.core.ClassUtils;
 import org.effortless.core.EnumString;
+import org.effortless.core.JsonUtils;
 import org.effortless.jast.Expression;
 import org.effortless.jast.GAnnotation;
 import org.effortless.jast.GApp;
@@ -13,7 +14,6 @@ import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
 import org.effortless.jast.GNode;
 import org.effortless.jast.jdk8u20.util.Factory;
-import org.yaml.snakeyaml.Yaml;
 
 public class GNodeJdk8u20 extends Object implements GNode {
 
@@ -43,25 +43,19 @@ public class GNodeJdk8u20 extends Object implements GNode {
 			GAnnotation annotation = (GAnnotation)annotations[i];
 			String value = annotation.getValue();
 			value = (value != null ? value.trim() : "");
-			attrs = (attrs.length() > 0 && value.length() > 0 ? "\n" : "") + value;
+			attrs += (attrs.length() > 0 && value.length() > 0 ? "\n" : "") + value;
 		}
-		Yaml yaml = new Yaml();
-//		Object obj = yaml.load("a: 1\nb: 2\nc:\n  - aaa\n  - bbb");
-		Object obj = yaml.load(attrs);
-		result = (Map)obj;
-//		System.out.println(obj);
+		result = JsonUtils.toMap(attrs);
 		return result;
 	}
 	
 	
 	public void setAnnotationAttributes () {
-		
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("name", "Pushkin");
-		Yaml yaml = new Yaml();
-		String output = yaml.dump(map);
-		System.out.println(output);		
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("name", "Pushkin");
+//		Yaml yaml = new Yaml();
+//		String output = yaml.dump(map);
+//		System.out.println(output);
 	}
 	
 	public java.util.Map getAttributes () {
