@@ -3,5 +3,6 @@
 		<ant antfile="build-core.xml" target="build" inheritAll="true" />
 		<ant antfile="build-orm.xml" target="build" inheritAll="true" />
 		<ant antfile="build-zkstrap.xml" target="build" inheritAll="true" />
+		<ant antfile="build-jast.xml" target="build" inheritAll="true" />
 	</target>
 </project>

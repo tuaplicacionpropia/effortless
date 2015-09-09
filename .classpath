@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="zkstrap/classes"/>
 	<classpathentry kind="src" path="orm/classes"/>
 	<classpathentry kind="src" path="core/classes"/>
+	<classpathentry kind="src" path="jast/classes"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/bsh.jar"/>
 	<classpathentry kind="lib" path="libs/ckez.jar"/>
@@ -52,5 +53,6 @@
 	<classpathentry kind="lib" path="/apache-tomcat-8.0.15/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="libs/commons-configuration-1.10.jar"/>
 	<classpathentry kind="lib" path="libs/tika-app-1.10.jar"/>
+	<classpathentry kind="lib" path="libs/classindex-3.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

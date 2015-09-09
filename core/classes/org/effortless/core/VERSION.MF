@@ -1,8 +1,8 @@
-#Mon, 07 Sep 2015 16:17:54 +0100
+#Wed, 09 Sep 2015 12:51:18 +0100
 #Build Number for ANT. Do not edit!
-#Mon Sep 07 16:17:54 WEST 2015
+#Wed Sep 09 12:51:18 WEST 2015
 version=1.0alpha
-build.number=20
-build.date=20150907161754+0100
+build.number=26
+build.date=20150909125118+0100
 build.author=
 id=effortless-core
