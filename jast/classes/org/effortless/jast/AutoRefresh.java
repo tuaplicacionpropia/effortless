@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.effortless.core.FilesystemChangeListener;
 import org.effortless.jast.jdk8u20.GAppJdk8u20;
 import org.effortless.jast.jdk8u20.GCompilerJdk8u20;
+import org.effortless.jast.transforms.BaseAppTransformer;
 
 public class AutoRefresh extends FilesystemChangeListener {
 

@@ -8,3 +8,4 @@ jackson core -> https://github.com/FasterXML/jackson (dependencies/jackson-core-
 jackson json -> https://github.com/FasterXML/jackson-jr (dependencies/jackson-jr-objects-2.6.1.jar)
 jackson databind -> https://github.com/FasterXML/jackson-databind/ (dependencies/jackson-databind-2.6.1.jar)
 jackson annotation -> https://github.com/FasterXML/jackson-annotations/ (dependencies/jackson-annotations-2.6.0.jar)
+ant -> http://ant.apache.org/ (dependencies/apache-ant-1.9.6-bin.zip)

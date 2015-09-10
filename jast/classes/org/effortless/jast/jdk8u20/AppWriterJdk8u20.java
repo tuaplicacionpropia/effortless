@@ -6,9 +6,9 @@ import java.io.FileOutputStream;
 
 import com.sun.tools.javac.tree.JCTree.JCCompilationUnit;
 
-import org.effortless.jast.AppWriter;
 import org.effortless.jast.GUnit;
 import org.effortless.jast.GApp;
+import org.effortless.jast.transforms.AppWriter;
 
 public class AppWriterJdk8u20 extends Object implements AppWriter {
 

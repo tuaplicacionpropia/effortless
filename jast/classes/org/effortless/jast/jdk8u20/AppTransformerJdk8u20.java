@@ -2,7 +2,7 @@ package org.effortless.jast.jdk8u20;
 
 import org.effortless.jast.*;
 
-public class AppTransformerJdk8u20 extends Object implements org.effortless.jast.AppTransformer {
+public class AppTransformerJdk8u20 extends Object implements org.effortless.jast.transforms.AppTransformer {
 
 	public void transform (org.effortless.jast.GApp app) {
 		if (app != null) {

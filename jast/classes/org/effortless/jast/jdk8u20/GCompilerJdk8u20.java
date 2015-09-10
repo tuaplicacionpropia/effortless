@@ -9,11 +9,11 @@ import com.sun.tools.javac.main.JavaCompiler;
 import com.sun.tools.javac.tree.JCTree.JCCompilationUnit;
 import com.sun.tools.javac.util.Context;
 
-import org.effortless.jast.AppTransformer;
-import org.effortless.jast.AppWriter;
 import org.effortless.jast.GApp;
+import org.effortless.jast.transforms.AppTransformer;
+import org.effortless.jast.transforms.AppWriter;
 
-public class GCompilerJdk8u20 extends Object implements org.effortless.jast.GCompiler {
+public class GCompilerJdk8u20 extends Object implements org.effortless.jast.transforms.GCompiler {
 
 	public GCompilerJdk8u20 () {
 		super();
