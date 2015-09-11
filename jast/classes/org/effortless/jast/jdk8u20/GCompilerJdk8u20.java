@@ -9,6 +9,7 @@ import com.sun.tools.javac.main.JavaCompiler;
 import com.sun.tools.javac.tree.JCTree.JCCompilationUnit;
 import com.sun.tools.javac.util.Context;
 
+import org.effortless.core.UnusualException;
 import org.effortless.jast.GApp;
 import org.effortless.jast.transforms.AppTransformer;
 import org.effortless.jast.transforms.AppWriter;
@@ -61,6 +62,9 @@ public class GCompilerJdk8u20 extends Object implements org.effortless.jast.tran
 		String rootFile = app.getRootFile();
 
 		javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		if (compiler == null) {
+			throw new UnusualException("ERROR: There are no compiler. You need include tools.jar from jdk java");
+		}
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
 		StandardJavaFileManager fm = compiler.getStandardFileManager(diagnostics, null, null);
 		Iterable<? extends JavaFileObject> iterable = fm.getJavaFileObjects(rootFile);

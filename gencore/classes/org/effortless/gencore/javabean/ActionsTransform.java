@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.effortless.core.UnusualException;
 import org.effortless.orm.AbstractEntity;
-import org.effortless.gencore.CoreTransform;
+import org.effortless.gencore.Transforms;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
@@ -38,7 +38,7 @@ public class ActionsTransform extends Object implements Transform {
 						valid = valid && (method.isVoid());
 						valid = valid && (method.getNumParameters() <= 0);
 						if (valid) {
-							method.setAttribute(CoreTransform.ATTR_ACTION_FLAG, Boolean.TRUE);
+							method.setAttribute(Transforms.ATTR_ACTION_FLAG, Boolean.TRUE);
 						}
 					}
 				}

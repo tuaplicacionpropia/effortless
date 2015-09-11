@@ -3,7 +3,7 @@ package org.effortless.gencore.base;
 import java.util.List;
 
 import org.effortless.core.Collections;
-import org.effortless.gencore.CoreTransform;
+import org.effortless.gencore.Transforms;
 import org.effortless.jast.GApp;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GNode;
@@ -52,7 +52,7 @@ public class ExtractClassFromRootUnit extends Object implements Transform {
 	
 	protected void extractClass (GApp app, GClass clazz, boolean inner) {
 		if (app != null && clazz != null) {
-			clazz.setAttribute(CoreTransform.ATTR_INNER_ENTITY, Boolean.valueOf(inner));
+			clazz.setAttribute(Transforms.ATTR_INNER_ENTITY, Boolean.valueOf(inner));
 			
 			GUnit rootUnit = app.getRootUnit();
 			GClass mainClass = rootUnit.getMainClass();
@@ -78,7 +78,7 @@ public class ExtractClassFromRootUnit extends Object implements Transform {
 				GClass innerClass = (GClass)innerClasses.get(j);
 				if (innerClass != null) {
 					extractClass(app, innerClass, true);
-					app.setClassAttribute(innerClass.getName(), CoreTransform.OWNER_INFO, clazz);
+					app.setClassAttribute(innerClass.getName(), Transforms.OWNER_INFO, clazz);
 				}
 			}
 		}

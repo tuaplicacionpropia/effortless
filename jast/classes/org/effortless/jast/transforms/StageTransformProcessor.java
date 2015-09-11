@@ -12,7 +12,7 @@ import javax.lang.model.SourceVersion;
 import javax.tools.Diagnostic;
 
 
-@SupportedAnnotationTypes("org.effortless.ann.StageTransform")
+@SupportedAnnotationTypes("org.effortless.jast.transforms.StageTransform")
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class StageTransformProcessor extends AbstractProcessor {
 

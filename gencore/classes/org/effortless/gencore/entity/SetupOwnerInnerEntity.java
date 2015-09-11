@@ -2,7 +2,7 @@ package org.effortless.gencore.entity;
 
 import org.effortless.core.StringUtils;
 import org.effortless.orm.InnerEntity;
-import org.effortless.gencore.CoreTransform;
+import org.effortless.gencore.Transforms;
 import org.effortless.jast.GApp;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
@@ -19,7 +19,7 @@ public class SetupOwnerInnerEntity extends Object implements Transform {
 		if (cg != null && cg.isType(org.effortless.orm.Entity.class)) {
 			boolean inner = cg.isInner();
 			GApp app = cg.getApplication();
-			GClass ownerType = (GClass)app.getClassAttribute(cg.getName(), CoreTransform.OWNER_INFO);
+			GClass ownerType = (GClass)app.getClassAttribute(cg.getName(), Transforms.OWNER_INFO);
 			if (true && cg != null && (inner || ownerType != null)) {
 				String ownerName = null;
 				if (inner) {
@@ -33,7 +33,7 @@ public class SetupOwnerInnerEntity extends Object implements Transform {
 
 				if (ownerName != null && ownerType != null) {
 					GField field = cg.addField(ownerType, ownerName);
-					field.setAttribute(CoreTransform.OWNER_INNER_ENTITY, Boolean.TRUE);
+					field.setAttribute(Transforms.OWNER_INNER_ENTITY, Boolean.TRUE);
 //					field.addAnnotation(OwnerInnerEntity.class);
 				}
 				

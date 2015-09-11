@@ -45,8 +45,10 @@ public class BaseAppTransformer extends GeneralAppTransformer implements AppTran
 
 		this.reorderAfter = new java.util.ArrayList();
 		this.reorderBefore = new java.util.ArrayList();
-		
-		for (Class clazz : ClassIndex.getAnnotated(StageTransform.class)) {
+		Iterable listIterable = ClassIndex.getAnnotated(StageTransform.class);
+		java.util.Iterator it = (listIterable != null ? listIterable.iterator() : null);
+		while (it != null && it.hasNext()) {
+			Class clazz = (Class)it.next();
 			StageTransform ann = (StageTransform)clazz.getAnnotation(StageTransform.class);
 			boolean ignore = ann.ignore();
 			if (!ignore) {

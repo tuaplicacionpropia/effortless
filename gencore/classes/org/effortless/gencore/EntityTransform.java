@@ -1,9 +1,6 @@
 package org.effortless.gencore;
 
-import org.effortless.gencore.entity.EntityStaticMethodsTransform;
-import org.effortless.gencore.entity.SavePropertiesTransform;
-import org.effortless.gencore.entity.SetupOwnerInnerEntity;
-import org.effortless.gencore.entity.SetupParentTransform;
+import org.effortless.gencore.entity.*;
 import org.effortless.jast.transforms.StageTransform;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GNode;
