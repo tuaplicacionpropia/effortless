@@ -7,6 +7,8 @@ import org.effortless.core.Dt;
 import org.effortless.core.ClassUtils;
 import org.effortless.core.EnumString;
 import org.effortless.core.JsonUtils;
+import org.effortless.core.PropertyUtils;
+import org.effortless.core.StringUtils;
 import org.effortless.jast.Expression;
 import org.effortless.jast.GAnnotation;
 import org.effortless.jast.GApp;
@@ -34,7 +36,7 @@ public class GNodeJdk8u20 extends Object implements GNode {
 		return "GNode:node_attributes";
 	}
 	
-	public Map getAnnotationAttributes () {
+	protected Map getAnnotationAttributes () {
 		Map result = null;
 		GAnnotation[] annotations = this.getAnnotations(Dt.class);
 		int length = (annotations != null ? annotations.length : 0);
@@ -43,14 +45,89 @@ public class GNodeJdk8u20 extends Object implements GNode {
 			GAnnotation annotation = (GAnnotation)annotations[i];
 			String value = annotation.getValue();
 			value = (value != null ? value.trim() : "");
-			attrs += (attrs.length() > 0 && value.length() > 0 ? "\n" : "") + value;
+			attrs += (attrs.length() > 0 && value.length() > 0 ? ", " : "") + value;
 		}
 		result = JsonUtils.toMap(attrs);
+		result = (result != null ? result : new java.util.HashMap());
 		return result;
 	}
-	
-	
-	public void setAnnotationAttributes () {
+
+	public Object getData (String name) {
+		Object result = null;
+		Map annotationAttributes = getAnnotationAttributes();
+		result = PropertyUtils.getProperty(annotationAttributes, name);
+		return result;
+	}
+
+	public GNode setData (String name, Object value) {
+		Map annotationAttributes = getAnnotationAttributes();
+		annotationAttributes.put(name, value);
+		writeAnnotationAttributes(annotationAttributes);
+		return this;
+	}
+
+	public boolean hasDataClass (String clazz) {
+		boolean result = false;
+		clazz = StringUtils.nullNotAllow(clazz);
+		if (clazz.length() > 0) {
+			java.util.List classes = (java.util.List)this.getData("classes");
+			if (classes != null && classes.contains(clazz)) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	public boolean addDataClass (String clazz) {
+		boolean result = false;
+		clazz = StringUtils.nullNotAllow(clazz);
+		if (clazz.length() > 0) {
+			java.util.List classes = (java.util.List)this.getData("classes");
+			classes = (classes != null ? classes : new java.util.ArrayList());
+			result = !classes.contains(clazz);
+			classes.add(clazz);
+			setData("classes", classes);
+		}
+		return result;
+	}
+
+	public boolean removeDataClass (String clazz) {
+		boolean result = false;
+		clazz = StringUtils.nullNotAllow(clazz);
+		if (clazz.length() > 0) {
+			java.util.List classes = (java.util.List)this.getData("classes");
+			if (classes != null && classes.contains(clazz)) {
+				result = true;
+				classes.remove(clazz);
+				setData("classes", classes);
+			}
+		}
+		return result;
+	}
+
+	public java.util.List getDataClasses () {
+		java.util.List result = null;
+		result = (java.util.List)this.getData("classes");
+		result = (result != null ? result : new java.util.ArrayList());
+		return result;
+	}
+
+	protected void writeAnnotationAttributes (Map map) {
+		this.removeAllAnnotations(Dt.class);
+		if (map != null) {
+			java.util.Set keySet = (map != null ? map.keySet() : null);
+			java.util.Iterator itKeys = (keySet != null ? keySet.iterator() : null);
+			while (itKeys != null && itKeys.hasNext()) {
+				Map mapKey = new java.util.HashMap();
+				Object key = itKeys.next();
+				Object value = map.get(key);
+				mapKey.put(key, value);
+				String jsonValue = StringUtils.nullNotAllow(JsonUtils.toJson(mapKey));
+				if (jsonValue.length() > 0) {
+					this.addAnnotation(Dt.class, jsonValue);
+				}
+			}
+		}
 //		Map<String, String> map = new HashMap<String, String>();
 //		map.put("name", "Pushkin");
 //		Yaml yaml = new Yaml();
@@ -241,6 +318,22 @@ public class GNodeJdk8u20 extends Object implements GNode {
 	@Override
 	public GNode addAnnotation(GAnnotation annotation) {
 		Factory.addAnnotation(this, (GAnnotationJdk8u20)annotation);
+		return this;
+	}
+
+	@Override
+	public GNode removeAnnotation(GAnnotation annotation) {
+		Factory.removeAnnotation(this, (GAnnotationJdk8u20)annotation);
+		return this;
+	}
+	
+	public GNode removeAllAnnotations (Class annType) {
+		GAnnotation[] annotations = this.getAnnotations(annType);
+		int length = (annotations != null ? annotations.length : 0);
+		for (int i = 0; i < length; i++) {
+			GAnnotation ann = annotations[i];
+			this.removeAnnotation(ann);
+		}
 		return this;
 	}
 

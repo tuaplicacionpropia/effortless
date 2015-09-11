@@ -1261,6 +1261,20 @@ else {
 		mods.annotations = newList.toList();
 	}
 
+	public static void removeAnnotation(GNodeJdk8u20 node, GAnnotationJdk8u20 annotation) {
+		JCTree.JCModifiers mods = _getMods(node);
+		
+		JCTree.JCAnnotation nodeAnn = annotation.getNode();
+		com.sun.tools.javac.util.List<JCTree.JCAnnotation> annotations = mods.annotations;
+
+		ListBuffer<JCTree.JCAnnotation> newList = new ListBuffer<JCTree.JCAnnotation>();
+		
+		newList.appendList(annotations);
+		newList.remove(nodeAnn);
+		
+		mods.annotations = newList.toList();
+	}
+
 	public static ExpressionJdk8u20 and(GNodeJdk8u20 node, Expression[] expr) {
 		ExpressionJdk8u20 result = null;
 

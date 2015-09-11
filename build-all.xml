@@ -4,5 +4,6 @@
 		<ant antfile="build-orm.xml" target="build" inheritAll="true" />
 		<ant antfile="build-zkstrap.xml" target="build" inheritAll="true" />
 		<ant antfile="build-jast.xml" target="build" inheritAll="true" />
+		<ant antfile="build-gencore.xml" target="build" inheritAll="true" />
 	</target>
 </project>

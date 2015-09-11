@@ -8,8 +8,18 @@ import org.effortless.jast.jdk8u20.util.Factory;
 
 public interface GNode {
 	
-	public Map getAnnotationAttributes ();
+//	public Map getAnnotationAttributes ();
 
+	public Object getData (String name);
+
+	public GNode setData (String name, Object value);
+	
+	public boolean hasDataClass (String clazz);
+	public boolean addDataClass (String clazz);
+	public boolean removeDataClass (String clazz);
+	public java.util.List getDataClasses ();
+	
+	
 	public boolean isType (Class<?> type);
 	public boolean isType (String type);
 	
@@ -54,6 +64,9 @@ public interface GNode {
 	
 	public GNode addAnnotation(GAnnotation annotation);
 	
+	public GNode removeAnnotation(GAnnotation annotation);
+	
+	public GNode removeAllAnnotations (Class annType);
 	
 
 	public GAnnotation addAnnotation (Class<?> annotation, String value);

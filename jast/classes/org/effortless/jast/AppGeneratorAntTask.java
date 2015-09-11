@@ -71,7 +71,17 @@ public class AppGeneratorAntTask extends Task {
     		String src = StringUtils.nullNotAllow(this.src);
     		File fileSrc = new File(src);
     		if (fileSrc.exists()) {
-    			if (fileSrc.isDirectory()) {
+        		String out = StringUtils.nullNotAllow(this.out);
+        		boolean isDirectory = fileSrc.isDirectory();
+        		if (out.length() <= 0) {
+        			if (isDirectory) {
+        				this.out = fileSrc.getAbsolutePath();
+        			}
+        			else {
+        				this.out = fileSrc.getParentFile().getAbsolutePath();
+        			}
+        		}
+    			if (isDirectory) {
     				File[] files = fileSrc.listFiles();
     				String ext = "." + this.ext;
     				for (File file : files) {
