@@ -93,8 +93,8 @@ public abstract class LoadLevelsTransform extends AbstractBaseTransform {
 	protected void simpleLoadEagerLazyField (String castType, GMethod mg, GClass cg, GField field, boolean eager) {
 		String fieldName = field.getName();
 		String columnName = _getColumnName(field);
-		mg.add(mg.call(mg.var("result"), "_setupLoaded", mg.cte(fieldName)));
 		mg.add(mg.assign(mg.property(mg.var("result"), fieldName), mg.cast(castType, mg.call(mg.property(mg.clazz(cg), "__DEFINITION__"), "loadValue", mg.cte(columnName), mg.var("rs")))));
+		mg.add(mg.call(mg.var("result"), "_setupLoaded", mg.cte(fieldName)));
 	}
 	
 	/*

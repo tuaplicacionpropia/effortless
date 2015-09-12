@@ -26,12 +26,13 @@ public class MappingCtesTransform extends AbstractBaseTransform {
 	 */
 	protected void addCtes (GClass cg) {
 		String cgName = cg.getSimpleName();
+		String tableName = cgName.trim().toUpperCase();
 		cg.addField(cg, "_pivot", cg.newObject(cg)).setProtected(true).setStatic(true).setFinal(true);
 //		cg.addField(cg.getClassNode(), "_pivot", cg.cteNull());
 		
-		cg.addField("String", "_TABLE", cg.cte(cgName)).setProtected(true).setStatic(true).setFinal(true);
+		cg.addField("String", "_TABLE", cg.cte(tableName)).setProtected(true).setStatic(true).setFinal(true);
 		
-		cg.addField("String", "_SEQ", cg.cte(cgName + "_SEQ")).setProtected(true).setStatic(true).setFinal(true);
+		cg.addField("String", "_SEQ", cg.cte(tableName + "_SEQ")).setProtected(true).setStatic(true).setFinal(true);
 	}
 	
 	

@@ -47,7 +47,7 @@ public class GNodeJdk8u20 extends Object implements GNode {
 			value = (value != null ? value.trim() : "");
 			attrs += (attrs.length() > 0 && value.length() > 0 ? ", " : "") + value;
 		}
-		result = JsonUtils.toMap(attrs);
+		result = (attrs.length() > 0 ? JsonUtils.toMap(attrs) : null);
 		result = (result != null ? result : new java.util.HashMap());
 		return result;
 	}
