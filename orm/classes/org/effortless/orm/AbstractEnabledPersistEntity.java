@@ -62,4 +62,11 @@ public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity impl
 		item._setupLoaded("enabled");
 	}
 	
+	protected String doToString() {
+		String result = "";
+		result += super.doToString();
+		result += _addToString(result, "enabled", this.enabled);
+		return result;
+	}
+
 }

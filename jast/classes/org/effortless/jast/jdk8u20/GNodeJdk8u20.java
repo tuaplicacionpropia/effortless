@@ -534,26 +534,22 @@ public class GNodeJdk8u20 extends Object implements GNode {
 
 	@Override
 	public Expression cteArray(Class<?> type) {
-		// TODO Auto-generated method stub
-		return null;
+		return cteArray(type.getName(), (Expression[])null);
 	}
 
 	@Override
 	public Expression cteArray(String type) {
-		// TODO Auto-generated method stub
-		return null;
+		return cteArray(type, (Expression[])null);
 	}
 
 	@Override
-	public Expression cteArray(Class<?> type, Object[] params) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression cteArray(Class<?> type, Expression... params) {
+		return cteArray(type.getName(), params);
 	}
 
 	@Override
-	public Expression cteArray(String type, Object[] params) {
-		// TODO Auto-generated method stub
-		return null;
+	public Expression cteArray(String type, Expression... params) {
+		return Factory.cte_array(this, type, params);
 	}
 
 	@Override
@@ -616,6 +612,32 @@ public class GNodeJdk8u20 extends Object implements GNode {
 		return assign(left, var(right));
 	}
 
+	
+	
+	@Override
+	public Expression assignOp(Expression left, String op, Expression right) {
+		return Factory.assignOp(this, (ExpressionJdk8u20)left, op, (ExpressionJdk8u20)right);
+	}
+	
+	@Override
+	public Expression assignOp(String left, String op, Expression right) {
+		return assignOp(var(left), op, right);
+	}
+
+	@Override
+	public Expression assignOp(String left, String op, String right) {
+		return assignOp(var(left), op, var(right));
+	}
+
+	@Override
+	public Expression assignOp(Expression left, String op, String right) {
+		return assignOp(left, op, var(right));
+	}
+
+	
+	
+	
+	
 	@Override
 	public Expression field(String fieldName) {
 		return Factory.field(this, fieldName);

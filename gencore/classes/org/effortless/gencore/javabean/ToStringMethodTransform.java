@@ -20,31 +20,62 @@ public class ToStringMethodTransform extends Object implements Transform {
 	
 	/*
 
-
-	protected void doToString(org.apache.commons.lang.builder.ToStringBuilder toStringBuilder) {
-		super.doToString(toStringBuilder);
-		toStringBuilder.append("nombre", this.getNombre());
+	protected String doToString() {
+		String result = "";
+		result += super.doToString();
+		result += _addToString(result, "nombre", this.nombre);
+		return result;
 	}
-
 
 	 */
 	
 	@Override
 	public void process(GNode node) {
 		GClass clazz = (GClass)node;
-		if (clazz != null && clazz.isType(org.effortless.orm.Entity.class)) {
+		if (true && clazz != null && clazz.isType(org.effortless.orm.Entity.class)) {
 			List<GField> fields = InfoModel.listNotNullUnique(clazz);
-			
-	//		GMethod mg = null;//clazz.addMethod("doToString").setProtected(true).addParameter(org.apache.commons.lang3.builder.ToStringBuilder.class, "toStringBuilder");
-			GMethod mg = clazz.addMethod("doToString").setProtected(true).addParameter(org.apache.commons.lang.builder.ToStringBuilder.class, "builder");
-			
-			mg.add(mg.call(mg.cteSuper(), "doToString", "builder"));
-			for (GField field : fields) {
-				String fName = field.getName();
-				String getterName = field.getGetterName();
-				mg.add(mg.call("builder", "append", mg.cte(fName), mg.call(getterName)));
+			if (fields != null && fields.size() > 0) {
+				GMethod mg = clazz.addMethod("doToString").setProtected(true).setReturnType(String.class);
+				mg.declVariable(String.class, "result", mg.cte(""));
+	
+				mg.add(mg.assignOp("result", "+=", mg.call(mg.cteSuper(), "doToString")));
+				for (GField field : fields) {
+					String fName = field.getName();
+					mg.add(mg.assignOp("result", "+=", mg.call("_addToString", mg.var("result"), mg.cte(fName), clazz.field(field))));
+				}
+				
+				mg.addReturn("result");
 			}
 		}
 	}
 
+//	/*
+//
+//
+//	protected void doToString(org.apache.commons.lang.builder.ToStringBuilder toStringBuilder) {
+//		super.doToString(toStringBuilder);
+//		toStringBuilder.append("nombre", this.getNombre());
+//	}
+//
+//	 */
+//	
+//	@Override
+//	public void process(GNode node) {
+//		GClass clazz = (GClass)node;
+//		if (clazz != null && clazz.isType(org.effortless.orm.Entity.class)) {
+//			List<GField> fields = InfoModel.listNotNullUnique(clazz);
+//			
+//	//		GMethod mg = null;//clazz.addMethod("doToString").setProtected(true).addParameter(org.apache.commons.lang3.builder.ToStringBuilder.class, "toStringBuilder");
+//			GMethod mg = clazz.addMethod("doToString").setProtected(true).addParameter(org.apache.commons.lang.builder.ToStringBuilder.class, "builder");
+//			
+//			mg.add(mg.call(mg.cteSuper(), "doToString", "builder"));
+//			for (GField field : fields) {
+//				String fName = field.getName();
+//				String getterName = field.getGetterName();
+//				mg.add(mg.call("builder", "append", mg.cte(fName), mg.call(getterName)));
+//			}
+//		}
+//	}
+	
+	
 }

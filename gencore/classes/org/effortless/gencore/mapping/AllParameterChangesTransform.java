@@ -46,12 +46,27 @@ public class AllParameterChangesTransform extends AbstractBaseTransform {
 				}
 			}
 
-			Expression listNames = cg.callStatic(Collections.class, "asList", columns.toArray(new Expression[0]));
-			Expression listValues = cg.callStatic(Collections.class, "asList", values.toArray(new Expression[0]));
-			Expression twoObjects = cg.callStatic(Collections.class, "asArray", listNames, listValues);
+//			Expression listNames = cg.callStatic(Collections.class, "asList", columns.toArray(new Expression[0]));
+//			Expression listValues = cg.callStatic(Collections.class, "asList", values.toArray(new Expression[0]));
+//			Expression twoObjects = cg.callStatic(Collections.class, "asArray", listNames, listValues);
 			
 			GMethod mg = cg.addMethod("_getAllParameterChanges").setProtected(true).setReturnType(Object[].class);
+//			mg.addReturn(mg.call("_concatAllParameterChanges", twoObjects, mg.call(mg.cteSuper(), "_getAllParameterChanges")));
+			
+			
+//			return super._concatAllParameterChanges(
+//					new Object[] {
+//						new String[] {"NAME", "SURNAMES", "COMMENT", "AGE", "ENABLED"}, 
+//						new Object[] {this.name, this.surnames, this.comment, this.age, this.enabled}
+//					}, 
+//					super._getAllParameterChanges());
+
+			Expression listNames = cg.cteArray(String.class, columns.toArray(new Expression[0]));
+			Expression listValues = cg.cteArray(Object.class, values.toArray(new Expression[0]));
+			Expression twoObjects = cg.cteArray(Object.class, listNames, listValues);
+			
 			mg.addReturn(mg.call("_concatAllParameterChanges", twoObjects, mg.call(mg.cteSuper(), "_getAllParameterChanges")));
+			
 		}
 	}
 	

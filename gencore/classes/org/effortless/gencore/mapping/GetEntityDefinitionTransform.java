@@ -29,7 +29,7 @@ public class GetEntityDefinitionTransform extends AbstractBaseTransform {
 	 */
 	
 	public void add_doGetEntityDefinition (GClass clazz) {
-		GMethod mg = clazz.addMethod("_doGetEntityDefinition").setProtected(true).setReturnType(EntityDefinition.class);
+		GMethod mg = clazz.addMethod("_loadDefinition").setProtected(true).setReturnType(EntityDefinition.class);
 		mg.addReturn(mg.property(mg.clazz(clazz), "__DEFINITION__"));
 //		mg.addReturn(mg.property(clazz.getNameWithoutPackage(), "__DEFINITION__"));
 	}

@@ -40,7 +40,7 @@ public class DefinitionTransform extends AbstractBaseTransform {
 		.addProperty("nombre", "NOMBRE", String.class, "255", ColumnExtraType.UNIQUE_NOT_NULL, "EAGER")
 		.addProperty("comentario", "CCOMMENT", String.class, "3072", null, "LAZY")
 		.addReferenceProperty("provincia", "PROVINCIA_ID", Provincia.class, null, "EAGER")
-		.setDefaultOrderBy("NOMBRE ASC, ID ASC")
+		.setDefaultOrderBy("nombre ASC, id ASC")
 		.setDefaultLoader(new EagerPropertiesLoader(Ciudad._pivot))
 		.addLoader(new LazyPropertiesLoader(Ciudad._pivot));
 
@@ -62,7 +62,7 @@ if (false) {
 			expr = declareDefinitionField(cg, expr, field);
 		}
 
-		expr = cg.call(expr, "setDefaultOrderBy", cg.cte("ID ASC"));
+		expr = cg.call(expr, "setDefaultOrderBy", cg.cte("id ASC"));
 		expr = cg.call(expr, "setDefaultLoader", cg.newObject(EagerPropertiesLoader.class, cg.property(cg.cteClass(cg), "_pivot")));
 		expr = cg.call(expr, "addLoader", cg.newObject(LazyPropertiesLoader.class, cg.property(cg.cteClass(cg), "_pivot")));
 }
@@ -70,12 +70,13 @@ if (false) {
 		
 if (true) {
 		GCode staticBlock = cg.addStaticBlock();
-		expr = staticBlock.var(varName);
+//		expr = staticBlock.var(varName);
+		expr = staticBlock.realProperty(staticBlock.clazz(cg), varName);		
 
 		staticBlock.add(cg.call(expr, "setTableName", cg.property(cg.clazz(cg), "_TABLE")));
 //		staticBlock.add(cg.call(expr, "setEntityClass", cg.cte(cg.getName())));
-		staticBlock.add(cg.call(expr, "setEntityClass", cg.cteClass(cg)));
 		staticBlock.add(cg.call(expr, "setSequenceName", cg.property(cg.clazz(cg), "_SEQ")));
+		staticBlock.add(cg.call(expr, "setEntityClass", cg.cteClass(cg)));
 		staticBlock.add(cg.call(expr, "addParent", cg.property(cg.clazz(AbstractIdEntity.class), varName)));
 		
 		List fields = cg.getProperties();
@@ -85,7 +86,7 @@ if (true) {
 			staticBlock.add(declareDefinitionField(cg, expr, field));
 		}
 
-		staticBlock.add(cg.call(expr, "setDefaultOrderBy", cg.cte("ID ASC")));
+		staticBlock.add(cg.call(expr, "setDefaultOrderBy", cg.cte("id ASC")));
 		staticBlock.add(cg.call(expr, "setDefaultLoader", cg.newObject(EagerPropertiesLoader.class, cg.property(cg.clazz(cg), "_pivot"))));
 		staticBlock.add(cg.call(expr, "addLoader", cg.newObject(LazyPropertiesLoader.class, cg.property(cg.clazz(cg), "_pivot"))));
 }

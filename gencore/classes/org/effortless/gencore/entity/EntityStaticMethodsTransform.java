@@ -72,8 +72,8 @@ public class EntityStaticMethodsTransform extends Object implements Transform {
 //		mg.addReturn(mg.callStatic(cg.getClassNode(), "_doListBy", mg.property(mg.cteClass(cg.getClassNode()), "__DEFINITION__")));
 //		mg.addReturn(mg.callStatic(AbstractEntity.class, "_doListBy", mg.realProperty(mg.cteClass(cg.getClassNode()), "__DEFINITION__")));
 
-		mg.callStatic(EntityFilter.class, "buildEntityFilter");
-		mg.addReturn(mg.cast(returnType, mg.call(mg.clazz(AbstractEntity.class), "_doListBy", mg.realProperty(mg.clazz(cg), "__DEFINITION__"))));
+		mg.addReturn(mg.callStatic(EntityFilter.class, "buildEntityFilter", mg.realProperty(mg.clazz(cg), "__DEFINITION__"), mg.call(mg.realProperty(mg.clazz(cg), "__DEFINITION__"), "getDefaultLoader")));
+//		mg.addReturn(mg.cast(returnType, mg.call(mg.clazz(AbstractEntity.class), "_doListBy", mg.realProperty(mg.clazz(cg), "__DEFINITION__"))));
 	}
 
 //	/*

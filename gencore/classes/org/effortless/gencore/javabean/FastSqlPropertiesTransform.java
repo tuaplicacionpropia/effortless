@@ -428,7 +428,7 @@ if (false) {
 			mg.add(mg.callStatic(org.effortless.core.Exceptions.class, "whereAmI"));
 }
 //		mg.add(mg.call("_loadOnDemand", mg.cte(field.getName()), mg.field(field), mg.property(mg.cteClass(field.getClazz().getClassNode()), "__DEFINITION__")));
-		mg.add(mg.call("_loadOnDemand", mg.cte(field.getName()), mg.field(field)));
+		mg.add(mg.call("_loadOnDemand", mg.cte(field.getName()), mg.field(field), mg.realProperty(mg.clazz(field.getClazz()), "__DEFINITION__")));
 		mg.addReturn(mg.field(field));
 		result = mg;
 		return result;
@@ -460,6 +460,7 @@ if (false) {
 }
 //		mg.add(mg.call("_loadOnDemand", mg.cte(field.getName()), mg.field(field), mg.property(mg.cteClass(field.getClazz().getClassNode()), "__DEFINITION__")));
 if (true) {
+		mg.add(mg.call("_loadOnDemand", mg.cte(field.getName()), mg.field(field), mg.realProperty(mg.clazz(field.getClazz()), "__DEFINITION__")));
 		mg.add(mg.call("_setProperty", mg.cte(fName), mg.field(field), mg.assign(mg.field(field), mg.var("newValue"))));//this._setProperty('text', this.text, this.text = newValue);
 }
 else {

@@ -363,6 +363,26 @@ else {
 		node.getNode().defs = newDefs.toList();
 	}
 
+	public static void removeMethod(GClassJdk8u20 node, GMethod method) {
+		ListBuffer<JCTree> defs = new ListBuffer<JCTree>();
+		defs.appendList(node.getNode().defs);
+
+		ListBuffer<JCTree> newDefs = new ListBuffer<JCTree>();
+		
+		JCTree.JCMethodDecl nodeMethod = ((GMethodJdk8u20)method).getNode(); 
+		
+		
+		Object oldElement = null;
+		for (JCTree oldItem : defs) {
+			if (oldItem != nodeMethod) {
+				newDefs.append(oldItem);
+			}
+		}
+		
+		node.getNode().defs = newDefs.toList();
+	}
+
+	
 	
 	
 	public static GField getField(GClassJdk8u20 gClass, String name) {
@@ -1441,6 +1461,34 @@ else {
 		return result;
 	}
 
+	public static ExpressionJdk8u20 assignOp(GNodeJdk8u20 node, ExpressionJdk8u20 left, String op, ExpressionJdk8u20 right) {
+		ExpressionJdk8u20 result = null;
+
+		if (left != null && right != null) {
+			TreeMaker tm = _getTm(node);
+//			left.getNode().
+			Tag tag = null;
+			tag = (tag == null && "+=".equals(op) ? Tag.PLUS_ASG : tag);
+			tag = (tag == null && "-=".equals(op) ? Tag.MINUS_ASG : tag);
+			tag = (tag == null && "*=".equals(op) ? Tag.MUL_ASG : tag);
+			tag = (tag == null && "/=".equals(op) ? Tag.DIV_ASG : tag);
+			tag = (tag == null && "&=".equals(op) ? Tag.BITAND_ASG : tag);
+			tag = (tag == null && "|=".equals(op) ? Tag.BITOR_ASG : tag);
+
+			JCExpression targetNode = tm.Assignop(tag, left.getNode(), right.getNode());
+
+			result = new ExpressionJdk8u20();
+			result.setNode(targetNode);
+		}
+		else {
+			throw new RuntimeException("left and right must not null");
+		}
+		
+		return result;
+	}
+
+	
+	
 	public static ExpressionJdk8u20 callSuper(GMethodJdk8u20 node, Expression[] arguments) {
 		return call(node, (ExpressionJdk8u20)null, "super", arguments);
 	}
@@ -2039,6 +2087,32 @@ else {
 			
 			cu.defs = newDefs.toList();
 		}
+	}
+
+	protected static com.sun.tools.javac.util.List EMPTY_LIST = (new com.sun.tools.javac.util.ListBuffer()).toList();
+	
+	public static Expression cte_array(GNode node, String type, Expression[] arguments) {
+		ExpressionJdk8u20 result = null;
+		GNodeJdk8u20 gNode = (GNodeJdk8u20)node;		
+		TreeMaker tm = _getTm(gNode);
+		
+		type = alterType(gNode, type);
+		
+		ListBuffer listArgs = new ListBuffer();
+		if (arguments != null) {
+			for (Expression _arg : arguments) {
+				ExpressionJdk8u20 arg = (ExpressionJdk8u20)_arg;
+				if (arg != null && arg.getNode() != null) {
+					listArgs.add(arg.getNode());
+				}
+			}
+		}
+
+		JCExpression targetNode = tm.NewArray(toIdentExpression(gNode, type).getNode(), EMPTY_LIST, listArgs.toList());
+		
+		result = new ExpressionJdk8u20();
+		result.setNode(targetNode);
+		return result;
 	}
 
 }

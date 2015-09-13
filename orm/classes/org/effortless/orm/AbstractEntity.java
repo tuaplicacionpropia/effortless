@@ -18,6 +18,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.effortless.core.ClassUtils;
 import org.effortless.core.Collections;
 import org.effortless.core.MethodUtils;
+import org.effortless.core.StringUtils;
 import org.effortless.core.UnusualException;
 import org.effortless.core.ObjectUtils;
 import org.effortless.core.PropertyUtils;
@@ -2377,6 +2378,29 @@ public abstract class AbstractEntity extends Object implements Entity {
 		return result;
 	}
 
+//	public int hashCode () {
+//		int result = 0;
+////		result = 17;
+////		int mult = 37;
+////		result = (result * mult) + "propertyName".hashCode();
+////		result = (result * mult) + "propertyValue".hashCode();
+//		
+//		Serializable identifier = this.doGetIdentifier();
+//		org.apache.commons.lang.builder.HashCodeBuilder hcBuilder = new org.apache.commons.lang.builder.HashCodeBuilder();
+//		if (identifier != null) {
+//			hcBuilder.append(identifier);
+//		}
+//		else {
+//			doHashCode(hcBuilder);
+//		}
+//		result = hcBuilder.toHashCode();
+//		return result;
+//	}
+//
+//	protected void doHashCode(org.apache.commons.lang.builder.HashCodeBuilder hcBuilder) {
+//		// TODO Auto-generated method stub
+//	}
+
 	public int hashCode () {
 		int result = 0;
 //		result = 17;
@@ -2384,21 +2408,20 @@ public abstract class AbstractEntity extends Object implements Entity {
 //		result = (result * mult) + "propertyName".hashCode();
 //		result = (result * mult) + "propertyValue".hashCode();
 		
-		Serializable identifier = this.doGetIdentifier();
-		org.apache.commons.lang.builder.HashCodeBuilder hcBuilder = new org.apache.commons.lang.builder.HashCodeBuilder();
-		if (identifier != null) {
-			hcBuilder.append(identifier);
-		}
-		else {
-			doHashCode(hcBuilder);
-		}
-		result = hcBuilder.toHashCode();
+		int mult = 37;
+		result = 17;
+		String className = this.getClass().getName();
+		result = (result * mult) + className.hashCode();
+		result = doHashCode(result, mult);
+
 		return result;
 	}
 
-	protected void doHashCode(org.apache.commons.lang.builder.HashCodeBuilder hcBuilder) {
-		// TODO Auto-generated method stub
+	protected int doHashCode(int hash, int mult) {
+		return (hash * mult);
 	}
+	
+	
 	
 //	public boolean equals (Object o) {
 //		boolean result = false;
@@ -2476,25 +2499,50 @@ public abstract class AbstractEntity extends Object implements Entity {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	// Person@7f54[name=Stephen,age=29,smoker=false]
 	public String toString () {
 		String result = null;
 		
-		org.apache.commons.lang.builder.ToStringBuilder toStringBuilder = new org.apache.commons.lang.builder.ToStringBuilder(this, org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE);
-		doToString(toStringBuilder);
+		String className = getClass().getSimpleName();
+		int idHashCode = System.identityHashCode(this);
+		String properties = StringUtils.forceNotNull(doToString(), true);
 
-		result = toStringBuilder.toString();
+		result = "";
+		result += className + "@" + idHashCode;
+		result += "[";
+		result += properties;
+		result += "]";
 		
-		if (result == null) {
-			result = toLabel();
-			result = (result != null ? result : super.toString());
-		}
+//		org.apache.commons.lang.builder.ToStringBuilder toStringBuilder = new org.apache.commons.lang.builder.ToStringBuilder(this, org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE);
+//		doToString(toStringBuilder);
+
+//		result = toStringBuilder.toString();
+		
+//		if (result == null) {
+//			result = toLabel();
+//			result = (result != null ? result : super.toString());
+//		}
 		
 		return result;
 	}
 
-	protected void doToString(org.apache.commons.lang.builder.ToStringBuilder toStringBuilder) {
-		
+//	protected void doToString(org.apache.commons.lang.builder.ToStringBuilder toStringBuilder) {
+//		
+//	}
+	protected String doToString() {
+		return null;
+	}
+	
+	protected String _addToString(String text, String propertyName, Object propertyValue) {
+		String result = null;
+		result = StringUtils.forceNotNull(text, true);
+		if (this._checkLoaded(propertyName)) {
+			String propertyValueText = (propertyValue != null ? propertyValue.toString() : "(null)");
+			String property = StringUtils.forceNotNull(propertyName, true) + "=" + propertyValueText;
+			result += (result.length() > 0 ? "," : "") + property;
+		}
+		return result;
 	}
 
 	public Boolean getCheckHasId () {

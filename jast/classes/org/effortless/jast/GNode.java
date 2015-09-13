@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.effortless.core.ClassUtils;
+import org.effortless.jast.jdk8u20.ExpressionJdk8u20;
 import org.effortless.jast.jdk8u20.util.Factory;
 
 public interface GNode {
@@ -154,9 +155,9 @@ public interface GNode {
 	
 	public Expression cteArray(String type);
 
-	public Expression cteArray(Class<?> type, Object[] params);
+	public Expression cteArray(Class<?> type, Expression... params);
 	
-	public Expression cteArray(String type, Object[] params);
+	public Expression cteArray(String type, Expression... params);
 
 	
 	public GAnnotation getAnnotation (Class<?> clazz);
@@ -205,6 +206,16 @@ public interface GNode {
 	
 	public Expression assign (Expression left, Expression right);
 
+	
+	public Expression assignOp(Expression left, String op, Expression right);
+	
+	public Expression assignOp(String left, String op, Expression right);
+
+	public Expression assignOp(String left, String op, String right);
+
+	public Expression assignOp(Expression left, String op, String right);
+	
+	
 	public Expression field (String fieldName);
 	
 	public Expression field (GField field);

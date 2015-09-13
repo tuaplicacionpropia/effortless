@@ -38,6 +38,8 @@ public interface GClass extends GCode {
 
 	public GClass removeField (GField field);
 	
+	public GClass removeMethod (GMethod method);
+	
 	public GClass setPackageName (String newValue);
 
 	public GClass setSuperClass (String superClass);

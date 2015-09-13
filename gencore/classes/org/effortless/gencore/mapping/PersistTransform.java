@@ -42,7 +42,7 @@ public class PersistTransform extends AbstractBaseTransform {
 			mg.declVariable("boolean", "result", mg.cteTrue());
 			
 			mg.debug("doSavePreviousProperties");
-			
+			boolean flag = false;
 			List fields = clazz.getProperties();
 			int fieldsSize = (fields != null ? fields.size() : 0);
 			for (int i = 0; i < fieldsSize; i++) {
@@ -50,10 +50,14 @@ public class PersistTransform extends AbstractBaseTransform {
 				if (field != null && (field.isType(FileEntity.class))) {
 					//super._doPersist(this.ciudades);
 					mg.add(mg.call(clazz.cteSuper(), "_doPersist", mg.field(field)));
+					flag = true;
 				}
 			}
 			
 			mg.addReturn(mg.var("result"));
+			if (!flag) {
+				clazz.removeMethod(mg);
+			}
 		}
 		
 		{
@@ -62,6 +66,7 @@ public class PersistTransform extends AbstractBaseTransform {
 			
 			mg.debug("doSaveProperties");
 			
+			boolean flag = false;
 			List fields = clazz.getProperties();
 			int fieldsSize = (fields != null ? fields.size() : 0);
 			for (int i = 0; i < fieldsSize; i++) {
@@ -69,10 +74,14 @@ public class PersistTransform extends AbstractBaseTransform {
 				if (field != null && (field.isCollection() || field.isList())) {
 					//super._doPersist(this.ciudades);
 					mg.add(mg.call(clazz.cteSuper(), "_doPersist", mg.field(field)));
+					flag = true;
 				}
 			}
 			
 			mg.addReturn(mg.var("result"));
+			if (!flag) {
+				clazz.removeMethod(mg);
+			}
 		}
 	}
 

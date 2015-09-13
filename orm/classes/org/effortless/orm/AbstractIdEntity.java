@@ -36,7 +36,15 @@ public abstract class AbstractIdEntity extends AbstractEntity implements IdEntit
 		this.id = id;
 	}
 	
-	
+	protected String doToString() {
+		String result = "";
+		result += super.doToString();
+		result += _addToString(result, "id", this.id);
+		result += _addToString(result, "version", this.version);
+		result += _addToString(result, "deleted", this.deleted);
+		return result;
+	}
+
 	public boolean hasId () {
 		return this.id != null;
 	}

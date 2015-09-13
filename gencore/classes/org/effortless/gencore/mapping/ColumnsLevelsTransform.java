@@ -2,6 +2,7 @@ package org.effortless.gencore.mapping;
 
 import java.util.List;
 
+import org.effortless.core.StringUtils;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
@@ -34,7 +35,10 @@ public abstract class ColumnsLevelsTransform extends AbstractBaseTransform {
 		if (columns.length() > 0) {
 			String methodName = (eager ? "_columnsEager" : "_columnsLazy");
 			GMethod mg = cg.addMethod(methodName).setProtected(true).setReturnType(String.class);
-			mg.addReturn(mg.call("_concatPropertiesLoader", mg.cte(columns), mg.call(mg.cteSuper(), methodName)));
+			
+//			return StringUtils.concat(super._columnsEager(), "NAME, SURNAMES, COMMENT, AGE, ENABLED", ", ");
+			mg.addReturn(mg.callStatic(StringUtils.class, "concat", mg.call(mg.cteSuper(), methodName), mg.cte(columns), mg.cte(", ")));
+//			mg.addReturn(mg.call("_concatPropertiesLoader", mg.cte(columns), mg.call(mg.cteSuper(), methodName)));
 		}
 	}
 	

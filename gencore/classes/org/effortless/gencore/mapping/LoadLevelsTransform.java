@@ -24,6 +24,7 @@ public abstract class LoadLevelsTransform extends AbstractBaseTransform {
 		
 		mg.declVariable(cg, "result", mg.cast(cg, mg.var("target")));
 		
+		boolean flag = false;
 		java.util.List fields = cg.getProperties();
 		int fieldsSize = (fields != null ? fields.size() : 0);
 		for (int i = 0; i < fieldsSize; i++) {
@@ -31,7 +32,12 @@ public abstract class LoadLevelsTransform extends AbstractBaseTransform {
 			boolean fieldEager = isEager(field);
 			if (eager == fieldEager) {
 				loadEagerLazyField(mg, cg, field, eager);
+				flag = true;
 			}
+		}
+		
+		if (!flag) {
+			cg.removeMethod(mg);
 		}
 	}
 	

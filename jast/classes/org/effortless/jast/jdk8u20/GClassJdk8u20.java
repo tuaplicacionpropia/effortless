@@ -129,9 +129,11 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 		return this;
 	}
 
-	
+	public GClass removeMethod (GMethod method) {
+		Factory.removeMethod(this, method);
+		return this;
+	}
 
-	
 	public GClass setPublic (boolean enabled) {
 		this.node.mods = setPublic(this.getUnit(), this.node.mods, enabled);
 		return this;
