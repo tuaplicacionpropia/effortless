@@ -69,4 +69,11 @@ public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity impl
 		return result;
 	}
 
+	protected int doHashCode(int hash, int mult) {
+		int result = hash;
+		result = super.doHashCode(result, mult);
+		result = _doHashCode(result, mult, "enabled", this.enabled);
+		return result;
+	}
+
 }

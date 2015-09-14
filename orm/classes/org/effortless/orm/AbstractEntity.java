@@ -2418,8 +2418,19 @@ public abstract class AbstractEntity extends Object implements Entity {
 	}
 
 	protected int doHashCode(int hash, int mult) {
-		return (hash * mult);
+		return hash;
 	}
+	
+	protected int _doHashCode(int hash, int mult, String propertyName, Object propertyValue) {
+		int result = 0;
+		result = hash;
+		result = (result * mult) + propertyName.hashCode();
+		if (this._checkLoaded(propertyName)) {
+			result = (result * mult) + (propertyValue != null ? propertyValue.hashCode() : 0);
+		}
+		return result;
+	}
+	
 	
 	
 	

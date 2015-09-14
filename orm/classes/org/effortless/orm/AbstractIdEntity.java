@@ -45,6 +45,15 @@ public abstract class AbstractIdEntity extends AbstractEntity implements IdEntit
 		return result;
 	}
 
+	protected int doHashCode(int hash, int mult) {
+		int result = hash;
+		result = super.doHashCode(result, mult);
+		result = _doHashCode(result, mult, "id", this.id);
+		result = _doHashCode(result, mult, "version", this.version);
+		result = _doHashCode(result, mult, "deleted", this.deleted);
+		return result;
+	}
+
 	public boolean hasId () {
 		return this.id != null;
 	}
