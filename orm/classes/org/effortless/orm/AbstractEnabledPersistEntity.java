@@ -75,5 +75,14 @@ public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity impl
 		result = _doHashCode(result, mult, "enabled", this.enabled);
 		return result;
 	}
+	
+	protected boolean doEquals(Object obj) {
+		boolean result = true;
+		AbstractEnabledPersistEntity _obj = (AbstractEnabledPersistEntity)obj;
+		result = result && _doEquals("enabled", this.enabled, _obj, _obj.enabled);
+		return result;
+	}
+	
+	
 
 }

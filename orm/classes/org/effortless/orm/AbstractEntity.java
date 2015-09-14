@@ -2446,40 +2446,67 @@ public abstract class AbstractEntity extends Object implements Entity {
 //		return result;
 //	}
 	
+//	public boolean equals(Object obj) {
+//		boolean result = false;
+//		AbstractEntity obj2 = null;
+//		try { obj2 = ((AbstractEntity)obj); } catch (ClassCastException e) {}
+//		if (obj2 == null) {
+//			result = false;
+//		}
+//		else if (this == obj) {
+//			result = true;
+//		}
+//		else {
+//			Serializable id1 = this.doGetIdentifier();
+//			Serializable id2 = obj2.doGetIdentifier();
+//			org.apache.commons.lang.builder.EqualsBuilder eqBuilder = new org.apache.commons.lang.builder.EqualsBuilder();
+//			if (id1 != null && id2 != null) {
+//				eqBuilder.append(id1, id2);
+//			}
+//			else {
+//				this.doEquals(eqBuilder, obj);
+//			}
+//			result = eqBuilder.isEquals();
+//		}
+//		return result;
+//	}
+	
 	public boolean equals(Object obj) {
 		boolean result = false;
-		AbstractEntity obj2 = null;
-		try { obj2 = ((AbstractEntity)obj); } catch (ClassCastException e) {}
-		if (obj2 == null) {
+		if (obj == null) {
 			result = false;
 		}
-		else if (this == obj) {
+		else if (obj == this) {
 			result = true;
 		}
+		else if (obj.getClass() !=  getClass()) {
+			result = false;
+		}
 		else {
-			Serializable id1 = this.doGetIdentifier();
-			Serializable id2 = obj2.doGetIdentifier();
-			org.apache.commons.lang.builder.EqualsBuilder eqBuilder = new org.apache.commons.lang.builder.EqualsBuilder();
-			if (id1 != null && id2 != null) {
-				eqBuilder.append(id1, id2);
-			}
-			else {
-				this.doEquals(eqBuilder, obj);
-			}
-			result = eqBuilder.isEquals();
+			result = doEquals(obj);
 		}
 		return result;
 	}
 
-	protected void doEquals(org.apache.commons.lang.builder.EqualsBuilder eqBuilder, Object obj) {
-//		super.doEquals(eqBuilder, obj);
-//		eqBuilder.append(this.name, obj.name);
-//        .appendSuper(super.equals(obj))
-//        .append(field1, rhs.field1)
-//        .append(field2, rhs.field2)
-//        .append(field3, rhs.field3)
-//        .isEquals();
+	protected abstract boolean doEquals(Object obj);
+
+	protected boolean _doEquals (String propertyName, Object propertyValue1, AbstractEntity obj, Object propertyValue2) {
+		boolean result = false;
+		if (_checkLoaded(propertyName) && obj._checkLoaded(propertyName)) {
+			result = ObjectUtils.equals(propertyValue1, propertyValue2);
+		}
+		return result;
 	}
+
+//	protected void doEquals(org.apache.commons.lang.builder.EqualsBuilder eqBuilder, Object obj) {
+////		super.doEquals(eqBuilder, obj);
+////		eqBuilder.append(this.name, obj.name);
+////        .appendSuper(super.equals(obj))
+////        .append(field1, rhs.field1)
+////        .append(field2, rhs.field2)
+////        .append(field3, rhs.field3)
+////        .isEquals();
+//	}
 	
 	public int compareTo(Object obj) {
 		int result = -1;
