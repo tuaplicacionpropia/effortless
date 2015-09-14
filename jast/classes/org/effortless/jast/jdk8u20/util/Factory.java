@@ -22,6 +22,7 @@ import com.sun.tools.javac.tree.JCTree.JCIf;
 import com.sun.tools.javac.tree.JCTree.JCImport;
 import com.sun.tools.javac.tree.JCTree.JCMethodInvocation;
 import com.sun.tools.javac.tree.JCTree.JCNewClass;
+import com.sun.tools.javac.tree.JCTree.JCParens;
 import com.sun.tools.javac.tree.JCTree.JCStatement;
 import com.sun.tools.javac.tree.JCTree.JCTypeApply;
 import com.sun.tools.javac.tree.JCTree.JCTypeCast;
@@ -1333,17 +1334,6 @@ else {
 		return result;
 	}
 
-	public static ExpressionJdk8u20 not(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
-		ExpressionJdk8u20 result = null;
-
-		TreeMaker tm = _getTm(node);
-		JCUnary targetNode = tm.Unary(Tag.NOT, expr.getNode());
-		
-		result = new ExpressionJdk8u20();
-		result.setNode(targetNode);
-		return result;
-	}
-
 	public static ExpressionJdk8u20 _binary(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right, Tag opTag, String opName) {
 		ExpressionJdk8u20 result = null;
 
@@ -1360,6 +1350,89 @@ else {
 		return result;
 	}
 
+	public static ExpressionJdk8u20 _unary(GNodeJdk8u20 node, ExpressionJdk8u20 expr, Tag opTag, String opName) {
+		ExpressionJdk8u20 result = null;
+
+		if (expr != null) {
+			TreeMaker tm = _getTm(node);
+			JCUnary targetNode = tm.Unary(opTag, expr.getNode());
+			result = new ExpressionJdk8u20();
+			result.setNode(targetNode);
+		}
+		else {
+			throw new RuntimeException(opName + " expression length must == 1");
+		}
+		
+		return result;
+	}
+
+	public static ExpressionJdk8u20 plus(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.PLUS, "plus");
+	}
+
+	public static ExpressionJdk8u20 minus(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.MINUS, "minus");
+	}
+
+	public static ExpressionJdk8u20 div(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.DIV, "div");
+	}
+
+	public static ExpressionJdk8u20 mult(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.MUL, "mult");
+	}
+	
+	public static ExpressionJdk8u20 mod(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.MOD, "mod");
+	}
+	
+	public static ExpressionJdk8u20 and(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.AND, "and");
+	}
+	
+	public static ExpressionJdk8u20 or(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
+		return _binary(node, left, right, Tag.OR, "or");
+	}
+	
+	public static ExpressionJdk8u20 postDec(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
+		return _unary(node, expr, Tag.POSTDEC, "postDec");
+	}
+	
+	public static ExpressionJdk8u20 postInc(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
+		return _unary(node, expr, Tag.POSTINC, "postInc");
+	}
+	
+	public static ExpressionJdk8u20 preDec(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
+		return _unary(node, expr, Tag.PREDEC, "preDec");
+	}
+	
+	public static ExpressionJdk8u20 preInc(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
+		return _unary(node, expr, Tag.PREINC, "preInc");
+	}
+	
+	public static ExpressionJdk8u20 not(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
+		return _unary(node, expr, Tag.NOT, "not");
+	}
+
+	public static ExpressionJdk8u20 parens(GNodeJdk8u20 node, ExpressionJdk8u20 expr) {
+		ExpressionJdk8u20 result = null;
+
+		if (expr != null) {
+			TreeMaker tm = _getTm(node);
+			JCParens targetNode = tm.Parens(expr.getNode());
+			result = new ExpressionJdk8u20();
+			result.setNode(targetNode);
+		}
+		else {
+			throw new RuntimeException("expression must be not null");
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
 	public static ExpressionJdk8u20 eq(GNodeJdk8u20 node, ExpressionJdk8u20 left, ExpressionJdk8u20 right) {
 		return _binary(node, left, right, Tag.EQ, "eq");
 	}
@@ -1487,8 +1560,6 @@ else {
 		return result;
 	}
 
-	
-	
 	public static ExpressionJdk8u20 callSuper(GMethodJdk8u20 node, Expression[] arguments) {
 		return call(node, (ExpressionJdk8u20)null, "super", arguments);
 	}

@@ -17,6 +17,8 @@ import org.effortless.jast.GField;
 import org.effortless.jast.GNode;
 import org.effortless.jast.jdk8u20.util.Factory;
 
+import com.sun.tools.javac.tree.JCTree.Tag;
+
 public class GNodeJdk8u20 extends Object implements GNode {
 
 	public GNodeJdk8u20 () {
@@ -840,6 +842,54 @@ public class GNodeJdk8u20 extends Object implements GNode {
 	}
 
 
+	
+	public Expression plus(Expression left, Expression right) {
+		return Factory.plus(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+
+	public Expression minus(Expression left, Expression right) {
+		return Factory.minus(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+
+	public Expression div(Expression left, Expression right) {
+		return Factory.div(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+
+	public Expression mult(Expression left, Expression right) {
+		return Factory.mult(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+	
+	public Expression mod(Expression left, Expression right) {
+		return Factory.mod(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+	
+	public Expression and(Expression left, Expression right) {
+		return Factory.and(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+	
+	public Expression or(Expression left, Expression right) {
+		return Factory.or(this, (ExpressionJdk8u20)left, (ExpressionJdk8u20)right);
+	}
+	
+	public Expression postDec(Expression expr) {
+		return Factory.postDec(this, (ExpressionJdk8u20)expr);
+	}
+	
+	public Expression postInc(Expression expr) {
+		return Factory.postInc(this, (ExpressionJdk8u20)expr);
+	}
+	
+	public Expression preDec(Expression expr) {
+		return Factory.preDec(this, (ExpressionJdk8u20)expr);
+	}
+	
+	public Expression preInc(Expression expr) {
+		return Factory.preInc(this, (ExpressionJdk8u20)expr);
+	}
+	
+	public Expression parens(Expression expr) {
+		return Factory.parens(this, (ExpressionJdk8u20)expr);
+	}
 	
 	@Override
 	public Expression eq(Expression left, Expression right) {

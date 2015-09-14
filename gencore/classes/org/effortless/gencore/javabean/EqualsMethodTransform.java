@@ -2,13 +2,11 @@ package org.effortless.gencore.javabean;
 
 import java.util.List;
 
-import org.effortless.jast.transforms.StageTransform;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.Transform;
-import org.effortless.orm.AbstractEnabledPersistEntity;
 
 //@StageTransform("runModel")
 public class EqualsMethodTransform extends Object implements Transform {
@@ -43,8 +41,9 @@ public class EqualsMethodTransform extends Object implements Transform {
 				mg.declVariable(clazz, "_obj", mg.cast(clazz, mg.var("obj")));
 				for (GField field : fields) {
 					String fName = field.getName();
-					String getterName = field.getGetterName();
-					mg.add(mg.assignOp(mg.var("result"), "&=", mg.call("_doEquals", mg.field(field), mg.var("_obj"), mg.property(mg.var("_obj"), fName))));
+//					mg.add(mg.assignOp(mg.var("result"), "&=", mg.call("_doEquals", mg.cte(fName), mg.field(field), mg.var("_obj"), mg.property(mg.var("_obj"), fName))));
+					mg.add(mg.assign(mg.var("result"), mg.and(mg.var("result"), mg.call("_doEquals", mg.cte(fName), mg.field(field), mg.var("_obj"), mg.property(mg.var("_obj"), fName)))));
+					
 				}
 				mg.addReturn("result");
 			}

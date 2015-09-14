@@ -74,8 +74,9 @@ public class GCompilerJdk8u20 extends Object implements org.effortless.jast.tran
 
 			JavaCompiler javac = getCompiler();
 			javac.keepComments = true;
+//			javac.
 			JCCompilationUnit unit = javac.parse(jfo);
-			if (javac.errorCount() > 0) {// 	At least one parse error. No point continuing (a real javac run doesn't either).
+			if (false && javac.errorCount() > 0) {// 	At least one parse error. No point continuing (a real javac run doesn't either).
 				throw new java.io.IOException("ERROR");
 			}
 

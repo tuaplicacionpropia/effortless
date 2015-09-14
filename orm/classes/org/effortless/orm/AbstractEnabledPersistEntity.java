@@ -83,6 +83,12 @@ public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity impl
 		return result;
 	}
 	
-	
+	protected int doCompareTo (Object obj) {
+		int result = 0;
+		AbstractEnabledPersistEntity _obj = (AbstractEnabledPersistEntity)obj;
+		result = (result == 0 ? super.doCompareTo(_obj) : result);
+		result = (result == 0 ? _doCompareTo(this.enabled, _obj.enabled) : result);
+		return result;
+	}
 
 }

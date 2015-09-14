@@ -62,7 +62,16 @@ public abstract class AbstractIdEntity extends AbstractEntity implements IdEntit
 		result = result && _doEquals("deleted", this.deleted, _obj, _obj.deleted);
 		return result;
 	}
-	
+
+	protected int doCompareTo (Object obj) {
+		int result = 0;
+		AbstractIdEntity _obj = (AbstractIdEntity)obj;
+		result = (result == 0 ? super.doCompareTo(_obj) : result);
+		result = (result == 0 ? _doCompareTo(this.id, _obj.id) : result);
+		result = (result == 0 ? _doCompareTo(this.version, _obj.version) : result);
+		result = (result == 0 ? _doCompareTo(this.deleted, _obj.deleted) : result);
+		return result;
+	}
 	
 	public boolean hasId () {
 		return this.id != null;

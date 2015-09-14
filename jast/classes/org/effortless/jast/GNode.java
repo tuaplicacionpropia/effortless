@@ -177,6 +177,25 @@ public interface GNode {
 	
 	public Expression debug (Expression msg);
 	
+	
+	
+
+	public Expression plus(Expression left, Expression right);
+	public Expression minus(Expression left, Expression right);
+	public Expression div(Expression left, Expression right);
+	public Expression mult(Expression left, Expression right);
+	public Expression mod(Expression left, Expression right);
+	public Expression and(Expression left, Expression right);
+	public Expression or(Expression left, Expression right);
+	public Expression postDec(Expression expr);
+	public Expression postInc(Expression expr);
+	public Expression preDec(Expression expr);
+	public Expression preInc(Expression expr);
+	
+	public Expression parens(Expression expr);
+	
+	
+	
 
 	public Expression eq (Expression left, Expression right);
 

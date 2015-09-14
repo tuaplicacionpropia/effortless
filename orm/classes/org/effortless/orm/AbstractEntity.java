@@ -39,7 +39,7 @@ import com.esotericsoftware.kryo.io.Output;
 
 //@org.hibernate.annotations.Tuplizer(impl = org.effortless.model.CustomEntityTuplizer.class)
 //@MappedSuperclass
-public abstract class AbstractEntity extends Object implements Entity {
+public abstract class AbstractEntity extends Object implements Entity, Comparable {
 
 	public static final String ERROR = "error_";
 	protected static final String CREATE = "create";
@@ -2510,32 +2510,72 @@ public abstract class AbstractEntity extends Object implements Entity {
 	
 	public int compareTo(Object obj) {
 		int result = -1;
-		AbstractEntity obj2 = null;
-		try { obj2 = ((AbstractEntity)obj); } catch (ClassCastException e) {}
-		if (obj2 == null) {
+		if (obj == null) {
 			result = -1;
 		}
-		else if (this == obj) {
+		else if (obj == this) {
+			result = 0;
+		}
+		else if (obj.getClass() != getClass()) {
+			result = -1;
+		}
+		else {
+			result = doCompareTo(obj);
+		}
+		return result;
+//		int result = -1;
+//		AbstractEntity obj2 = null;
+//		try { obj2 = ((AbstractEntity)obj); } catch (ClassCastException e) {}
+//		if (obj2 == null) {
+//			result = -1;
+//		}
+//		else if (this == obj) {
+//			result = 0;
+//		}
+//		else {
+//			Serializable id1 = this.doGetIdentifier();
+//			Serializable id2 = obj2.doGetIdentifier();
+//			org.apache.commons.lang.builder.CompareToBuilder compareBuilder = new org.apache.commons.lang.builder.CompareToBuilder();
+//			if (id1 != null && id2 != null) {
+//				compareBuilder.append(id1, id2);
+//			}
+//			else {
+//				this.doCompare(compareBuilder, obj);
+//			}
+//			result = compareBuilder.toComparison();
+//		}
+//		return result;
+	}
+
+//	protected void doCompare(org.apache.commons.lang.builder.CompareToBuilder cpBuilder, Object obj) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+	protected int doCompareTo (Object obj) {
+		return 0;
+	}
+
+	protected int _doCompareTo (Object value1, Object value2) {
+		int result = 0;
+		if (value1 == null && value2 == null) {
+			result = 0;
+		}
+		else if (value1 == null && value2 != null) {
+			result = +1;
+		}
+		else if (value1 != null && value2 == null) {
+			result = -1;
+		}
+		else if (ObjectUtils.equals(value1, value2)) {
 			result = 0;
 		}
 		else {
-			Serializable id1 = this.doGetIdentifier();
-			Serializable id2 = obj2.doGetIdentifier();
-			org.apache.commons.lang.builder.CompareToBuilder compareBuilder = new org.apache.commons.lang.builder.CompareToBuilder();
-			if (id1 != null && id2 != null) {
-				compareBuilder.append(id1, id2);
-			}
-			else {
-				this.doCompare(compareBuilder, obj);
-			}
-			result = compareBuilder.toComparison();
+			result = 0;
+			Comparable cmp1 = null; try { cmp1 = (Comparable)value1; } catch (ClassCastException e) {}
+			Comparable cmp2 = null; try { cmp2 = (Comparable)value2; } catch (ClassCastException e) {}
+			result = cmp1.compareTo(cmp2);
 		}
 		return result;
-	}
-
-	protected void doCompare(org.apache.commons.lang.builder.CompareToBuilder cpBuilder, Object obj) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	// Person@7f54[name=Stephen,age=29,smoker=false]
