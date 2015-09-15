@@ -204,12 +204,6 @@ public class GCodeJdk8u20 extends GModifiersJdk8u20 implements GCode {
 	}
 
 	@Override
-	public Expression plus(Expression left, Expression right) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public GCode throwException(String name) {
 		// TODO Auto-generated method stub
 		return null;

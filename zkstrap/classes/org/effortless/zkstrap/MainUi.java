@@ -36,7 +36,12 @@ public class MainUi extends Object implements Richlet {
 		Session session = Sessions.getCurrent();
 		Object nativeSession = (session != null ? session.getNativeSession() : null);
 		AdminApp app = null;
-		app = new MyApp();
+		if (requestPath.contains("myapp")) {
+			String className = "org.effortless.myapp.MainUI";
+			Class clazz = Class.forName(className);
+			app = (AdminApp)clazz.newInstance();
+		}
+		app = (app != null ? app : new MyApp());
 		app.setAttribute("CTRL", app);
 		app.buildApp();
 		app.setPage(page);

@@ -49,6 +49,7 @@ public class CompareMethodTransform extends Object implements Transform {
 					String fName = field.getName();
 					mg.add(mg.assign(mg.var("result"), mg.triple(mg.eq(mg.var("result"), mg.cte((int)0)), mg.call("_doCompareTo", mg.field(field), mg.property(mg.var("_obj"), fName)), mg.var("result"))));
 				}
+				mg.addReturn(mg.var("result"));
 			}
 		}
 	}

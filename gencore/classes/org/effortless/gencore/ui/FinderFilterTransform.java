@@ -125,14 +125,14 @@ public class FinderFilterTransform extends AbstractTransform {
 //		public String getName () {
 //			return this.name;
 //		}
-			mg = cg.addMethod(field.getGetterName()).setPublic(true).setReturnType(field.getClazz());
+			mg = cg.addMethod(field.getGetterName()).setPublic(true).setReturnType(field.getType());
 			mg.addReturn(mg.field(field.getName()));
 		
 //		public void setName (String newValue) {
 //			_setProperty("name", this.name, this.name = newValue);
 //		}
-			mg = cg.addMethod(field.getSetterName()).setPublic(true).addParameter(field.getClazz(), "newValue");
-			mg.add(mg.call("_setProperty", mg.field(field.getName()), mg.assign(mg.field(field.getName()), mg.var("newValue"))));
+			mg = cg.addMethod(field.getSetterName()).setPublic(true).addParameter(field.getType(), "newValue");
+			mg.add(mg.call("_setProperty", mg.cte(field.getName()), mg.field(field.getName()), mg.assign(mg.field(field.getName()), mg.var("newValue"))));
 		}
 		
 		

@@ -53,15 +53,17 @@ public class FinderTransform extends AbstractTransform {
 		if (cg != null) {
 
 //			public void menuFinder (Event evt) {
-			GMethod mg = cg.addMethod("menuFinder" + clazz.getNameWithoutPackage()).setPublic(true).addParameter(Event.class, "evt");
+			String screenName = "menuFinder" + clazz.getNameWithoutPackage();
+			String screenEditorName = "menuEditor" + clazz.getNameWithoutPackage();
+			GMethod mg = cg.addMethod(screenName).setPublic(true).addParameter(Event.class, "evt");
 //				if (!reopen("myFinder")) {
-			GCode mIf = mg.addIf(mg.not(mg.call("reopen", mg.cte("myFinder"))));
+			GCode mIf = mg.addIf(mg.not(mg.call("reopen", mg.cte(screenName))));
 				
 //					java.util.List list = new PersonFinderFilter();//Person.listAll();
 			mIf.declVariable(java.util.List.class, "list", mIf.newObject(clazz.getNameWithoutPackage() + "FinderFilter"));
 
 //					Finder b = new Finder(this, list, "myFinder");
-			mIf.declVariable(Finder.class, "b", mIf.newObject(Finder.class, mIf.cteThis(), mIf.var("list"), mIf.cte("myFinder")));
+			mIf.declVariable(Finder.class, "b", mIf.newObject(Finder.class, mIf.cteThis(), mIf.var("list"), mIf.cte(screenEditorName)));
 			{
 				java.util.List fields = InfoModel.listNotNullUnique(clazz);
 				int length = (fields != null ? fields.size() : 0);
