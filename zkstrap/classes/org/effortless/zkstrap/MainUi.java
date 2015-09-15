@@ -29,7 +29,7 @@ public class MainUi extends AdminApp {
 		super.buildApp();
 		setAdminPage("login");
 		setLabel("Mi aplicación");
-		setAttribute("INC", Integer.valueOf(0));
+//		setAttribute("INC", Integer.valueOf(0));
 		
 		addMenu("menuInicio");
 		addMenu("menuFinder");
