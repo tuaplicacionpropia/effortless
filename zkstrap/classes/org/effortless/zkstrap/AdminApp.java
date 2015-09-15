@@ -17,7 +17,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.metainfo.LanguageDefinition;
 
-public class AdminApp extends Screen implements Richlet {
+public class AdminApp extends Screen {//implements Richlet {
 
 	public AdminApp () {
 		super();
@@ -241,37 +241,37 @@ public class AdminApp extends Screen implements Richlet {
 //		this.ctrl = newValue;
 //	}
 
-	@Override
-	public void destroy() {
-	}
+//	@Override
+//	public void destroy() {
+//	}
+//
+//	@Override
+//	public LanguageDefinition getLanguageDefinition() {
+//		return LanguageDefinition.lookup("xul/html");
+//	}
+//
+//	@Override
+//	public void init(RichletConfig config) {
+//	}
+//
+//	@Override
+//	public void service(Page page) throws Exception {
+//		String requestPath = page.getRequestPath();
+//		Session session = Sessions.getCurrent();
+//		Object nativeSession = (session != null ? session.getNativeSession() : null);
+////		if (true || this.app == null) {
+////			this.app = new AdminApp();
+////			if (this.app != null) {
+//				this.setAttribute("CTRL", this);
+//				buildApp();
+////			}
+////		}
+//		this.setPage(page);
+//		// TODO Auto-generated method stub
+//		
+//	}
 
-	@Override
-	public LanguageDefinition getLanguageDefinition() {
-		return LanguageDefinition.lookup("xul/html");
-	}
-
-	@Override
-	public void init(RichletConfig config) {
-	}
-
-	@Override
-	public void service(Page page) throws Exception {
-		String requestPath = page.getRequestPath();
-		Session session = Sessions.getCurrent();
-		Object nativeSession = (session != null ? session.getNativeSession() : null);
-//		if (true || this.app == null) {
-//			this.app = new AdminApp();
-//			if (this.app != null) {
-				this.setAttribute("CTRL", this);
-				buildApp();
-//			}
-//		}
-		this.setPage(page);
-		// TODO Auto-generated method stub
-		
-	}
-
-	protected void buildApp() {
+	public void buildApp() {
 		// TODO Auto-generated method stub
 		
 	}

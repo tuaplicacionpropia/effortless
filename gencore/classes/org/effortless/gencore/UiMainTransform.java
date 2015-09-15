@@ -85,7 +85,7 @@ public class UiMainTransform extends AbstractTransform {
 		mg = cg.addMethod("initiate").setProtected(true);
 		mg.add(mg.call(mg.cteSuper(), "initiate"));
 		
-		mg = cg.addMethod("buildApp").setProtected(true);
+		mg = cg.addMethod("buildApp").setPublic(true);
 		mg.add(mg.call(mg.cteSuper(), "buildApp"));
 		mg.add(mg.call("setAdminPage", mg.cte("login")));
 		mg.add(mg.call("setLabel", mg.cte("Mi aplicación")));
