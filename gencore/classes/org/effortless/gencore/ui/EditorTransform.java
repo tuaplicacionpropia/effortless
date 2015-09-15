@@ -71,6 +71,9 @@ public class EditorTransform extends AbstractTransform {
 					else if (field.isString()) {
 						mg.add(mg.call(mg.var("b"), "addText", mg.cte(field.getName())));
 					}
+					else if (field.isDate()) {
+						mg.add(mg.call(mg.var("b"), "addDate", mg.cte(field.getName())));
+					}
 				}
 			}
 			

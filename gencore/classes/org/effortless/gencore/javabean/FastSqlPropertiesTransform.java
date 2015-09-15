@@ -34,6 +34,7 @@ public class FastSqlPropertiesTransform extends AbstractPropertiesTransform {
 		for (int i = 0; i < fieldsSize; i++) {
 			GField field = (GField)fields.get(i);
 			cg.removeField(field);
+			adjustField(field);
 			cg.addField(field);
 			processField(field);
 		}
@@ -58,6 +59,13 @@ public class FastSqlPropertiesTransform extends AbstractPropertiesTransform {
 
  */
 	
+	protected void adjustField(GField field) {
+		String type = field.getType();
+		if ("Date".equals(type)) {
+			field.setType(java.util.Date.class);
+		}
+	}
+
 	protected void textProcessField (GField field) {
 		protectField(field);
 		addInitiate(field);
