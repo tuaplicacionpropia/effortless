@@ -87,7 +87,7 @@ public class EditorTransform extends AbstractTransform {
 					GMethod method = (GMethod)methods.get(i);
 					if (method != null) {
 						String mName = method.getName();
-						mg.add(mg.call(mg.var("b"), "addBtn", mg.cte("@" + mName)));
+						mg.add(mg.call(mg.var("b"), "addBtn", mg.cte("" + mName)));
 					}
 				}
 			}
