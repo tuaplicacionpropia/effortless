@@ -228,9 +228,10 @@ public class InfoModel extends Object {
 		List<GMethod> result = null;
 		if (clazz != null) {
 			result = new ArrayList<GMethod>();
-			List<GMethod> methods = clazz.getMethods();
+			List<GMethod> methods = clazz.getAllDeclaredMethods();
 			for (GMethod method : methods) {
-				if (method.checkSingleAction() && isVisible(method)) {
+//				if (method.checkSingleAction() && isVisible(method)) {
+				if (method.isVoid() && !method.isPrivate() && !method.isProtected() && !"<init>".equals(method.getName()) && method.getNumParameters() <= 0) {
 					result.add(method);
 				}
 			}

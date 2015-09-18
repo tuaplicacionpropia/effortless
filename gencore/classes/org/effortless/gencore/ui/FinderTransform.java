@@ -81,10 +81,21 @@ public class FinderTransform extends AbstractTransform {
 					}
 				}
 			}
-					
+			
+			{
 //					b.addBtn("@ejecutar");
 //					b.addBtn("@descargar");
-
+				java.util.List methods = InfoModel.getCustomActions(clazz);
+				int length = (methods != null ? methods.size() : 0);
+				for (int i = 0; i < length; i++) {
+					GMethod method = (GMethod)methods.get(i);
+					if (method != null) {
+						String mName = method.getName();
+						mIf.add(mIf.call(mIf.var("b"), "addBtn", mIf.cte("@" + mName)));
+					}
+				}
+			}
+			
 			{
 				java.util.List fields = InfoModel.listNotNullUnique(clazz);
 				int length = (fields != null ? fields.size() : 0);

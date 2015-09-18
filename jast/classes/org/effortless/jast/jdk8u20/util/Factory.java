@@ -33,6 +33,7 @@ import com.sun.tools.javac.tree.JCTree.Tag;
 import com.sun.tools.javac.tree.TreeMaker;
 import com.sun.tools.javac.tree.JCTree.JCCompilationUnit;
 import com.sun.tools.javac.util.ListBuffer;
+import com.sun.tools.javac.util.Name;
 //import com.sun.tools.javac.util.Name;
 
 public class Factory extends Object {
@@ -2186,4 +2187,58 @@ else {
 		return result;
 	}
 
+	public static Parameter[] getParameters(GMethodJdk8u20 gMethod) {
+		Parameter[] result = null;
+		TreeMaker tm = _getTm(gMethod);
+		JavacElements jc = _getJc(gMethod);
+		JCTree.JCMethodDecl node = gMethod.getNode();
+
+		ListBuffer<JCTree.JCVariableDecl> params = new ListBuffer<JCTree.JCVariableDecl>();
+		params.appendList(node.params);
+		int length = (params != null ? params.size() : 0);
+		if (length > 0) {
+			result = new Parameter[length];
+			for (int i = 0; i < length; i++) {
+				JCTree.JCVariableDecl param = (JCTree.JCVariableDecl)params.next();
+				if (param != null) {
+					GParameterJdk8u20 gParam = new GParameterJdk8u20();
+					gParam.setNode(param);
+					result[i] = gParam;
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	public static String getParameterType(GParameterJdk8u20 param) {
+		String result = null;
+		JCTree.JCVariableDecl node = param.getNode();
+		result = node.vartype.toString();
+		return result;
+	}
+
+	public static void setParameterType(GParameterJdk8u20 param, String newValue) {
+		TreeMaker tm = _getTm(param);
+		JavacElements jc = _getJc(param);
+		param.getNode().vartype = createExpressionType(tm, jc, newValue);
+	}
+
+	public static String getParameterName(GParameterJdk8u20 param) {
+		String result = null;
+		JCTree.JCVariableDecl node = param.getNode();
+		result = node.name.toString();
+		return result;
+	}
+
+	public static void setParameterName(GParameterJdk8u20 param, String newValue) {
+		TreeMaker tm = _getTm(param);
+		JavacElements jc = _getJc(param);
+		param.getNode().name = jc.getName(newValue); 
+	}
+
+	
+	
+	
+	
 }

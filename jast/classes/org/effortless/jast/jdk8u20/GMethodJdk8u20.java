@@ -291,8 +291,10 @@ public class GMethodJdk8u20 extends GCodeJdk8u20 implements GMethod {
 
 	@Override
 	public int getNumParameters() {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		Parameter[] parameters = getParameters();
+		result = (parameters != null ? parameters.length : 0);
+		return result;
 	}
 
 	@Override
@@ -323,8 +325,7 @@ public class GMethodJdk8u20 extends GCodeJdk8u20 implements GMethod {
 
 	@Override
 	public Parameter[] getParameters() {
-		// TODO Auto-generated method stub
-		return null;
+		return Factory.getParameters(this);
 	}
 
 	@Override

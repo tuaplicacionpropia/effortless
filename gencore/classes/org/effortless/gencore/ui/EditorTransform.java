@@ -1,5 +1,6 @@
 package org.effortless.gencore.ui;
 
+import org.effortless.gencore.InfoModel;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
@@ -76,6 +77,23 @@ public class EditorTransform extends AbstractTransform {
 					}
 				}
 			}
+			
+			{
+//				b.addBtn("@ejecutar");
+//				b.addBtn("@descargar");
+				java.util.List methods = InfoModel.getCustomActions(clazz);
+				int length = (methods != null ? methods.size() : 0);
+				for (int i = 0; i < length; i++) {
+					GMethod method = (GMethod)methods.get(i);
+					if (method != null) {
+						String mName = method.getName();
+						mg.add(mg.call(mg.var("b"), "addBtn", mg.cte("@" + mName)));
+					}
+				}
+			}
+		
+			
+			
 			
 //				b.addText("name");
 //				b.addText("surnames");
