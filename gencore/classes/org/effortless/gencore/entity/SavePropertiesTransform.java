@@ -53,9 +53,15 @@ public class SavePropertiesTransform extends Object implements Transform {
 				
 				for (int i = 0; i < fields.size(); i++) {
 					GField field = (GField)fields.get(i);
-					GCode ifCode = mg.newBlock();
-					mg.addIf(mg.notNull(mg.field(field)), ifCode);//if (this.fileProperty != null) {
-					ifCode.add(mg.call(mg.field(field), "persist"));//this.fileProperty.persist()
+					if (field.isCollection() || field.isList()) {
+						//        this._doPersist(this.properties);
+						mg.add(mg.call(mg.cteThis(), "_doPersist", mg.property(mg.cteThis(), field.getName())));
+					}
+					else {
+						GCode ifCode = mg.newBlock();
+						mg.addIf(mg.notNull(mg.field(field)), ifCode);//if (this.fileProperty != null) {
+						ifCode.add(mg.call(mg.field(field), "persist"));//this.fileProperty.persist()
+					}
 				}
 				mg.addReturn(mg.var("result"));//return result
 			}

@@ -64,6 +64,10 @@ public class FastSqlPropertiesTransform extends AbstractPropertiesTransform {
 		if ("Date".equals(type)) {
 			field.setType(java.util.Date.class);
 		}
+		else if (type != null && type.startsWith("List<")) {
+			String newType = "java.util." + type;
+			field.setType(newType);
+		}
 	}
 
 	protected void textProcessField (GField field) {
