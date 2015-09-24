@@ -1658,14 +1658,33 @@ else {
 		result = new java.util.ArrayList<GClass>();
 		java.util.List<JCTree> defs = node.getNode().defs;
 		if (defs != null) {
+			java.util.List classes = node.getUnit().getClasses();
+			int length = (classes != null ? classes.size() : 0);
+
 			for (JCTree def : defs) {
 				JCTree.JCClassDecl clazzDecl = null; try { clazzDecl = (JCTree.JCClassDecl)def; } catch (ClassCastException e) { clazzDecl = null; }
 				
 				if (clazzDecl != null) {
-					GClassJdk8u20 resultClass = new GClassJdk8u20();
-					resultClass.setNode(clazzDecl);
-					resultClass.setContainerClass(node);
-					resultClass.setUnit(node.getUnit());
+					GClassJdk8u20 resultClass = null;
+					for (int i = 0; i < length && resultClass == null; i++) {
+						GClassJdk8u20 clazz = (GClassJdk8u20)classes.get(i);
+						if (clazz != null && clazz.getNode() == clazzDecl) {
+							resultClass = clazz;
+						}
+						else if (false) {
+							java.util.List list = clazz.getInnerClasses();
+							if (list != null) {
+								result.addAll(list);
+							}
+						}
+					}
+
+					if (resultClass == null) {
+						resultClass = new GClassJdk8u20();
+						resultClass.setNode(clazzDecl);
+						resultClass.setContainerClass(node);
+						resultClass.setUnit(node.getUnit());
+					}
 					result.add(resultClass);
 				}
 			}

@@ -77,8 +77,11 @@ public class ExtractClassFromRootUnit extends Object implements Transform {
 			for (int j = 0; j < lengthInnerClasses; j++) {
 				GClass innerClass = (GClass)innerClasses.get(j);
 				if (innerClass != null) {
+					innerClass.isInner();
+					innerClass.isInner(clazz);
 					extractClass(app, innerClass, true);
 					app.setClassAttribute(innerClass.getName(), Transforms.OWNER_INFO, clazz);
+					innerClass.setAttribute(Transforms.OWNER_INFO, clazz);
 				}
 			}
 		}

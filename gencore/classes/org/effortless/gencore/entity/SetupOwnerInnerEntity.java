@@ -19,7 +19,8 @@ public class SetupOwnerInnerEntity extends Object implements Transform {
 		if (cg != null && cg.isType(org.effortless.orm.Entity.class)) {
 			boolean inner = cg.isInner();
 			GApp app = cg.getApplication();
-			GClass ownerType = (GClass)app.getClassAttribute(cg.getName(), Transforms.OWNER_INFO);
+//			GClass ownerType = (GClass)app.getClassAttribute(cg.getName(), Transforms.OWNER_INFO);
+			GClass ownerType = cg.getOwnerType();//(GClass)app.getClassAttribute(cg.getName(), Transforms.OWNER_INFO);
 			if (true && cg != null && (inner || ownerType != null)) {
 				String ownerName = null;
 				if (inner) {
@@ -47,7 +48,7 @@ public class SetupOwnerInnerEntity extends Object implements Transform {
 	//			setProvincia((Provincia)owner);
 	//			som.add(som.call(setterMethod, som.cast(ownerType.getClassNode().getPlainNodeReference(), som.var("owner"))));
 				
-if (false) {
+if (true) {
 				som.add(som.call(setterMethod, som.cast(ownerType, som.var("owner"))));
 }
 				

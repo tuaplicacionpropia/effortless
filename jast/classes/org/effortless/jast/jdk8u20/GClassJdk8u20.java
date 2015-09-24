@@ -5,6 +5,7 @@ import java.util.List;
 import org.effortless.core.ClassUtils;
 import org.effortless.core.Collections;
 import org.effortless.core.EnumString;
+import org.effortless.gencore.Transforms;
 import org.effortless.jast.jdk8u20.util.Factory;
 
 import com.sun.tools.javac.tree.JCTree;
@@ -727,32 +728,102 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 
 	@Override
 	public boolean isInner() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		GClass ownerClazz = (GClass)this.getAttribute(Transforms.OWNER_INFO);
+		result = (ownerClazz != null);
+		if (result == false) {
+			java.util.List classes = this.getUnit().getClasses();
+			int length = (classes != null ? classes.size() : 0);
+			if (length > 0) {
+				result = true;
+				for (int i = 0; i < length; i++) {
+					GClass clazz = (GClass)classes.get(i);
+					if (clazz != null && clazz == this) {
+						result = false;
+						break;
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 	@Override
 	public boolean isInner(GClass owner) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		GClass ownerClazz = (GClass)this.getAttribute(Transforms.OWNER_INFO);
+		result = (ownerClazz != null && ownerClazz == owner);
+		if (result == false && owner != null) {
+			java.util.List classes = owner.getInnerClasses();
+			int length = (classes != null ? classes.size() : 0);
+			for (int i = 0; i < length; i++) {
+				GClass clazz = (GClass)classes.get(i);
+				if (clazz != null && org.effortless.core.ObjectUtils.equals(clazz.getFullName(), this.getFullName())) {
+					result = true;
+					break;
+				}
+			}
+		}
+
+		return result;
 	}
 
 	@Override
 	public String getOwnerName() {
+		String result = null;
 		// TODO Auto-generated method stub
-		return null;
+		return result;
 	}
 
 	@Override
 	public String getOwnerTypeName() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = null;
+		GClass ownerType = getOwnerType();
+		result = (ownerType != null ? ownerType.getName() : null);
+		return result;
 	}
 
 	@Override
 	public GClass getOwnerType() {
-		// TODO Auto-generated method stub
-		return null;
+		GClass result = null;
+		result = (GClass)this.getAttribute(Transforms.OWNER_INFO);
+		if (result == null) {
+			java.util.List classes = this.getUnit().getClasses();
+			int length = (classes != null ? classes.size() : 0);
+			for (int i = 0; i < length && result == null; i++) {
+				GClass clazz = (GClass)classes.get(i);
+				if (clazz != null) {
+					if (clazz == this) {
+						break;
+					}
+					else {
+						result = _doGetOwnerType(clazz);
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	protected GClass _doGetOwnerType (GClass clazz) {
+		GClass result = null;
+		java.util.List innerClasses = clazz.getInnerClasses();
+		int lengthInner = (innerClasses != null ? innerClasses.size() : 0);
+		for (int j = 0; j < lengthInner && result == null; j++) {
+			GClass innerClass = (GClass)innerClasses.get(j);
+			if (innerClass != null) {
+				if (innerClass == this) {
+					result = clazz;
+				}
+				else {
+					result = _doGetOwnerType(innerClass);
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
