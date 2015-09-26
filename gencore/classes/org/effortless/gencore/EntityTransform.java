@@ -14,11 +14,6 @@ public class EntityTransform implements Transform {
 		GClass clazz = (GClass)node;
 
 		{
-			SetupOwnerInnerEntity step = new SetupOwnerInnerEntity();
-			step.process(clazz);
-		}
-		
-		{
 			EntityStaticMethodsTransform step = new EntityStaticMethodsTransform();
 			step.process(clazz);
 		}

@@ -3,12 +3,12 @@ package org.effortless.gencore.base;
 import java.util.List;
 
 import org.effortless.core.Collections;
-import org.effortless.gencore.Transforms;
 import org.effortless.jast.GApp;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GNode;
 import org.effortless.jast.GUnit;
 import org.effortless.jast.transforms.Transform;
+import org.effortless.jast.transforms.Transforms;
 
 //@StageTransform("preStartApp")
 public class ExtractClassFromRootUnit extends Object implements Transform {

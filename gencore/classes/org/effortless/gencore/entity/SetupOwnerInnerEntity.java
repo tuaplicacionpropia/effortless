@@ -2,13 +2,13 @@ package org.effortless.gencore.entity;
 
 import org.effortless.core.StringUtils;
 import org.effortless.orm.InnerEntity;
-import org.effortless.gencore.Transforms;
 import org.effortless.jast.GApp;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.Transform;
+import org.effortless.jast.transforms.Transforms;
 
 //@StageTransform("preModel")
 public class SetupOwnerInnerEntity extends Object implements Transform {
@@ -27,10 +27,9 @@ public class SetupOwnerInnerEntity extends Object implements Transform {
 					ownerName = cg.getOwnerName();
 					ownerType = cg.getOwnerType();
 				}
-				else {
+				ownerName = (ownerName != null ? ownerName.trim() : "");
 //					ownerName = "owner";//cg.getOwnerName();
-					ownerName = StringUtils.uncapFirst(ownerType.getNameWithoutPackage());
-				}
+				ownerName = (ownerName.length() <= 0 ? StringUtils.uncapFirst(ownerType.getNameWithoutPackage()) : ownerName);
 
 				if (ownerName != null && ownerType != null) {
 					GField field = cg.addField(ownerType, ownerName);

@@ -1,6 +1,7 @@
 package org.effortless.gencore;
 
 import org.effortless.jast.transforms.StageTransform;
+import org.effortless.gencore.entity.SetupOwnerInnerEntity;
 import org.effortless.gencore.javabean.*;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GNode;
@@ -13,6 +14,11 @@ public class JavaBeanTransform implements Transform {
 	public void process(GNode node) {
 		GClass clazz = (GClass)node;
 
+		{
+			SetupOwnerInnerEntity step = new SetupOwnerInnerEntity();
+			step.process(clazz);
+		}
+		
 		{
 			ActionsTransform step = new ActionsTransform();
 			step.process(clazz);

@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.effortless.core.UnusualException;
 import org.effortless.orm.AbstractEntity;
-import org.effortless.gencore.Transforms;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.Parameter;
 import org.effortless.jast.transforms.Transform;
+import org.effortless.jast.transforms.Transforms;
 
 public class ActionsTransform extends Object implements Transform {
 

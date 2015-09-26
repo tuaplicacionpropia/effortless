@@ -5,8 +5,8 @@ import java.util.List;
 import org.effortless.core.ClassUtils;
 import org.effortless.core.Collections;
 import org.effortless.core.EnumString;
-import org.effortless.gencore.Transforms;
 import org.effortless.jast.jdk8u20.util.Factory;
+import org.effortless.jast.transforms.Transforms;
 
 import com.sun.tools.javac.tree.JCTree;
 
@@ -735,7 +735,7 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 		if (result == false) {
 			java.util.List classes = this.getUnit().getClasses();
 			int length = (classes != null ? classes.size() : 0);
-			if (length > 0) {
+			if (length > 1) {
 				result = true;
 				for (int i = 0; i < length; i++) {
 					GClass clazz = (GClass)classes.get(i);
@@ -774,7 +774,7 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 	@Override
 	public String getOwnerName() {
 		String result = null;
-		// TODO Auto-generated method stub
+		result = (String)this.getAttribute(Transforms.OWNER_NAME);
 		return result;
 	}
 
