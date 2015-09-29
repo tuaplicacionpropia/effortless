@@ -2,6 +2,7 @@ package org.effortless.orm;
 
 import java.sql.SQLException;
 
+import org.effortless.core.StringUtils;
 import org.effortless.core.UnusualException;
 import org.effortless.orm.DbManager;
 
@@ -151,7 +152,32 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 	}
 
 	public String buildAddColumnSql (String fullTableName, String column) {
-		return "ALTER TABLE " + _upper(fullTableName) + " ADD IF NOT EXISTS " + column;
+		return "ALTER TABLE " + _upper(fullTableName) + " ADD COLUMN IF NOT EXISTS " + column;
+//		return "ALTER TABLE " + _upper(fullTableName) + " ADD " + column;
+	}
+
+	public String[] buildAddConstraintsColumnSql(String fullTableName, String column, String constraints) {
+		String[] result = null;
+		boolean unique = constraints.contains("UNIQUE");
+		boolean notnull = constraints.contains("NOT NULL");
+//		int size = (unique && notnull ? 2 : ((unique || notnull) ? 1 : 0));
+		int size = (unique ? 2 : 1);
+		result = (size > 0 ? new String[size] : null);
+		int idx = 0;
+		if (unique) {
+			String constraintName = StringUtils.upperCase(column + "_" + "UNIQUE");
+			String stm = "ALTER TABLE " + fullTableName + " ADD CONSTRAINT " + constraintName + " " + "UNIQUE(" + column + ")" + " NOCHECK";
+			result[idx++] = stm;
+		}
+		if (notnull) {
+			String stm = "ALTER TABLE " + fullTableName + " ALTER COLUMN " + column + " SET " + "NOT NULL";
+			result[idx++] = stm;
+		}
+		else {
+			String stm = "ALTER TABLE " + fullTableName + " ALTER COLUMN " + column + " SET " + "NULL";
+			result[idx++] = stm;
+		}
+		return result;
 	}
 
 }

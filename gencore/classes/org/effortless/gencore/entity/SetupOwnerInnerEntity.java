@@ -27,9 +27,9 @@ public class SetupOwnerInnerEntity extends Object implements Transform {
 					ownerName = cg.getOwnerName();
 					ownerType = cg.getOwnerType();
 				}
-				ownerName = (ownerName != null ? ownerName.trim() : "");
+//				ownerName = (ownerName != null ? ownerName.trim() : "");
 //					ownerName = "owner";//cg.getOwnerName();
-				ownerName = (ownerName.length() <= 0 ? StringUtils.uncapFirst(ownerType.getNameWithoutPackage()) : ownerName);
+//				ownerName = (ownerName.length() <= 0 ? StringUtils.uncapFirst(ownerType.getNameWithoutPackage()) : ownerName);
 
 				if (ownerName != null && ownerType != null) {
 					GField field = cg.addField(ownerType, ownerName);

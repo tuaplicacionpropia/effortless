@@ -1062,8 +1062,16 @@ public class DbManager extends Object {
 		return this;
 	}
 
-
-	
+	public DbManager addConstraintsColumn (String tableName, String column, String constraints) {
+		String fullTableName = applyCurrentSchema(tableName);
+		String[] stmArray = buildAddConstraintsColumnSql(fullTableName, column, constraints);
+		int length = (stmArray != null ? stmArray.length : 0);
+		for (int i = 0; i < length; i++) {
+			String stm = stmArray[i];
+			addStm(stm, null, null);
+		}
+		return this;
+	}
 	
 	public boolean _doUpdateTable(String tableName, java.util.List<String> columns) {
 		boolean result = false;
@@ -1075,7 +1083,7 @@ public class DbManager extends Object {
 			columnInfo = (columnInfo != null ? columnInfo.trim() : "");
 			int idx = columnInfo.indexOf(" ");
 			String columnName = columnInfo.substring(0, idx);
-			String columnType = columnInfo.substring(idx + 1);
+//			String columnType = columnInfo.substring(idx + 1);
 			Object[] tableColumn = null;
 			for (int j = 0; j < tableColumnsSize; j++) {
 				Object[] itemTableColumn = tableColumns[j];
@@ -1084,9 +1092,26 @@ public class DbManager extends Object {
 					break;
 				}
 			}
+
 			if (tableColumn == null) {
-				addColumn(tableName, columnInfo);
+				String[] infoArray = columnInfo.split(" ");
+				String _columnName = infoArray[0];
+				String _columnType = infoArray[1];
+				String basicInfo = _columnName + " " + _columnType;
+				String constraintsInfo = "";
+				for (int extraIdx = 2; extraIdx < infoArray.length; extraIdx++) {
+					constraintsInfo += (extraIdx > 2 ? " " : "") + infoArray[extraIdx];
+				}
+				
+				addColumn(tableName, basicInfo);
+				
+				if (!StringUtils.isEmpty(constraintsInfo)) {
+					addConstraintsColumn(tableName, _columnName, constraintsInfo);
+				}
 				result = true;
+			}
+			else {
+				
 			}
 		}
 		return result;
@@ -1449,6 +1474,11 @@ public class DbManager extends Object {
 //		return "ALTER TABLE " + fullTableName + " ADD IF NOT EXISTS " + column;
 //	}
 
+	protected String[] buildAddConstraintsColumnSql (String fullTableName, String column, String constraints) {
+		return this.dbDriver.buildAddConstraintsColumnSql(fullTableName, column, constraints);
+	}
+	
+	
 	
 	
 	public boolean exists (String table, String pkColumn) {

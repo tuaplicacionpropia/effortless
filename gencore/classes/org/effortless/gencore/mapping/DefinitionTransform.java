@@ -287,10 +287,10 @@ protected Expression listDefinitionField (GClass cg, Expression expr, GField fie
 //		String ownerColumnName = cg.getNameWithoutPackage() + "_ID";
 		String ownerColumnName = ownerPropertyName + "_ID";
 		if (itemClass == cg) {
-			result = cg.call(expr, "addListProperty", cg.cte(fName), cg.property(cg.cteClass(cg), "_TABLE"), cg.cte(ownerColumnName), cg.cteNull(), cg.cteClass(itemClass), cg.cte("LAZY"));
+			result = cg.call(expr, "addListProperty", cg.cte(fName), cg.property(cg.clazz(cg), "_TABLE"), cg.cte(ownerColumnName), cg.cteNull(), cg.cteClass(itemClass), cg.cte("LAZY"));
 		}
 		else {
-			result = cg.call(expr, "addListProperty", cg.cte(fName), cg.call(cg.property(cg.cteClass(itemClass), "__DEFINITION__"), "getTableName"), cg.cte(ownerColumnName), cg.cteNull(), cg.cteClass(itemClass), cg.cte("LAZY"));
+			result = cg.call(expr, "addListProperty", cg.cte(fName), cg.call(cg.property(cg.clazz(itemClass), "__DEFINITION__"), "getTableName"), cg.cte(ownerColumnName), cg.cteNull(), cg.cteClass(itemClass), cg.cte("LAZY"));
 		}
 	}
 	else {

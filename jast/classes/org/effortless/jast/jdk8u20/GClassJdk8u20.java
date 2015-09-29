@@ -5,6 +5,7 @@ import java.util.List;
 import org.effortless.core.ClassUtils;
 import org.effortless.core.Collections;
 import org.effortless.core.EnumString;
+import org.effortless.core.StringUtils;
 import org.effortless.jast.jdk8u20.util.Factory;
 import org.effortless.jast.transforms.Transforms;
 
@@ -739,7 +740,7 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 				result = true;
 				for (int i = 0; i < length; i++) {
 					GClass clazz = (GClass)classes.get(i);
-					if (clazz != null && clazz == this) {
+					if (clazz != null && checkSameClass(clazz, this)) {
 						result = false;
 						break;
 					}
@@ -749,19 +750,27 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 
 		return result;
 	}
+	
+	protected boolean checkSameClass (GClass clazz1, GClass clazz2) {
+		boolean result = false;
+		String name1 = (clazz1 != null ? clazz1.getFullName() : null);
+		String name2 = (clazz2 != null ? clazz2.getFullName() : null);
+		result = name1 != null && name1.length() > 0 && name1.equals(name2);
+		return result;
+	}
 
 	@Override
 	public boolean isInner(GClass owner) {
 		boolean result = false;
 		
 		GClass ownerClazz = (GClass)this.getAttribute(Transforms.OWNER_INFO);
-		result = (ownerClazz != null && ownerClazz == owner);
+		result = (ownerClazz != null && owner != null && owner.getFullName().equals(ownerClazz.getFullName()));
 		if (result == false && owner != null) {
 			java.util.List classes = owner.getInnerClasses();
 			int length = (classes != null ? classes.size() : 0);
 			for (int i = 0; i < length; i++) {
 				GClass clazz = (GClass)classes.get(i);
-				if (clazz != null && org.effortless.core.ObjectUtils.equals(clazz.getFullName(), this.getFullName())) {
+				if (clazz != null && checkSameClass(clazz, this)) {
 					result = true;
 					break;
 				}
@@ -775,6 +784,12 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 	public String getOwnerName() {
 		String result = null;
 		result = (String)this.getAttribute(Transforms.OWNER_NAME);
+//		result = (result != null ? result : StringUtils.uncapFirst(StringUtils.forceNotNull(getOwnerTypeName())));
+		result = StringUtils.forceNotNull(result);
+		if (result.length() <= 0) {
+			GClass ownerType = this.getOwnerType();
+			result = StringUtils.emptyNotAllow((ownerType != null ? StringUtils.uncapFirst(ownerType.getNameWithoutPackage()) : null));
+		}
 		return result;
 	}
 
@@ -796,7 +811,7 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 			for (int i = 0; i < length && result == null; i++) {
 				GClass clazz = (GClass)classes.get(i);
 				if (clazz != null) {
-					if (clazz == this) {
+					if (checkSameClass(clazz, this)) {
 						break;
 					}
 					else {
@@ -815,7 +830,7 @@ public class GClassJdk8u20 extends GCodeJdk8u20 implements GClass {
 		for (int j = 0; j < lengthInner && result == null; j++) {
 			GClass innerClass = (GClass)innerClasses.get(j);
 			if (innerClass != null) {
-				if (innerClass == this) {
+				if (checkSameClass(innerClass, this)) {
 					result = clazz;
 				}
 				else {

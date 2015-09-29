@@ -105,4 +105,8 @@ public class StringUtils {
 		return forceNotNull(text, true);
 	}
 
+	public static String upperCase(String text) {
+		return (text != null ? text.toUpperCase() : text);
+	}
+
 }

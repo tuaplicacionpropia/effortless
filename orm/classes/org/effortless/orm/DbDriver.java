@@ -45,4 +45,6 @@ public interface DbDriver {
 
 	public String buildAddColumnSql (String fullTableName, String column);
 
+	public String[] buildAddConstraintsColumnSql (String fullTableName, String column, String constraints);
+	
 }
