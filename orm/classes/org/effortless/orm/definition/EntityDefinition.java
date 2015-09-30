@@ -37,11 +37,26 @@ public class EntityDefinition extends Object {
 		initiateDefaultOrderBy();
 		initiateIndexes();
 		initiateEntityClass();
+		initiateFinderProperties();
 		this._decoders = new java.util.HashMap<String, ColumnDecoder>();
 		this._encoders = new java.util.HashMap<String, ColumnEncoder>();
 		this._loaders = new java.util.HashMap<String, PropertiesLoader>();
 		this._mapToColumnName = new java.util.HashMap<String, String>();
 		this._mapColumns = new java.util.HashMap<String, SinglePropertyColumn>();
+	}
+	
+	protected String finderProperties;
+	
+	protected void initiateFinderProperties () {
+		this.finderProperties = null;
+	}
+	
+	public String getFinderProperties () {
+		return this.finderProperties;
+	}
+	
+	public void setFinderProperties (String newValue) {
+		this.finderProperties = newValue;
 	}
 	
 	protected String tableName;

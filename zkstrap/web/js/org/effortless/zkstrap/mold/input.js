@@ -313,6 +313,16 @@ $("#amount").inputmask("decimal",{
 			}
 		}
 		
+		if (true) {
+		 out.push('<div class="btn-group pull-right">');
+		  out.push('<button id="', uuid, '-btnCreate" type="button" class="btn btn-default btn-flat"><i class="fa fa-plus-circle"></i></button>');
+		  out.push('<button id="', uuid, '-btnRead" type="button" class="btn btn-default btn-flat"><i class="fa fa-eye"></i></button>');
+		  out.push('<button id="', uuid, '-btnUpdate" type="button" class="btn btn-default btn-flat"><i class="fa fa-edit"></i></button>');
+		  out.push('<button id="', uuid, '-btnDelete" type="button" class="btn btn-default btn-flat"><i class="fa fa-trash"></i></button>');
+		 out.push('</div>');
+
+		}
+		
 		out.push('</div>');
 	}
 	else if (_type == 'web') {

@@ -3,6 +3,7 @@ package org.effortless.gencore;
 import org.effortless.gencore.ui.EditorTransform;
 import org.effortless.gencore.ui.FinderFilterTransform;
 import org.effortless.gencore.ui.FinderTransform;
+import org.effortless.gencore.ui.SetupUiEntityTransform;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.StageTransform;
@@ -21,8 +22,14 @@ public class ScreensUiTransform extends Object implements Transform {
 				FinderTransform step = new FinderTransform();
 				step.process(clazz);
 			}
+			
 			{
 				EditorTransform step = new EditorTransform();
+				step.process(clazz);
+			}
+			
+			{
+				SetupUiEntityTransform step = new SetupUiEntityTransform();
 				step.process(clazz);
 			}
 		}

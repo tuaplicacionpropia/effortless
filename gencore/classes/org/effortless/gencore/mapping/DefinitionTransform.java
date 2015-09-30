@@ -17,6 +17,7 @@ import org.effortless.jast.GClass;
 import org.effortless.jast.GCode;
 import org.effortless.jast.GField;
 import org.effortless.jast.GNode;
+import org.effortless.jast.transforms.Transforms;
 
 public class DefinitionTransform extends AbstractBaseTransform {
 
@@ -89,6 +90,7 @@ if (true) {
 		staticBlock.add(cg.call(expr, "setDefaultOrderBy", cg.cte("id ASC")));
 		staticBlock.add(cg.call(expr, "setDefaultLoader", cg.newObject(EagerPropertiesLoader.class, cg.property(cg.clazz(cg), "_pivot"))));
 		staticBlock.add(cg.call(expr, "addLoader", cg.newObject(LazyPropertiesLoader.class, cg.property(cg.clazz(cg), "_pivot"))));
+		cg.setAttribute(Transforms.DEFINITION_CODE, staticBlock);
 }
 	}
 	

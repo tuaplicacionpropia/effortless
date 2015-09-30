@@ -34,28 +34,35 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	protected Object _rawValue; // a data member
 	protected boolean _readValue;
 	
-	public Object getValue() {
-		Object result = null;
-		result = (this._readValue ? ObjectAccess.getProperty(this, this._name) : this._rawValue);
-		PropertyList pList = null; try { pList = (PropertyList)result; } catch (ClassCastException e) {}
-		if (pList != null) {
+	protected void _setupListProperties (Object value) {
+		PropertyList pList = null; try { pList = (PropertyList)value; } catch (ClassCastException e) {}
+		if (pList != null && StringUtils.forceNotNull(this.properties).length() <= 0) {
 			Class clazz = pList.getType();
-			EntityDefinition def = pList.getTargetEntityDefinition();
-			java.util.List properties = def.getProperties();
-			int length = (properties != null ? properties.size() : 0);
 			String listProperties = "";
-			for (int i = 0; i < length; i++) {
-				PropertyEntity propertyEntity = (PropertyEntity)properties.get(i);
-				String propertyName = (propertyEntity != null ? propertyEntity.getPropertyName() : null);
-				listProperties = StringUtils.concat(listProperties, propertyName, ",");
-				if (i > 4) {
-					break;
+			EntityDefinition def = pList.getTargetEntityDefinition();
+			listProperties = StringUtils.forceNotNull(def.getFinderProperties());
+			if (listProperties.length() <= 0) {
+				java.util.List properties = def.getProperties();
+				int length = (properties != null ? properties.size() : 0);
+				for (int i = 0; i < length; i++) {
+					PropertyEntity propertyEntity = (PropertyEntity)properties.get(i);
+					String propertyName = (propertyEntity != null ? propertyEntity.getPropertyName() : null);
+					listProperties = StringUtils.concat(listProperties, propertyName, ",");
+					if (i > 4) {
+						break;
+					}
 				}
 			}
 //			setProperties(listProperties);
 			this.properties = listProperties;
-			System.out.println(">>>>>>>>>>> ");
+//			System.out.println(">>>>>>>>>>> ");
 		}
+	}
+	
+	public Object getValue() {
+		Object result = null;
+		result = (this._readValue ? ObjectAccess.getProperty(this, this._name) : this._rawValue);
+		_setupListProperties(result);
 		this._rawValue = result;
 		this._readValue = false;
 		return result;

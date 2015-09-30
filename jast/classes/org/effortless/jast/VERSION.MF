@@ -1,8 +1,8 @@
-#Wed, 30 Sep 2015 00:41:41 +0100
+#Thu, 01 Oct 2015 00:03:19 +0100
 #Build Number for ANT. Do not edit!
-#Wed Sep 30 00:41:41 WEST 2015
+#Thu Oct 01 00:03:19 WEST 2015
 version=1.0alpha
-build.number=301
-build.date=20150930004141+0100
-id=effortless-jast
+build.number=304
+build.date=20151001000319+0100
 build.author=
+id=effortless-jast

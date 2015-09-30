@@ -1,14 +1,15 @@
 package org.effortless.gencore.ui;
 
 import org.effortless.gencore.InfoModel;
+import org.effortless.jast.Expression;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GCode;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.AbstractTransform;
+import org.effortless.jast.transforms.Transforms;
 import org.effortless.zkstrap.Finder;
-import org.effortless.zkstrap.PersonFinderFilter;
 import org.zkoss.zk.ui.event.Event;
 
 /**
