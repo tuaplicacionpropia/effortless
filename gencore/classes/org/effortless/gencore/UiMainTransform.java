@@ -97,7 +97,7 @@ public class UiMainTransform extends AbstractTransform {
 		int length = (classes != null ? classes.size() : 0);
 		for (int i = 0; i < length; i++) {
 			GClass clazz = (GClass)classes.get(i);
-			if (clazz.isType(Entity.class)) {
+			if (clazz.isType(Entity.class) && !clazz.isInner()) {
 //			if (!ObjectUtils.equals(clazz.getName(), cg.getName())) {
 				String menuName = "menuFinder" + clazz.getNameWithoutPackage();
 				mg.add(mg.call("addMenu", mg.cte(menuName)));

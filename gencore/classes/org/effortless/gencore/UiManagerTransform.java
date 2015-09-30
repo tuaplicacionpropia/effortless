@@ -29,7 +29,7 @@ public class UiManagerTransform extends Object implements Transform {
 	@Override
 	public void process(GNode node) {
 		GClass clazz = (GClass)node;
-		if (clazz != null && clazz.isType(Entity.class)) {
+		if (clazz != null && clazz.isType(Entity.class) && !clazz.isInner()) {
 			{
 				FinderFilterTransform step = new FinderFilterTransform();
 				step.process(clazz);

@@ -17,7 +17,7 @@ public class ScreensUiTransform extends Object implements Transform {
 	public void process(GNode node) {
 		GClass clazz = (GClass)node;
 		if (clazz != null && clazz.isType(Entity.class)) {
-			{
+			if (!clazz.isInner()) {
 				FinderTransform step = new FinderTransform();
 				step.process(clazz);
 			}

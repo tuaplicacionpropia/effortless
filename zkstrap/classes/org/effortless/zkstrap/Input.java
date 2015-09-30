@@ -4,6 +4,10 @@ import java.util.Map;
 
 import org.effortless.core.DateUtils;
 import org.effortless.core.ObjectUtils;
+import org.effortless.core.StringUtils;
+import org.effortless.orm.definition.EntityDefinition;
+import org.effortless.orm.definition.PropertyEntity;
+import org.effortless.orm.impl.PropertyList;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -33,6 +37,25 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	public Object getValue() {
 		Object result = null;
 		result = (this._readValue ? ObjectAccess.getProperty(this, this._name) : this._rawValue);
+		PropertyList pList = null; try { pList = (PropertyList)result; } catch (ClassCastException e) {}
+		if (pList != null) {
+			Class clazz = pList.getType();
+			EntityDefinition def = pList.getTargetEntityDefinition();
+			java.util.List properties = def.getProperties();
+			int length = (properties != null ? properties.size() : 0);
+			String listProperties = "";
+			for (int i = 0; i < length; i++) {
+				PropertyEntity propertyEntity = (PropertyEntity)properties.get(i);
+				String propertyName = (propertyEntity != null ? propertyEntity.getPropertyName() : null);
+				listProperties = StringUtils.concat(listProperties, propertyName, ",");
+				if (i > 4) {
+					break;
+				}
+			}
+//			setProperties(listProperties);
+			this.properties = listProperties;
+			System.out.println(">>>>>>>>>>> ");
+		}
 		this._rawValue = result;
 		this._readValue = false;
 		return result;

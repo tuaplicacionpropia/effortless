@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
+
 //import org.effortless.fastsql.util.CvtrUtils;
 import org.effortless.orm.AbstractIdEntity;
 import org.effortless.orm.DbManager;
@@ -16,6 +17,7 @@ import org.effortless.orm.Entity;
 import org.effortless.orm.Filter;
 import org.effortless.orm.InnerEntity;
 import org.effortless.orm.MySession;
+import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.definition.ListPropertyEntity;
 
 public class PropertyList extends AbstractPropertyList {
@@ -37,17 +39,25 @@ public class PropertyList extends AbstractPropertyList {
 		this._countRmSize = 0;
 		this._cursor = 0;
 		this._changeSupport = null;
+		this._entityDefinition = null;
 	}
 	
-	public static PropertyList create (Class clazz, AbstractIdEntity owner, /*Filter<T> filter, */ListPropertyEntity listPropertyEntity, Filter _filter) {
+	public static PropertyList create (Class clazz, AbstractIdEntity owner, /*Filter<T> filter, */ListPropertyEntity listPropertyEntity, EntityDefinition entityDefinition, Filter _filter) {
 		PropertyList result = null;
 		result = new PropertyList();
 		result.owner = owner;
 		result._filter = _filter;
 		result.listPropertyEntity = listPropertyEntity;
+		result._entityDefinition = entityDefinition;
 		result._type = clazz;
 		result._addOwnerListener();
 		return result;
+	}
+	
+	protected EntityDefinition _entityDefinition;
+	
+	public EntityDefinition getTargetEntityDefinition () {
+		return this._entityDefinition;
 	}
 	
 	protected void _addOwnerListener() {

@@ -75,6 +75,9 @@ public class EditorTransform extends AbstractTransform {
 					else if (field.isDate()) {
 						mg.add(mg.call(mg.var("b"), "addDate", mg.cte(field.getName())));
 					}
+					else if (field.isCollection()) {
+						mg.add(mg.call(mg.var("b"), "addTable", mg.cte(field.getName())));
+					}
 				}
 			}
 			

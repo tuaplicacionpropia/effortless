@@ -282,7 +282,7 @@ if (true) {
 		Expression _loadDef = mg.cast(ListPropertyEntity.class, mg.call(mg.property(field.getClazz().getNameWithoutPackage(), "__DEFINITION__"), "getProperty", mg.cte(field.getName())));
 //		mg.declVariable(ListPropertyEntity.class, "_loadDef", _loadDef);
 //		mg.gPrintln("INIT BEGIN3 LIST PROPERTY ");
-		Expression createList = mg.callStatic(PropertyList.class, "create", mg.cteClass(itemType), mg.cteThis(), _loadDef, _listAll);
+		Expression createList = mg.callStatic(PropertyList.class, "create", mg.cteClass(itemType), mg.cteThis(), _loadDef, mg.property(itemType.getNameWithoutPackage(), "__DEFINITION__"),_listAll);
 //		mg.declVariable(PropertyList.class, "_list", createList);
 //		mg.gPrintln("INIT BEGIN3 LIST PROPERTY ");
 		Expression expr = mg.triple(mg.notNull(mg.field(field)), mg.field(field), createList);
