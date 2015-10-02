@@ -295,6 +295,11 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 	static {
 		addClientEvent(Input.class, Events.ON_CHANGE, CE_IMPORTANT|CE_REPEAT_IGNORE);
 		addClientEvent(Input.class, "onSelect", CE_IMPORTANT|CE_REPEAT_IGNORE);
+
+		addClientEvent(Input.class, "onCreateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(Input.class, "onReadItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(Input.class, "onUpdateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(Input.class, "onDeleteItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
 	}
 	
 	
@@ -329,6 +334,18 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 				setSelection(selection);
 			}
 			System.out.println("onSelect");
+		}
+		else if ("onCreateItem".equals(cmd)) {
+			System.out.println("onCreateItem");
+		}
+		else if ("onReadItem".equals(cmd)) {
+			System.out.println("onReadItem");
+		}
+		else if ("onUpdateItem".equals(cmd)) {
+			System.out.println("onUpdateItem");
+		}
+		else if ("onDeleteItem".equals(cmd)) {
+			System.out.println("onDeleteItem");
 		}
 		else {
 			super.service(request, everError);

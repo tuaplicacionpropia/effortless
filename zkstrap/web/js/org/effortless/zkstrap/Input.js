@@ -213,6 +213,14 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
 			var _self = this;
 			jq('#' + this.uuid + '-radioselect_' + index).on("ifToggled", function() { _self._selectIndex(this.value); });
 		}
+
+		if (true) {
+    	  this.domListen_(jq('#' + this.uuid + '-btnCreate').get()[0], 'onClick', '_doClickBtnCreateTable');
+    	  this.domListen_(jq('#' + this.uuid + '-btnRead').get()[0], 'onClick', '_doClickBtnReadTable');
+    	  this.domListen_(jq('#' + this.uuid + '-btnUpdate').get()[0], 'onClick', '_doClickBtnUpdateTable');
+    	  this.domListen_(jq('#' + this.uuid + '-btnDelete').get()[0], 'onClick', '_doClickBtnDeleteTable');
+		}
+		
 	}
   },
   
@@ -223,6 +231,14 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
 	}
 	else {
 	    this.domUnlisten_(this._getTextNode(), "onBlur", '_doBlur');
+	}
+	else if (_type == 'table') {
+		if (true) {
+    	  this.domUnlisten_(jq('#' + this.uuid + '-btnCreate').get()[0], 'onClick', '_doClickBtnCreateTable');
+    	  this.domUnlisten_(jq('#' + this.uuid + '-btnRead').get()[0], 'onClick', '_doClickBtnReadTable');
+    	  this.domUnlisten_(jq('#' + this.uuid + '-btnUpdate').get()[0], 'onClick', '_doClickBtnUpdateTable');
+    	  this.domUnlisten_(jq('#' + this.uuid + '-btnDelete').get()[0], 'onClick', '_doClickBtnDeleteTable');
+		}
 	}
     this.$supers('unbind_', arguments);
   },
@@ -237,6 +253,22 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
     	this.fire('onSelect', {value: idx}, {toServer: true});
 	}
   },
+
+  _doClickBtnCreateTable: function(evt) {
+    this.fire('onCreateItem', {}, {toServer: true});
+  }, 
+
+  _doClickBtnReadTable: function(evt) {
+    this.fire('onReadItem', {}, {toServer: true});
+  }, 
+
+  _doClickBtnUpdateTable: function(evt) {
+    this.fire('onUpdateItem', {}, {toServer: true});
+  }, 
+
+  _doClickBtnDeleteTable: function(evt) {
+    this.fire('onDeleteItem', {}, {toServer: true});
+  }, 
 
   _doBlur: function(evt) {
   	var _textNode = this._getTextNode();
