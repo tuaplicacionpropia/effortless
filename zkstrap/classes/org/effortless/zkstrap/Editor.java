@@ -1,6 +1,7 @@
 package org.effortless.zkstrap;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.zkoss.zk.ui.Component;
@@ -69,7 +70,7 @@ public class Editor extends Screen {
 	protected Component buildSkeleton(Component parent) {
 		Component result = null;
 
-		result = super.buildSkeleton(parent);
+		result = this;//super.buildSkeleton(parent);
 		
 		buildLayoutContent(result);
 		buildLayoutButtons(result);
@@ -102,10 +103,10 @@ public class Editor extends Screen {
 			this.layoutButtons = layoutButtons;
 			setStatus(BUTTONS);
 			
-			addBtn("#save");
-			Component btnSave = this.lastCmp;
-			this.addBtn("#cancel");
-			this.btnSave = btnSave;
+//			addBtn("#save");
+//			Component btnSave = this.lastCmp;
+//			this.addBtn("#cancel");
+//			this.btnSave = btnSave;
 		}
 	}
 	
@@ -130,7 +131,9 @@ public class Editor extends Screen {
 		
 		if (btn != null) {
 			setStatus(BUTTONS);
-			refChild = (refChild != null ? refChild : this.btnSave);
+//			refChild = (refChild != null ? refChild : this.btnSave);
+			refChild = (refChild != null ? refChild : this.lastBtn);
+			this.lastBtn = child;
 		}
 		else {
 			setStatus(CONTENT);
@@ -145,9 +148,30 @@ public class Editor extends Screen {
 	
 	protected Component layoutContent;
 	protected Component layoutButtons;
-	protected Component btnSave;
+//	protected Component btnSave;
+	protected Component lastBtn;
 	
 	protected static final byte CONTENT = 1;
 	protected static final byte BUTTONS = 2;
 
+	static {
+		addClientEvent(Finder.class, "onReq", CE_IMPORTANT|CE_REPEAT_IGNORE);
+	}
+	
+	public void service(org.zkoss.zk.au.AuRequest request, boolean everError) {
+		final Component comp = request.getComponent();
+		final Map data = request.getData();
+		final String cmd = (String)data.get("command");
+		System.out.println(">>>>>>>>> command = " + cmd);
+		if ("ok".equals(cmd)) {
+			this.save();
+		}
+		else if ("cancel".equals(cmd)) {
+			this.cancel();
+		}
+		else {
+			super.service(request, everError);
+		}
+	}
+	
 }

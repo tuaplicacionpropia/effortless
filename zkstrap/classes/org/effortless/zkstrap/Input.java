@@ -1,15 +1,20 @@
 package org.effortless.zkstrap;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import org.apache.commons.beanutils.MethodUtils;
 import org.effortless.core.DateUtils;
 import org.effortless.core.ObjectUtils;
 import org.effortless.core.StringUtils;
+import org.effortless.orm.Entity;
+import org.effortless.orm.Filter;
 import org.effortless.orm.definition.EntityDefinition;
 import org.effortless.orm.definition.PropertyEntity;
 import org.effortless.orm.impl.PropertyList;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.InputEvent;
@@ -293,13 +298,15 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 //	}
 
 	static {
-		addClientEvent(Input.class, Events.ON_CHANGE, CE_IMPORTANT|CE_REPEAT_IGNORE);
-		addClientEvent(Input.class, "onSelect", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//		addClientEvent(Input.class, Events.ON_CHANGE, CE_IMPORTANT|CE_REPEAT_IGNORE);
+//		addClientEvent(Input.class, "onSelect", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//
+//		addClientEvent(Input.class, "onCreateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//		addClientEvent(Input.class, "onReadItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//		addClientEvent(Input.class, "onUpdateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//		addClientEvent(Input.class, "onDeleteItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
 
-		addClientEvent(Input.class, "onCreateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-		addClientEvent(Input.class, "onReadItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-		addClientEvent(Input.class, "onUpdateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-		addClientEvent(Input.class, "onDeleteItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(Input.class, "onReq", CE_IMPORTANT|CE_REPEAT_IGNORE);
 	}
 	
 	
@@ -311,10 +318,12 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 //		}
 
 	public void service(org.zkoss.zk.au.AuRequest request, boolean everError) {
-		final String cmd = request.getCommand();
+//		final String cmd = request.getCommand();
+		final Component comp = request.getComponent();
+		final Map data = request.getData();
+		final String cmd = (String)data.get("command");
+		
 		if (Events.ON_CHANGE.equals(cmd)) {
-			final Component comp = request.getComponent();
-			final Map data = request.getData();
 //			Object oldValue = getValue();
 //			InputEvent evt = InputEvent.getInputEvent(request, oldValue);
 			Object value = _fromClient(data.get("value"));
@@ -324,7 +333,6 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 //			Events.postEvent(evt);
 		}
 		else if ("onSelect".equals(cmd)) {
-			final Map data = request.getData();
 			String selectIdx = (String)data.get("value");
 			int idx = Integer.valueOf(selectIdx).intValue();
 			java.util.List value = null;
@@ -337,19 +345,248 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		}
 		else if ("onCreateItem".equals(cmd)) {
 			System.out.println("onCreateItem");
+			_doCreateItem();
 		}
 		else if ("onReadItem".equals(cmd)) {
 			System.out.println("onReadItem");
+			_doReadItem();
 		}
 		else if ("onUpdateItem".equals(cmd)) {
 			System.out.println("onUpdateItem");
+			_doUpdateItem();
 		}
 		else if ("onDeleteItem".equals(cmd)) {
 			System.out.println("onDeleteItem");
+			_doDeleteItem();
 		}
 		else {
 			super.service(request, everError);
 		}
 	}
 
+	public void _doCreateItem () {
+		java.util.Map data = new java.util.HashMap();
+		data.put("name", this._name);
+		data.put("value", this.selection);
+		data.put("op", "create");
+		data.put("CALLER", this);
+		Event evt = new Event("onCreate", this, data);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("myFinder$onCreate");
+				
+//				MyBean obj = MyBean.buildMyBean("New");
+				Object obj = null;
+				
+				Class classObject = null;
+				java.util.List list = (java.util.List)this._rawValue;
+				
+				Filter filter = null;
+				try { filter = (Filter)list; } catch (ClassCastException e1) {}
+				classObject = (filter != null ? filter.targetClass() : null);
+				
+				if (classObject == null) {
+					try {
+						classObject = (Class)MethodUtils.invokeStaticMethod(list.getClass(), "targetClass", null);
+					} catch (NoSuchMethodException e1) {
+						throw new UiException(e1);
+					} catch (IllegalAccessException e1) {
+						throw new UiException(e1);
+					} catch (InvocationTargetException e1) {
+						throw new UiException(e1);
+					}
+				}
+
+				try {
+					obj = classObject.newInstance();
+				} catch (InstantiationException e2) {
+					throw new UiException(e2);
+				} catch (IllegalAccessException e2) {
+					throw new UiException(e2);
+				}
+				
+				
+				data = (java.util.Map)evt.getData();
+				data.put("value", obj);
+
+				AdminApp app = ObjectAccess.getApp(this);
+				String method = "menuEditor";
+				try {
+					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+			}
+			else {
+				throw e;
+			}
+		}
+//		ObjectAccess.close(this);
+	}
+	
+	public void _doReadItem () {
+		java.util.Map data = new java.util.HashMap();
+		data.put("name", this._name);
+		data.put("value", this.selection);
+		data.put("op", "read");
+		data.put("CALLER", this);
+		Event evt = new Event("onRead", this, data);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("myFinder$onRead");
+
+				AdminApp app = ObjectAccess.getApp(this);
+				String method = "menuEditor";
+				try {
+					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+
+			}
+			else {
+				throw e;
+			}
+		}
+//		System.out.println("finder read " + this._value);
+//		ObjectAccess.close(this);
+	}
+	
+	public void _doUpdateItem () {
+		java.util.Map data = new java.util.HashMap();
+		data.put("name", this._name);
+		data.put("value", this.selection);
+		data.put("op", "update");
+		data.put("CALLER", this);
+		Event evt = new Event("onUpdate", this, data);
+
+		try {
+			ObjectAccess.execAppAction(evt);
+		}
+		catch (UiException e) {
+			Object _cause = e.getCause();
+			NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+			if (cause != null) {
+				System.out.println("myFinder$onUpdate");
+
+				AdminApp app = ObjectAccess.getApp(this);
+				String method = "menuEditor";
+				try {
+					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					throw new UiException(e1);
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
+				}
+
+			}
+			else {
+				throw e;
+			}
+		}
+//		System.out.println("finder update " + this._value);
+//		ObjectAccess.close(this);
+	}
+
+//	public void myFinder$onCreate (Event evt) {
+//		System.out.println("myFinder$onCreate");
+//		
+//		MyBean obj = MyBean.buildMyBean("New");
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		data.put("value", obj);
+//		menuEditor(evt);
+//	}
+	
+	
+	
+//	public void myFinder$onRead (Event evt) {
+//		menuEditor(evt);
+//	}
+//	
+//	public void myFinder$onUpdate (Event evt) {
+//		System.out.println("myFinder$onUpdate");
+//		menuEditor(evt);
+//	}
+	
+	
+	
+	public void _doDeleteItem () {
+//		System.out.println("finder delete " + this._value);
+
+		if (this.selection != null) {
+//			java.util.Map data = new java.util.HashMap();
+//			data.put("name", this.name);
+//			data.put("value", this.selection);
+//			data.put("op", "delete");
+//			data.put("CALLER", this);
+//			Event evt = new Event("onDelete", this, data);
+			
+//			try {
+//				ObjectAccess.execAppAction(evt);
+//			}
+//			catch (UiException e) {
+//				Object _cause = e.getCause();
+//				NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+//				if (cause != null) {
+					AdminApp app = ObjectAccess.getApp(this);
+					ConfirmScreen screen = new ConfirmScreen(app, this.selection, "myConfirm");
+					screen.setType("delete");
+					screen.setAttribute("CALLER", this);
+//					System.out.println("myFinder$onDelete");
+//				}
+//				else {
+//					throw e;
+//				}
+//			}
+		}
+		
+		
+//		ObjectAccess.close(this);
+	}
+
+	public void myConfirm (Event evt) {
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		String op = (String)data.get("op");
+		if ("ok".equals(op)) {
+			
+			Entity entity = null;
+			try { entity = (Entity)value; } catch (ClassCastException e) {}
+			if (entity != null) {
+				entity.delete();
+			}
+			else {
+				java.util.List list = (java.util.List)this._rawValue;
+				if (list.contains(value)) {
+					list.remove(value);
+				}
+			}
+		}
+		ObjectAccess.close(evt.getTarget());
+	}
+	
+	
+	
 }

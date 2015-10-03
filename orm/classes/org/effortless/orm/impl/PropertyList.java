@@ -10,6 +10,7 @@ import java.util.List;
 
 
 
+
 //import org.effortless.fastsql.util.CvtrUtils;
 import org.effortless.orm.AbstractIdEntity;
 import org.effortless.orm.DbManager;
@@ -93,6 +94,11 @@ public class PropertyList extends AbstractPropertyList {
 	public Class getType () {
 		return this._type;
 	}
+	
+	public Class targetClass () {
+		return this._type;
+	}
+	
 	
 	protected Filter _filter;
 	

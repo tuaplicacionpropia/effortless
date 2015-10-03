@@ -1,12 +1,12 @@
 package org.effortless.zkstrap;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.Events;
 
 public class ConfirmScreen extends Screen {
 
@@ -23,6 +23,24 @@ public class ConfirmScreen extends Screen {
 
 	public ConfirmScreen (Component parent, Object value, String name) {
 		super(parent, value, name);
+	}
+
+	private String _type = ""; // a data member
+
+	public String getType() {
+		return this._type;
+	}
+	
+	public void setType(String newValue) {
+		if (!this._type.equals(newValue)) {
+			this._type = newValue;
+			smartUpdate("type", this._type);
+		}
+	}
+	
+	protected void renderProperties(org.zkoss.zk.ui.sys.ContentRenderer renderer) throws java.io.IOException {
+		super.renderProperties(renderer);
+		render(renderer, "type", this._type);
 	}
 
 	public void ok () {
@@ -99,7 +117,7 @@ public class ConfirmScreen extends Screen {
 	protected Component buildSkeleton(Component parent) {
 		Component result = null;
 
-		result = super.buildSkeleton(parent);
+		result = this;//super.buildSkeleton(parent);
 		
 		buildLayoutContent(result);
 		buildLayoutButtons(result);
@@ -132,8 +150,8 @@ public class ConfirmScreen extends Screen {
 			this.layoutButtons = layoutButtons;
 			setStatus(BUTTONS);
 			
-			addBtn("#ok");
-			addBtn("#cancel");
+//			addBtn("#ok");
+//			addBtn("#cancel");
 		}
 	}
 	
@@ -175,5 +193,25 @@ public class ConfirmScreen extends Screen {
 	
 	protected static final byte CONTENT = 1;
 	protected static final byte BUTTONS = 2;
+
+	static {
+		addClientEvent(Finder.class, "onReq", CE_IMPORTANT|CE_REPEAT_IGNORE);
+	}
+	
+	public void service(org.zkoss.zk.au.AuRequest request, boolean everError) {
+		final Component comp = request.getComponent();
+		final Map data = request.getData();
+		final String cmd = (String)data.get("command");
+		System.out.println(">>>>>>>>> command = " + cmd);
+		if ("ok".equals(cmd)) {
+			this.ok();
+		}
+		else if ("cancel".equals(cmd)) {
+			this.cancel();
+		}
+		else {
+			super.service(request, everError);
+		}
+	}
 
 }

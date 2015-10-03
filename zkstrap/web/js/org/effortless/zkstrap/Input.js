@@ -250,24 +250,24 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   _selectIndex: function(idx) {
   	var _type = this.getType();
   	if (_type == 'table') {
-    	this.fire('onSelect', {value: idx}, {toServer: true});
+    	this.fire('onReq', {command:'onSelect', value: idx}, {toServer: true});
 	}
   },
 
   _doClickBtnCreateTable: function(evt) {
-    this.fire('onCreateItem', {}, {toServer: true});
+    this.fire('onReq', {command:'onCreateItem'}, {toServer: true});
   }, 
 
   _doClickBtnReadTable: function(evt) {
-    this.fire('onReadItem', {}, {toServer: true});
+    this.fire('onReq', {command:'onReadItem'}, {toServer: true});
   }, 
 
   _doClickBtnUpdateTable: function(evt) {
-    this.fire('onUpdateItem', {}, {toServer: true});
+    this.fire('onReq', {command:'onUpdateItem'}, {toServer: true});
   }, 
 
   _doClickBtnDeleteTable: function(evt) {
-    this.fire('onDeleteItem', {}, {toServer: true});
+    this.fire('onReq', {command:'onDeleteItem'}, {toServer: true});
   }, 
 
   _doBlur: function(evt) {
@@ -288,7 +288,7 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
 	}
 	if (flag && this._value != _textNodeValue) {
 		this._value = _textNodeValue;
-    	this.fire('onChange', {value: _textNodeValue}, {toServer: true});
+    	this.fire('onReq', {command:'onChange', value: _textNodeValue}, {toServer: true});
     }
   }
 

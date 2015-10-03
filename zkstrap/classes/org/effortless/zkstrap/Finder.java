@@ -247,29 +247,30 @@ public class Finder extends Screen {
 //		System.out.println("finder delete " + this._value);
 
 		if (this.selection != null) {
-			java.util.Map data = new java.util.HashMap();
-			data.put("name", this.name);
-			data.put("value", this.selection);
-			data.put("op", "delete");
-			data.put("CALLER", this);
-			Event evt = new Event("onDelete", this, data);
+//			java.util.Map data = new java.util.HashMap();
+//			data.put("name", this.name);
+//			data.put("value", this.selection);
+//			data.put("op", "delete");
+//			data.put("CALLER", this);
+//			Event evt = new Event("onDelete", this, data);
 			
-			try {
-				ObjectAccess.execAppAction(evt);
-			}
-			catch (UiException e) {
-				Object _cause = e.getCause();
-				NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
-				if (cause != null) {
+//			try {
+//				ObjectAccess.execAppAction(evt);
+//			}
+//			catch (UiException e) {
+//				Object _cause = e.getCause();
+//				NoSuchMethodException cause = null; try { cause = (NoSuchMethodException)_cause; } catch (ClassCastException e2) {}
+//				if (cause != null) {
 					AdminApp app = ObjectAccess.getApp(this);
 					ConfirmScreen screen = new ConfirmScreen(app, this.selection, "myConfirm");
+					screen.setType("delete");
 					screen.setAttribute("CALLER", this);
-					System.out.println("myFinder$onDelete");
-				}
-				else {
-					throw e;
-				}
-			}
+//					System.out.println("myFinder$onDelete");
+//				}
+//				else {
+//					throw e;
+//				}
+//			}
 		}
 		
 		
@@ -482,7 +483,7 @@ public class Finder extends Screen {
 	public static final byte LIST_BUTTONS = 4;
 
 	static {
-		addClientEvent(Finder.class, "onRequest", CE_IMPORTANT|CE_REPEAT_IGNORE);
+		addClientEvent(Finder.class, "onReq", CE_IMPORTANT|CE_REPEAT_IGNORE);
 	}
 	
 	public void service(org.zkoss.zk.au.AuRequest request, boolean everError) {

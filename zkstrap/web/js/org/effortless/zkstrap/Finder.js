@@ -16,23 +16,23 @@ org.effortless.zkstrap.Finder = zk.$extends(org.effortless.zkstrap.Screen, {
   },
 
   _doClickBtnSearch: function(evt) {
-    this.fire('onRequest', {command:'search'}, {toServer: true});
+    this.fire('onReq', {command:'search'}, {toServer: true});
   }, 
 
   _doClickBtnCreate: function(evt) {
-    this.fire('onRequest', {command:'create'}, {toServer: true});
+    this.fire('onReq', {command:'create'}, {toServer: true});
   }, 
 
   _doClickBtnRead: function(evt) {
-    this.fire('onRequest', {command:'read'}, {toServer: true});
+    this.fire('onReq', {command:'read'}, {toServer: true});
   }, 
 
   _doClickBtnUpdate: function(evt) {
-    this.fire('onRequest', {command:'update'}, {toServer: true});
+    this.fire('onReq', {command:'update'}, {toServer: true});
   }, 
 
   _doClickBtnDelete: function(evt) {
-    this.fire('onRequest', {command:'delete'}, {toServer: true});
+    this.fire('onReq', {command:'delete'}, {toServer: true});
   }, 
 
   unbind_ : function(evt) {
