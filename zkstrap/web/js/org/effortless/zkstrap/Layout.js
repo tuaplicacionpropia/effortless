@@ -123,21 +123,24 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
        				sum += colspan;
        			}
        			
-       			if (i < (min - 1)) {
+       			if (i < (min - 1) && limitGrid > 0) {
        				colspan = parseInt(spans[i + 1]);
-       				if ((limitGrid - colspan) <= 0) {
+       				if ((limitGrid - colspan) < 0) {
 	        			//this._applyOffset(limitGrid, child);
 						jq(child).before('<div class="col-md-' + (limitGrid + 1) + '" style="height: 34px;"></div>');	        			
 	        			limitGrid = 12;
        				}
        				else if (i < (min - 2) && this._checkTag(childrenDiv[i + 2].firstChild)) {
 	       				colspan = colspan + parseInt(spans[i + 2]);
-	       				if ((limitGrid - colspan) <= 0) {
+	       				if ((limitGrid - colspan) < 0) {
 		        			//this._applyOffset(limitGrid, child);
 							jq(child).before('<div class="col-md-' + (limitGrid + 1) + '" style="height: 34px;"></div>');	        			
 		        			limitGrid = 12;
 	       				}
        				}
+       			}
+       			else {
+       				limitGrid = 12;
        			}
     		}
     		var idx = 0;

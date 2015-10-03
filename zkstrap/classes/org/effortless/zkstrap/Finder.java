@@ -1,6 +1,7 @@
 package org.effortless.zkstrap;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.effortless.orm.Entity;
@@ -369,8 +370,8 @@ public class Finder extends Screen {
 //			this.cmpRoot = layoutFilterButtons;
 			
 			setStatus(FILTER_BUTTONS);
-			addBtn("#search");
-			this.btnSearch = this.lastCmp;
+//			addBtn("#search");
+//			this.btnSearch = this.lastCmp;
 		}
 	}
 	
@@ -401,20 +402,20 @@ public class Finder extends Screen {
 			this.layoutListButtons = layoutListButtons;
 			setStatus(LIST_BUTTONS);
 			
-			this.addBtn("#create");
-			Component btnCreate = this.lastCmp;
-			this.addBtn("#read");
-			this.addBtn("#update");
-			this.addBtn("#delete");
+//			this.addBtn("#create");
+//			Component btnCreate = this.lastCmp;
+//			this.addBtn("#read");
+//			this.addBtn("#update");
+//			this.addBtn("#delete");
 			
-			this.btnCreate = btnCreate;
+//			this.btnCreate = btnCreate;
 		}
 	}
 	
 	protected Component buildSkeleton(Component parent) {
 		Component result = null;
 
-		result = super.buildSkeleton(parent);
+		result = this;//super.buildSkeleton(parent);
 		
 		buildLayoutFilter(result);
 		buildLayoutFilterButtons(result);
@@ -453,8 +454,9 @@ public class Finder extends Screen {
 			result = this.layoutFilter.insertBefore(child, refChild);
 		}
 		else if (this.status == LIST_BUTTONS) {
-			refChild = (refChild != null ? refChild : this.btnCreate);
+			refChild = (refChild != null ? refChild : this.lastBtn);
 			result = super.doInsertBefore(child, refChild);
+			this.lastBtn = child;
 		}
 		else {
 			result = super.doInsertBefore(child, refChild);
@@ -463,8 +465,9 @@ public class Finder extends Screen {
 		return result;
 	}
 	
-	protected Component btnSearch;
-	protected Component btnCreate;
+//	protected Component btnSearch;
+//	protected Component btnCreate;
+	protected Component lastBtn;
 	protected Component listTable;
 	
 	protected Component layoutFilter;
@@ -477,5 +480,34 @@ public class Finder extends Screen {
 	public static final byte FILTER_BUTTONS = 2;
 	public static final byte LIST = 3;
 	public static final byte LIST_BUTTONS = 4;
+
+	static {
+		addClientEvent(Finder.class, "onRequest", CE_IMPORTANT|CE_REPEAT_IGNORE);
+	}
+	
+	public void service(org.zkoss.zk.au.AuRequest request, boolean everError) {
+		final Component comp = request.getComponent();
+		final Map data = request.getData();
+		final String cmd = (String)data.get("command");
+		System.out.println(">>>>>>>>> command = " + cmd);
+		if ("create".equals(cmd)) {
+			this.create();
+		}
+		else if ("read".equals(cmd)) {
+			this.read();
+		}
+		else if ("update".equals(cmd)) {
+			this.update();
+		}
+		else if ("delete".equals(cmd)) {
+			this.delete();
+		}
+		else if ("search".equals(cmd)) {
+			this.search();
+		}
+		else {
+			super.service(request, everError);
+		}
+	}
 
 }
