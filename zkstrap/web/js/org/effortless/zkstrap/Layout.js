@@ -112,13 +112,32 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
     		var childrenSize = (childrenDiv != null ? childrenDiv.length : 0);
     		var min = Math.min(childrenSize, spans.length);
     		var sum = 0;
+    		var limitGrid = 12;
     		for (var i = 0; i < min; i++) {
     			var child = childrenDiv[i];
        			var colspan = 1;
        			colspan = parseInt(spans[i]);
+       			limitGrid = limitGrid - colspan;
        			this._applySpan(colspan, child);
        			if (jq(child).is(":visible")) {
        				sum += colspan;
+       			}
+       			
+       			if (i < (min - 1)) {
+       				colspan = parseInt(spans[i + 1]);
+       				if ((limitGrid - colspan) <= 0) {
+	        			//this._applyOffset(limitGrid, child);
+						jq(child).before('<div class="col-md-' + (limitGrid + 1) + '" style="height: 34px;"></div>');	        			
+	        			limitGrid = 12;
+       				}
+       				else if (i < (min - 2) && this._checkTag(childrenDiv[i + 2].firstChild)) {
+	       				colspan = colspan + parseInt(spans[i + 2]);
+	       				if ((limitGrid - colspan) <= 0) {
+		        			//this._applyOffset(limitGrid, child);
+							jq(child).before('<div class="col-md-' + (limitGrid + 1) + '" style="height: 34px;"></div>');	        			
+		        			limitGrid = 12;
+	       				}
+       				}
        			}
     		}
     		var idx = 0;
@@ -154,6 +173,15 @@ org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
     		}
     	}
     },
+
+	_checkTag: function (node) {
+		var result = false;
+		var nodeClass = jq(node).attr("class");
+		if ("tag" == nodeClass) {
+			result = true;
+		}
+		return result;
+	},
 
     _loadDefaultSpans: function (children, widgets) {
     	var result = null;

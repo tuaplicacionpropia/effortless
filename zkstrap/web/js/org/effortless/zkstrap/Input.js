@@ -229,9 +229,6 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
   	
   	if (_type == 'checkbox') {
 	}
-	else {
-	    this.domUnlisten_(this._getTextNode(), "onBlur", '_doBlur');
-	}
 	else if (_type == 'table') {
 		if (true) {
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnCreate').get()[0], 'onClick', '_doClickBtnCreateTable');
@@ -239,6 +236,9 @@ org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnUpdate').get()[0], 'onClick', '_doClickBtnUpdateTable');
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnDelete').get()[0], 'onClick', '_doClickBtnDeleteTable');
 		}
+	}
+	else {
+	    this.domUnlisten_(this._getTextNode(), "onBlur", '_doBlur');
 	}
     this.$supers('unbind_', arguments);
   },

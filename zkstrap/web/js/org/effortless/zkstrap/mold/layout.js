@@ -12,7 +12,7 @@ function (out) {
 			if (w.$instanceof(org.effortless.zkstrap.Input)) {
 				var tagLabel = w.getTagLabel();
 			    out.push('<div>');
-		    	out.push('<label for="', w.uuid + '-input', '">', tagLabel + ':', '</label>');
+		    	out.push('<label class="tag" for="', w.uuid + '-input', '">', tagLabel + ':', '</label>');
 //		    	out.push('<label>', tagLabel + ':', '</label>');
 		    	out.push('</div>');
 		    }
