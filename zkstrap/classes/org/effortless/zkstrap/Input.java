@@ -391,9 +391,10 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 				try { filter = (Filter)list; } catch (ClassCastException e1) {}
 				classObject = (filter != null ? filter.targetClass() : null);
 				
-				if (classObject == null) {
+				if (classObject == null && list != null) {
 					try {
-						classObject = (Class)MethodUtils.invokeStaticMethod(list.getClass(), "targetClass", null);
+//						classObject = (Class)MethodUtils.invokeStaticMethod(list.getClass(), "targetClass", null);
+						classObject = (Class)MethodUtils.invokeMethod(list, "targetClass", null);
 					} catch (NoSuchMethodException e1) {
 						throw new UiException(e1);
 					} catch (IllegalAccessException e1) {
@@ -402,29 +403,40 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 						throw new UiException(e1);
 					}
 				}
-
+				
+				data.put("name", "menuEditor" + StringUtils.capFirst(classObject.getSimpleName()));
 				try {
-					obj = classObject.newInstance();
-				} catch (InstantiationException e2) {
-					throw new UiException(e2);
-				} catch (IllegalAccessException e2) {
-					throw new UiException(e2);
+					ObjectAccess.execAppAction(evt);
 				}
-				
-				
-				data = (java.util.Map)evt.getData();
-				data.put("value", obj);
+				catch (UiException e2) {
+					Object _cause2 = e2.getCause();
+					NoSuchMethodException cause2 = null; try { cause2 = (NoSuchMethodException)_cause2; } catch (ClassCastException e22) {}
+					if (cause2 != null) {
+						data.put("name", this._name);
+						try {
+							obj = classObject.newInstance();
+						} catch (InstantiationException _e2) {
+							throw new UiException(_e2);
+						} catch (IllegalAccessException _e2) {
+							throw new UiException(_e2);
+						}
+						
+						
+						data = (java.util.Map)evt.getData();
+						data.put("value", obj);
 
-				AdminApp app = ObjectAccess.getApp(this);
-				String method = "menuEditor";
-				try {
-					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
-				} catch (NoSuchMethodException e1) {
-					throw new UiException(e1);
-				} catch (IllegalAccessException e1) {
-					throw new UiException(e1);
-				} catch (InvocationTargetException e1) {
-					throw new UiException(e1);
+						AdminApp app = ObjectAccess.getApp(this);
+						String method = "menuEditor";
+						try {
+							MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+						} catch (NoSuchMethodException e1) {
+							throw new UiException(e1);
+						} catch (IllegalAccessException e1) {
+							throw new UiException(e1);
+						} catch (InvocationTargetException e1) {
+							throw new UiException(e1);
+						}
+					}
 				}
 			}
 			else {

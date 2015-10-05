@@ -1,8 +1,8 @@
-#Sat, 03 Oct 2015 19:14:10 +0100
+#Mon, 05 Oct 2015 00:54:42 +0100
 #Build Number for ANT. Do not edit!
-#Sat Oct 03 19:14:10 WEST 2015
+#Mon Oct 05 00:54:42 WEST 2015
 version=1.0alpha
-build.number=532
-build.date=20151003191410+0100
-build.author=
+build.number=535
+build.date=20151005005442+0100
 id=effortless-zkstrap
+build.author=
