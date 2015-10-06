@@ -112,6 +112,21 @@ public class ObjectAccess extends Object {
 		return result;
 	}
 
+	public static Screen getFirstScreen (Component cmp) {
+		Screen result = null;
+		if (cmp != null) {
+			Screen baseEditor = null; try { baseEditor = (Screen)cmp; } catch (ClassCastException e) {}
+			if (baseEditor != null) {
+				result = baseEditor;
+			}
+			else {
+				Component parent = cmp.getParent();
+				result = getFirstScreen(parent);
+			}
+		}
+		return result;
+	}
+
 	public static Object getCmpBean (Component cmp) {
 		Object result = null;
 		if (cmp != null) {
@@ -187,24 +202,34 @@ public class ObjectAccess extends Object {
 		try {
 			MethodUtils.invokeExactMethod(ctrl, method, new Object[] {evt}, new Class[] {Event.class});
 		} catch (NoSuchMethodException e) {
-			String newMethod = (checkSimple ? "processEvent" : name);
+			String method2 = evtName;
 			try {
-				MethodUtils.invokeExactMethod(ctrl, newMethod, new Object[] {evt}, new Class[] {Event.class});
-			} catch (NoSuchMethodException e1) {
-				String defaultMethod = "processEvent";
+				MethodUtils.invokeExactMethod(ctrl, method2, new Object[] {evt}, new Class[] {Event.class});
+			}
+			catch (NoSuchMethodException e0) {
+				String newMethod = (checkSimple ? "processEvent" : name);
 				try {
-					MethodUtils.invokeExactMethod(ctrl, defaultMethod, new Object[] {evt}, new Class[] {Event.class});
-				} catch (NoSuchMethodException e2) {
-					throw new UiException(e2);
-				} catch (IllegalAccessException e2) {
-					throw new UiException(e2);
-				} catch (InvocationTargetException e2) {
-					throw new UiException(e2);
+					MethodUtils.invokeExactMethod(ctrl, newMethod, new Object[] {evt}, new Class[] {Event.class});
+				} catch (NoSuchMethodException e1) {
+					String defaultMethod = "processEvent";
+					try {
+						MethodUtils.invokeExactMethod(ctrl, defaultMethod, new Object[] {evt}, new Class[] {Event.class});
+					} catch (NoSuchMethodException e2) {
+						throw new UiException(e2);
+					} catch (IllegalAccessException e2) {
+						throw new UiException(e2);
+					} catch (InvocationTargetException e2) {
+						throw new UiException(e2);
+					}
+				} catch (IllegalAccessException e1) {
+					throw new UiException(e1);
+				} catch (InvocationTargetException e1) {
+					throw new UiException(e1);
 				}
-			} catch (IllegalAccessException e1) {
-				throw new UiException(e1);
-			} catch (InvocationTargetException e1) {
-				throw new UiException(e1);
+			} catch (IllegalAccessException e0) {
+				throw new UiException(e0);
+			} catch (InvocationTargetException e0) {
+				throw new UiException(e0);
 			}
 		} catch (IllegalAccessException e) {
 			throw new UiException(e);

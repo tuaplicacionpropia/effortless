@@ -463,18 +463,30 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 			if (cause != null) {
 				System.out.println("myFinder$onRead");
 
-				AdminApp app = ObjectAccess.getApp(this);
-				String method = "menuEditor";
+				data.put("name", "menuEditor" + StringUtils.capFirst(this.selection.getClass().getSimpleName()));
 				try {
-					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
-				} catch (NoSuchMethodException e1) {
-					throw new UiException(e1);
-				} catch (IllegalAccessException e1) {
-					throw new UiException(e1);
-				} catch (InvocationTargetException e1) {
-					throw new UiException(e1);
+					ObjectAccess.execAppAction(evt);
 				}
-
+				catch (UiException e2) {
+					Object _cause2 = e2.getCause();
+					NoSuchMethodException cause2 = null; try { cause2 = (NoSuchMethodException)_cause2; } catch (ClassCastException e22) {}
+					if (cause2 != null) {
+						data.put("name", this._name);
+						
+						
+						AdminApp app = ObjectAccess.getApp(this);
+						String method = "menuEditor";
+						try {
+							MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+						} catch (NoSuchMethodException e1) {
+							throw new UiException(e1);
+						} catch (IllegalAccessException e1) {
+							throw new UiException(e1);
+						} catch (InvocationTargetException e1) {
+							throw new UiException(e1);
+						}
+					}
+				}
 			}
 			else {
 				throw e;
@@ -501,18 +513,29 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 			if (cause != null) {
 				System.out.println("myFinder$onUpdate");
 
-				AdminApp app = ObjectAccess.getApp(this);
-				String method = "menuEditor";
+				data.put("name", "menuEditor" + StringUtils.capFirst(this.selection.getClass().getSimpleName()));
 				try {
-					MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
-				} catch (NoSuchMethodException e1) {
-					throw new UiException(e1);
-				} catch (IllegalAccessException e1) {
-					throw new UiException(e1);
-				} catch (InvocationTargetException e1) {
-					throw new UiException(e1);
+					ObjectAccess.execAppAction(evt);
 				}
+				catch (UiException e2) {
+					Object _cause2 = e2.getCause();
+					NoSuchMethodException cause2 = null; try { cause2 = (NoSuchMethodException)_cause2; } catch (ClassCastException e22) {}
+					if (cause2 != null) {
+						data.put("name", this._name);
 
+						AdminApp app = ObjectAccess.getApp(this);
+						String method = "menuEditor";
+						try {
+							MethodUtils.invokeExactMethod(app, method, new Object[] {evt}, new Class[] {Event.class});
+						} catch (NoSuchMethodException e1) {
+							throw new UiException(e1);
+						} catch (IllegalAccessException e1) {
+							throw new UiException(e1);
+						} catch (InvocationTargetException e1) {
+							throw new UiException(e1);
+						}
+					}
+				}
 			}
 			else {
 				throw e;
@@ -599,6 +622,44 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		ObjectAccess.close(evt.getTarget());
 	}
 	
+	public void myEditor$onSave (Event evt) {
+		System.out.println("myEditor$onSave");
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		
+		Screen screen = ObjectAccess.getFirstScreen(this);
+		Finder finder = null; try { finder = (Finder)screen; } catch (ClassCastException e) {}
+		boolean valid = false;
+		if (finder != null) {
+			Entity entity = null;
+			try { entity = (Entity)value; } catch (ClassCastException e) {}
+			if (entity != null) {
+				entity.persist();
+				valid = true;
+			}
+		}
+		
+		if (!valid) {
+			java.util.List list = (java.util.List)this._rawValue;
+			if (!list.contains(value)) {
+				list.add(value);
+			}
+		}
+		
+		ObjectAccess.close(evt.getTarget());
+	}
+	
+	public void onSelect (Event evt) {
+		Component target = evt.getTarget();
+		if (target != this) {
+			java.util.Map data = (java.util.Map)evt.getData();
+			Object select = data.get("value");
+			setSelection(select);
+		}
+	}
+	
+	
+
 	
 	
 }

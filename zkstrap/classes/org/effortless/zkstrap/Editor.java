@@ -173,5 +173,14 @@ public class Editor extends Screen {
 			super.service(request, everError);
 		}
 	}
+
+	public void onSelect (Event evt) {
+//		Input _list = null; try { _list = (Input)this.listTable; } catch (ClassCastException e) {}
+//		_list.onSelect(evt);
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object select = data.get("value");
+		System.out.println("SELECCIONADO " + select);
+	}
+	
 	
 }

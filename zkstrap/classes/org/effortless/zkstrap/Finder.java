@@ -300,6 +300,8 @@ public class Finder extends Screen {
 	
 	
 	public void onSelect (Event evt) {
+//		Input _list = null; try { _list = (Input)this.listTable; } catch (ClassCastException e) {}
+//		_list.onSelect(evt);
 		java.util.Map data = (java.util.Map)evt.getData();
 		Object select = data.get("value");
 		setSelection(select);
@@ -315,22 +317,24 @@ public class Finder extends Screen {
 	
 	
 	public void myEditor$onSave (Event evt) {
-		System.out.println("myEditor$onSave");
-		java.util.Map data = (java.util.Map)evt.getData();
-		Object value = data.get("value");
-		
-		Entity entity = null;
-		try { entity = (Entity)value; } catch (ClassCastException e) {}
-		if (entity != null) {
-			entity.persist();
-		}
-		else {
-			java.util.List list = (java.util.List)this._value;
-			if (!list.contains(value)) {
-				list.add(value);
-			}
-		}
-		ObjectAccess.close(evt.getTarget());
+		Input _list = null; try { _list = (Input)this.listTable; } catch (ClassCastException e) {}
+		_list.myEditor$onSave(evt);
+//		System.out.println("myEditor$onSave");
+//		java.util.Map data = (java.util.Map)evt.getData();
+//		Object value = data.get("value");
+//		
+//		Entity entity = null;
+//		try { entity = (Entity)value; } catch (ClassCastException e) {}
+//		if (entity != null) {
+//			entity.persist();
+//		}
+//		else {
+//			java.util.List list = (java.util.List)this._value;
+//			if (!list.contains(value)) {
+//				list.add(value);
+//			}
+//		}
+//		ObjectAccess.close(evt.getTarget());
 	}
 	
 	

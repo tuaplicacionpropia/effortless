@@ -134,8 +134,35 @@ public class PropertyList extends AbstractPropertyList {
 		boolean result = false;
 		AbstractIdEntity item = (AbstractIdEntity)o;
 		if (item != null) {
-			result = (!result ? this.itemsByValue.get(item) != null : result);
+			result = (!result ? _getIndexByValue(item) != null : result);
 			result = (!result && item.getId() != null ? existsOnDb(item) : result);
+		}
+		return result;
+	}
+	
+	protected Integer _getIndexByValue (Object value) {
+		Integer result = null;
+		if (value != null) {
+			Integer hashCode = Integer.valueOf(value.hashCode());
+			result = (Integer)this.itemsByValue.get(hashCode);
+		}
+		return result;
+	}
+
+	protected Integer _setIndexByValue (Object value, Integer index) {
+		Integer result = null;
+		if (value != null) {
+			Integer hashCode = Integer.valueOf(value.hashCode());
+			result = (Integer)this.itemsByValue.put(hashCode, index);
+		}
+		return result;
+	}
+
+	protected Integer _removeIndexByValue (Object value) {
+		Integer result = null;
+		if (value != null) {
+			Integer hashCode = Integer.valueOf(value.hashCode());
+			result = (Integer)this.itemsByValue.remove(hashCode);
 		}
 		return result;
 	}
@@ -145,12 +172,12 @@ public class PropertyList extends AbstractPropertyList {
 		boolean result = false;
 		if (o != null && contains(o)) {
 			AbstractIdEntity item = (AbstractIdEntity)o;
-			Integer index = (Integer)this.itemsByValue.get(item);
+			Integer index = _getIndexByValue(item);
 			PropertyListItem element = (index != null ? (PropertyListItem)this.itemsByIndex.get(index) : null);
 			if (element != null) {
 				PropertyListItemStatus status = element.getStatus();
 				if (PropertyListItemStatus.NEW.equals(status)) {
-					this.itemsByValue.remove(item);
+					_removeIndexByValue(item);
 					this.itemsByIndex.remove(index);
 					adjustIndexes(index);
 					this._countAddSize--;
@@ -162,7 +189,7 @@ public class PropertyList extends AbstractPropertyList {
 				}
 				else if (PropertyListItemStatus.CHANGELESS.equals(status) || PropertyListItemStatus.MODIFIED.equals(status)) {
 					element.setStatus(PropertyListItemStatus.REMOVE);
-					this.itemsByValue.remove(item);
+					_removeIndexByValue(item);
 					this.itemsByIndex.remove(index);
 					this.itemsToRemove = (this.itemsToRemove != null ? this.itemsToRemove : new java.util.ArrayList());
 					this.itemsToRemove.add(element);
@@ -198,10 +225,10 @@ public class PropertyList extends AbstractPropertyList {
 					Integer itemIndex = item.getIndex();
 					AbstractIdEntity itemValue = (AbstractIdEntity)item.getValue();
 					this.itemsByIndex.remove(itemIndex);
-					this.itemsByValue.remove(itemValue);
+					_removeIndexByValue(itemValue);
 					Integer newIndex = Integer.valueOf(itemIndex.intValue() - 1);
 					this.itemsByIndex.put(newIndex, item);
-					this.itemsByValue.put(itemValue , newIndex);
+					_setIndexByValue(itemValue , newIndex);
 					item.setIndex(newIndex);
 				}
 			}
@@ -220,7 +247,7 @@ public class PropertyList extends AbstractPropertyList {
 				element.setStatus(PropertyListItemStatus.NEW);
 				element.setValue(e);
 				this.itemsByIndex.put(newIndex, element);
-				this.itemsByValue.put(e, newIndex);
+				_setIndexByValue(e, newIndex);
 				this._countAddSize++;
 				if (this._size > -1) {
 					this._size++;
@@ -238,12 +265,12 @@ public class PropertyList extends AbstractPropertyList {
 		int result = -1;
 		if (o != null) {
 			AbstractIdEntity item = (AbstractIdEntity)o;
-			Integer index = (Integer)this.itemsByValue.get(item);
+			Integer index = _getIndexByValue(item);
 			result = (index != null ? index.intValue() : -1);
 			if (contains(o)) {
 				do {
 					_loadPage();
-					index = (Integer)this.itemsByValue.get(item);
+					index = _getIndexByValue(item);
 					result = (index != null ? index.intValue() : -1);
 					this._cursor += (result > -1 ? 0 : +1);
 				} while (result > -1);
@@ -300,7 +327,7 @@ public class PropertyList extends AbstractPropertyList {
 				element.setValue(item);
 				item.addPropertyChangeListener(_doGetChangeListener());
 				this.itemsByIndex.put(newIndex, element);
-				this.itemsByValue.put(item, newIndex);
+				_setIndexByValue(item, newIndex);
 			}
 		}
 	}
@@ -313,7 +340,7 @@ public class PropertyList extends AbstractPropertyList {
 			this._changeListener = new PropertyChangeListener () {
 
 				public void propertyChange(PropertyChangeEvent event) {
-					Integer index = (Integer)_this.itemsByValue.get(event.getSource());
+					Integer index = _getIndexByValue(event.getSource());
 					PropertyListItem item = (index != null ? (PropertyListItem)_this.itemsByIndex.get(index) : null);
 					if (item != null) {
 						PropertyListItemStatus oldStatus = item.getStatus();
@@ -500,7 +527,7 @@ public class PropertyList extends AbstractPropertyList {
 								for (Object listItem: list) {
 									PropertyListItem item = (PropertyListItem)listItem;
 									AbstractIdEntity value = (AbstractIdEntity)item.getValue();
-									Integer index = (Integer)this.itemsByValue.remove(value);
+									Integer index = _removeIndexByValue(value);
 									this.itemsByIndex.remove(index);
 								}
 							}
@@ -530,7 +557,7 @@ public class PropertyList extends AbstractPropertyList {
 								value.create();
 								item.setStatus(PropertyListItemStatus.CHANGELESS);
 								value.addPropertyChangeListener(_doGetChangeListener());
-								this.itemsByValue.put(value, item.getIndex());
+								_setIndexByValue(value, item.getIndex());
 							}
 						}
 					}
@@ -546,7 +573,7 @@ public class PropertyList extends AbstractPropertyList {
 								value.delete();
 
 								if (false) {
-									Integer index = (Integer)this.itemsByValue.remove(value);
+									Integer index = _removeIndexByValue(value);
 									this.itemsByIndex.remove(index);
 								}
 								
@@ -566,7 +593,7 @@ public class PropertyList extends AbstractPropertyList {
 								((InnerEntity)value).setupOwner(this.owner);
 								value.update();
 								item.setStatus(PropertyListItemStatus.CHANGELESS);
-								this.itemsByValue.put(value, item.getIndex());
+								_setIndexByValue(value, item.getIndex());
 							}
 						}
 					}
