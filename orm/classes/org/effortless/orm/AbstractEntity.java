@@ -2412,11 +2412,19 @@ public abstract class AbstractEntity extends Object implements Entity, Comparabl
 		result = 17;
 		String className = this.getClass().getName();
 		result = (result * mult) + className.hashCode();
-		result = doHashCode(result, mult);
+		int prevResult = result;
+		result = doUniqueHashCode(result, mult);
+		if (result == prevResult) {
+			result = doHashCode(result, mult);
+		}
 
 		return result;
 	}
 
+	protected int doUniqueHashCode(int hash, int mult) {
+		return hash;
+	}
+	
 	protected int doHashCode(int hash, int mult) {
 		return hash;
 	}
@@ -2424,8 +2432,8 @@ public abstract class AbstractEntity extends Object implements Entity, Comparabl
 	protected int _doHashCode(int hash, int mult, String propertyName, Object propertyValue) {
 		int result = 0;
 		result = hash;
-		result = (result * mult) + propertyName.hashCode();
 		if (this._checkLoaded(propertyName)) {
+			result = (result * mult) + propertyName.hashCode();
 			result = (result * mult) + (propertyValue != null ? propertyValue.hashCode() : 0);
 		}
 		return result;

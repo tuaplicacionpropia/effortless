@@ -404,9 +404,11 @@ if (false) {
 //				java.util.List columnNames = new java.util.ArrayList();
 //				java.util.List pValues = new java.util.ArrayList();
 
-				String[] columnNames = new String[changesSize + 1];
-				Object[] pValues = new Object[changesSize + 1];
-				
+//				String[] columnNames = new String[changesSize + 1];
+//				Object[] pValues = new Object[changesSize + 1];
+				java.util.List columnNames = new java.util.ArrayList();
+				java.util.List pValues = new java.util.ArrayList();
+
 //				int inc = (forUpdate ? 1 : 0);
 //				int realSize = changesSize + inc;
 //				columnNames = new String[realSize];
@@ -422,16 +424,19 @@ if (false) {
 //						columnNames.add(columnName);
 //						pValues.add(change.getNewValue());
 
-						columnNames[i] = columnName;
-						pValues[i] = change.getNewValue();
+//						columnNames[i] = columnName;
+//						pValues[i] = change.getNewValue();
+
+						columnNames.add(columnName);
+						pValues.add(change.getNewValue());
 					}
 				}
 				
 				result = new Object[2];
 //				result[0] = columnNames.toArray(new String[0]);
 //				result[1] = pValues.toArray(new Object[0]);
-				result[0] = columnNames;
-				result[1] = pValues;
+				result[0] = columnNames.toArray(new String[0]);
+				result[1] = pValues.toArray(new Object[0]);
 			}
 
 		}
