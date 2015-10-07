@@ -392,6 +392,7 @@ public class Finder extends Screen {
 			setStatus(LIST);
 			this.addTable("#");
 			this.listTable = this.lastCmp;
+			((Input)this.listTable).setSettings("modeFinder", "true");
 			
 //			result.addText("name");
 		}

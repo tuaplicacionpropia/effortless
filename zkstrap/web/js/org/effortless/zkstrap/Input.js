@@ -1,4 +1,34 @@
 org.effortless.zkstrap.Input = zk.$extends(zk.Widget, {
+  _settings : {},
+  getSettings : function () {
+  	return this._settings;
+  },
+  setSettings : function (newValue) {
+  console.log('setSettings = ' + newValue);
+    this._settings = jq.evalJSON(newValue);
+  	return this._settings;
+  },
+  
+  getPropertySettings: function (name) {
+    var result = null;
+    if (this._settings && name) {
+      var arrayName = name.split(".");
+      if (arrayName.length > 0) {
+        result = this._settings;
+        for (var i = 0; i < arrayName.length; i++) {
+          if (result) {
+            var itemName = arrayName[i];
+          	result = result["" + itemName];
+          }
+          else {
+          	break;
+          }
+        }
+      }
+    }
+    return result;
+  },
+
   _value : '', // default value
   getValue : function() {
     return this._value;

@@ -28,7 +28,8 @@ function (out) {
 //      child.redraw(out);
 //    }
   }
-  
+
+/*  
   out.push('<div class="pull-right">');
    	child = child.nextSibling;
     for (; child; child = child.nextSibling) {
@@ -40,6 +41,6 @@ function (out) {
     out.push('<button id="', uuid, '-btnUpdate" type="button" class="btn btn-default">Update</button>');
     out.push('<button id="', uuid, '-btnDelete" type="button" class="btn btn-default">Delete</button>');
   out.push('</div>');
-
+*/
   out.push('</div>');
 }

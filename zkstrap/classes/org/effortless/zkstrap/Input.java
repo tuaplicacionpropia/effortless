@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
 import org.effortless.core.DateUtils;
+import org.effortless.core.JsonUtils;
 import org.effortless.core.ObjectUtils;
 import org.effortless.core.StringUtils;
 import org.effortless.orm.Entity;
@@ -116,7 +117,39 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		}
 	}
 	
+	protected java.util.Map settings = new java.util.HashMap();
 	
+	public java.util.Map getSettings () {
+		return this.settings;
+	}
+	
+	public void setSettings (java.util.Map newValue) {
+		if (!this.settings.equals(newValue)) {
+			this.settings = newValue;
+			smartUpdate("settings", this.settings);
+		}
+	}
+	
+	public Object getSettings (String name) {
+		Object result = null;
+		if (this.settings != null && name != null) {
+			result = this.settings.get(name);
+		}
+		return result;
+	}
+
+	public Object setSettings (String name, Object newValue) {
+		Object result = null;
+		this.settings = (this.settings != null ? this.settings : new java.util.HashMap());
+		if (this.settings != null && name != null) {
+			result = this.settings.put(name, newValue);
+			if (!ObjectUtils.equals(result, newValue)) {
+				String settingsJson = JsonUtils.toJson(this.settings);
+				smartUpdate("settings", settingsJson);
+			}
+		}
+		return result;
+	}
 	
 	protected String properties = "";
 	
@@ -291,6 +324,9 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		render(renderer, "name", this._name);
 		render(renderer, "values", this._valuesToClient());
 		render(renderer, "properties", this.properties);
+
+		String settingsJson = JsonUtils.toJson(this.settings);
+		render(renderer, "settings", settingsJson);
 	}
 
 //	public void setBclass (String newValue) {

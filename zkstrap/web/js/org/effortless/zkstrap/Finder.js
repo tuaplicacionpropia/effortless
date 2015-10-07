@@ -7,18 +7,19 @@ org.effortless.zkstrap.Finder = zk.$extends(org.effortless.zkstrap.Screen, {
     
 		if (true) {
     	  this.domListen_(jq('#' + this.uuid + '-btnSearch').get()[0], 'onClick', '_doClickBtnSearch');
-
+/*
     	  this.domListen_(jq('#' + this.uuid + '-btnCreate').get()[0], 'onClick', '_doClickBtnCreate');
     	  this.domListen_(jq('#' + this.uuid + '-btnRead').get()[0], 'onClick', '_doClickBtnRead');
     	  this.domListen_(jq('#' + this.uuid + '-btnUpdate').get()[0], 'onClick', '_doClickBtnUpdate');
     	  this.domListen_(jq('#' + this.uuid + '-btnDelete').get()[0], 'onClick', '_doClickBtnDelete');
+*/
 		}
   },
 
   _doClickBtnSearch: function(evt) {
     this.fire('onReq', {command:'search'}, {toServer: true});
   }, 
-
+/*
   _doClickBtnCreate: function(evt) {
     this.fire('onReq', {command:'create'}, {toServer: true});
   }, 
@@ -34,15 +35,16 @@ org.effortless.zkstrap.Finder = zk.$extends(org.effortless.zkstrap.Screen, {
   _doClickBtnDelete: function(evt) {
     this.fire('onReq', {command:'delete'}, {toServer: true});
   }, 
-
+*/
   unbind_ : function(evt) {
 		if (true) {
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnSearch').get()[0], 'onClick', '_doClickBtnSearch');
-
+/*
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnCreate').get()[0], 'onClick', '_doClickBtnCreate');
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnRead').get()[0], 'onClick', '_doClickBtnRead');
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnUpdate').get()[0], 'onClick', '_doClickBtnUpdate');
     	  this.domUnlisten_(jq('#' + this.uuid + '-btnDelete').get()[0], 'onClick', '_doClickBtnDelete');
+*/
 		}
 
     this.$supers('unbind_', arguments);
