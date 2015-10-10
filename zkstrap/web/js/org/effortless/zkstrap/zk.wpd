@@ -1,4 +1,6 @@
 <package name="org.effortless.zkstrap" language="xul/html">
+  <widget name="AbstractComponent"/>
+  
   <widget name="SimpleLabel"/>
   <widget name="SimpleButton"/>
 

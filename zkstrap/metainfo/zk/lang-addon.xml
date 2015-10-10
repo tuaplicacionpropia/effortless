@@ -96,7 +96,20 @@
 -->
     </mold>
   </component>
-  
+
+  <component>
+    <component-name>abstractComponent</component-name>
+    <component-class>org.effortless.zkstrap.AbstractComponent</component-class>
+    <widget-class>org.effortless.zkstrap.AbstractComponent</widget-class>
+    <mold>
+      <mold-name>default</mold-name>
+      <mold-uri>mold/abstractcomponent.js</mold-uri>
+<!--
+      <css-uri>css/abstractcomponent.css.dsp</css-uri>
+-->
+    </mold>
+  </component>
+
   <component>
     <component-name>input</component-name>
     <component-class>org.effortless.zkstrap.Input</component-class>

@@ -20,17 +20,14 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.InputEvent;
 
-public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
+public class Input extends AbstractComponent {
 
 	public Input () {
 		super();
-		initiate();
 	}
 	
-	protected boolean _$processingClient;
-	
 	protected void initiate () {
-		this._$processingClient = false;
+		super.initiate();
 		this._rawValue = null;
 		this._readValue = true;
 //		this.setZclass("label label-default");
@@ -115,40 +112,6 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 			
 			ObjectAccess.execEditorAction(evt);
 		}
-	}
-	
-	protected java.util.Map settings = new java.util.HashMap();
-	
-	public java.util.Map getSettings () {
-		return this.settings;
-	}
-	
-	public void setSettings (java.util.Map newValue) {
-		if (!this.settings.equals(newValue)) {
-			this.settings = newValue;
-			smartUpdate("settings", this.settings);
-		}
-	}
-	
-	public Object getSettings (String name) {
-		Object result = null;
-		if (this.settings != null && name != null) {
-			result = this.settings.get(name);
-		}
-		return result;
-	}
-
-	public Object setSettings (String name, Object newValue) {
-		Object result = null;
-		this.settings = (this.settings != null ? this.settings : new java.util.HashMap());
-		if (this.settings != null && name != null) {
-			result = this.settings.put(name, newValue);
-			if (!ObjectUtils.equals(result, newValue)) {
-				String settingsJson = JsonUtils.toJson(this.settings);
-				smartUpdate("settings", settingsJson);
-			}
-		}
-		return result;
 	}
 	
 	protected String properties = "";
@@ -324,26 +287,23 @@ public class Input extends org.zkoss.zk.ui.HtmlBasedComponent {
 		render(renderer, "name", this._name);
 		render(renderer, "values", this._valuesToClient());
 		render(renderer, "properties", this.properties);
-
-		String settingsJson = JsonUtils.toJson(this.settings);
-		render(renderer, "settings", settingsJson);
 	}
 
 //	public void setBclass (String newValue) {
 //		setZclass("label label-" + newValue);
 //	}
 
-	static {
-//		addClientEvent(Input.class, Events.ON_CHANGE, CE_IMPORTANT|CE_REPEAT_IGNORE);
-//		addClientEvent(Input.class, "onSelect", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//	static {
+////		addClientEvent(Input.class, Events.ON_CHANGE, CE_IMPORTANT|CE_REPEAT_IGNORE);
+////		addClientEvent(Input.class, "onSelect", CE_IMPORTANT|CE_REPEAT_IGNORE);
+////
+////		addClientEvent(Input.class, "onCreateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+////		addClientEvent(Input.class, "onReadItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+////		addClientEvent(Input.class, "onUpdateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
+////		addClientEvent(Input.class, "onDeleteItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
 //
-//		addClientEvent(Input.class, "onCreateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-//		addClientEvent(Input.class, "onReadItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-//		addClientEvent(Input.class, "onUpdateItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-//		addClientEvent(Input.class, "onDeleteItem", CE_IMPORTANT|CE_REPEAT_IGNORE);
-
-		addClientEvent(Input.class, "onReq", CE_IMPORTANT|CE_REPEAT_IGNORE);
-	}
+//		addClientEvent(Input.class, "onReq", CE_IMPORTANT|CE_REPEAT_IGNORE);
+//	}
 	
 	
 //	 protected void updateByClient(String name, Object value) {

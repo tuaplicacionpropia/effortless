@@ -314,7 +314,8 @@ $("#amount").inputmask("decimal",{
 		}
 		
 		if (true) {
-		 var modeFinder = this.getPropertySettings("modeFinder");
+		 var modeFinder = this.getPropertyOptions("modeFinder");
+		 console.log('modeFinder = ' + modeFinder);
   	     if (modeFinder != "true") {
 		 out.push('<div class="btn-group pull-right">');
 		    out.push('<button id="', uuid, '-btnCreate" type="button" class="btn btn-default btn-flat"><i class="fa fa-plus-circle"></i></button>');
