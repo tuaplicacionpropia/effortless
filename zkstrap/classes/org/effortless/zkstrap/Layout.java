@@ -1,6 +1,6 @@
 package org.effortless.zkstrap;
 
-public class Layout extends org.zkoss.zk.ui.HtmlBasedComponent {
+public class Layout extends AbstractComponent {
 
 	public Layout () {
 		super();

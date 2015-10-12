@@ -2,14 +2,14 @@ package org.effortless.zkstrap;
 
 import org.zkoss.zk.ui.event.Events;
 
-public class MenuBs extends org.zkoss.zk.ui.HtmlBasedComponent {
+public class MenuBs extends AbstractComponent {
 
 	public MenuBs () {
 		super();
-		initiate();
 	}
 	
 	protected void initiate () {
+		super.initiate();
 //		this.setZclass("label label-default");
 //		this.setSclass("default");
 	}

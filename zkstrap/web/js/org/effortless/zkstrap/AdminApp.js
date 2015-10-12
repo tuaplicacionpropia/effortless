@@ -1,4 +1,4 @@
-org.effortless.zkstrap.AdminApp = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.AdminApp = zk.$extends(org.effortless.zkstrap.AbstractComponent, {
   _label : '', // default value
 
   getLabel : function() {

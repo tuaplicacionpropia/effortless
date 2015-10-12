@@ -1,4 +1,4 @@
-org.effortless.zkstrap.Layout = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.Layout = zk.$extends(org.effortless.zkstrap.AbstractComponent, {
   _type : '',
   getType : function() {
     return this._type;

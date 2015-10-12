@@ -1,4 +1,4 @@
-org.effortless.zkstrap.Screen = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.Screen = zk.$extends(org.effortless.zkstrap.AbstractComponent, {
 
   bind_ : function(evt) {
     this.$supers('bind_', arguments);

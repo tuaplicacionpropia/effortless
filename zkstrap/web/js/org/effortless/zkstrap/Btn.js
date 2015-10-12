@@ -1,4 +1,4 @@
-org.effortless.zkstrap.Btn = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.Btn = zk.$extends(org.effortless.zkstrap.AbstractComponent, {
   _label : '', // default value
 
   getLabel : function() {

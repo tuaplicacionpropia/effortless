@@ -3,11 +3,10 @@ package org.effortless.zkstrap;
 import org.effortless.core.ObjectUtils;
 import org.zkoss.zk.ui.Component;
 
-public class Screen extends org.zkoss.zk.ui.HtmlBasedComponent {
+public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedComponent {
 
 	public Screen () {
 		super();
-		initiate();
 	}
 
 	public Screen (Component parent, Object value, String name) {
@@ -31,6 +30,7 @@ public class Screen extends org.zkoss.zk.ui.HtmlBasedComponent {
 	}
 
 	protected void initiate () {
+		super.initiate();
 		this.name = null;
 //		this.appendChild(new Layout());
 //		this.setZclass("label label-default");

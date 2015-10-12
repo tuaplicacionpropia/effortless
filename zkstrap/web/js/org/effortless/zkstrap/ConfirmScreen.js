@@ -1,4 +1,4 @@
-org.effortless.zkstrap.ConfirmScreen = zk.$extends(zk.Widget, {
+org.effortless.zkstrap.ConfirmScreen = zk.$extends(org.effortless.zkstrap.Screen, {
 
   _type : '', // default value
   getType : function() {

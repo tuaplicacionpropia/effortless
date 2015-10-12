@@ -21,10 +21,10 @@ public class AdminApp extends Screen {//implements Richlet {
 
 	public AdminApp () {
 		super();
-		initiate();
 	}
 	
 	protected void initiate () {
+		super.initiate();
 		this.label = "";
 		this.adminPage = "";
 		this.skin = "";

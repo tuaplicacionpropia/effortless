@@ -5,14 +5,14 @@ import java.util.Map;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.event.Events;
 
-public class Btn extends org.zkoss.zk.ui.HtmlBasedComponent {
+public class Btn extends AbstractComponent {
 
 	public Btn () {
 		super();
-		initiate();
 	}
 	
 	protected void initiate () {
+		super.initiate();
 		this.setZclass("btn btn-default");
 //		this.setSclass("default");
 	}
