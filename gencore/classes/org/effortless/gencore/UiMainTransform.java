@@ -104,6 +104,9 @@ public class UiMainTransform extends AbstractTransform {
 			}
 		}
 		
+		mg.add(mg.call("menuInicio", mg.cteNull()));
+		
+		
 		mg = cg.addMethod("menuInicio").setPublic(true).addParameter(Event.class, "evt");
 		mg.declVariable(Integer.class, "inc", mg.cast(Integer.class, mg.call("getAttribute", mg.cte("INC"))));
 		mg.add(mg.assign(mg.var("inc"), mg.callStatic(Integer.class, "valueOf", mg.plus(mg.call(mg.var("inc"), "intValue"), mg.cte((int)1)))));

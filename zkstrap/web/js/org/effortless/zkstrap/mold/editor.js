@@ -4,6 +4,18 @@ function (out) {
 
   out.push('<div id="', uuid, '" class="editor">');
       
+        //Content Header (Page header)
+		out.push('<section class="content-header">');
+		  out.push('<h1>');
+		    out.push('Registro de código 34235');
+		    out.push('<small>Editor</small>');
+		  out.push('</h1>');
+		out.push('</section>');
+
+        // Main content
+		out.push('<section class="content">');
+  
+      
   var child = null;
   if (this.nChildren > 0) {
     child = this.firstChild;
@@ -26,5 +38,6 @@ function (out) {
   out.push('</div>');
   
   
+		out.push('</section>');
   out.push('</div>');
 }

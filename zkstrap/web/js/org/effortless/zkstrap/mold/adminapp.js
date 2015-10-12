@@ -257,7 +257,8 @@ function (out) {
       out.push('</aside>');
 
       // Content Wrapper. Contains page content
-      out.push('<div class="content-wrapper">');
+      out.push('<div id="', uuid , '-main-content" class="content-wrapper">');
+if (false) {
         //Content Header (Page header)
 		out.push('<section class="content-header">');
 		  out.push('<h1>');
@@ -274,7 +275,7 @@ function (out) {
 
         // Main content
 		out.push('<section id="', uuid , '-main-content" class="content">');
-
+}
         if (this.nChildren > 0) {
           for (var child = this.firstChild; child; child = child.nextSibling) {
 		 	if (!(child instanceof org.effortless.zkstrap.MenuBs)) {
@@ -283,8 +284,9 @@ function (out) {
           }
         }
 
-
+if (false) {
 		out.push('</section>');
+}
       out.push('</div>');
       
       out.push('<footer class="main-footer">');

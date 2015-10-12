@@ -4,6 +4,18 @@ function (out) {
 
   out.push('<div id="', uuid, '" class="confirmScreen">');
 
+        //Content Header (Page header)
+		out.push('<section class="content-header">');
+		  out.push('<h1>');
+		    out.push('Confirmación');
+		    out.push('<small>Eliminación</small>');
+		  out.push('</h1>');
+		out.push('</section>');
+
+        // Main content
+		out.push('<section class="content">');
+  
+
   var child = null;
       
   if (this.nChildren > 0) {
@@ -29,5 +41,6 @@ function (out) {
   
   
   
+		out.push('</section>');
   out.push('</div>');
 }

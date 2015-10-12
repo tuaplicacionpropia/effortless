@@ -4,6 +4,19 @@ function (out) {
 
   out.push('<div id="', uuid, '" class="finder">');
   
+        //Content Header (Page header)
+		out.push('<section class="content-header">');
+		  out.push('<h1>');
+		    out.push('Listado de Entidades');
+		    out.push('<small>Control panel</small>');
+		  out.push('</h1>');
+		out.push('</section>');
+
+        // Main content
+		out.push('<section class="content">');
+  
+  
+  
   var child = null;
   if (this.nChildren > 0) {
     child = this.firstChild;
@@ -42,5 +55,7 @@ function (out) {
     out.push('<button id="', uuid, '-btnDelete" type="button" class="btn btn-default">Delete</button>');
   out.push('</div>');
 */
+
+		out.push('</section>');
   out.push('</div>');
 }
