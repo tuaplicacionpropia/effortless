@@ -585,6 +585,14 @@ public class DateUtils extends Object {
 		return getField(date, Calendar.MONTH);
 	}
 
+	public static int getHour (Date date) {
+		return getField(date, Calendar.HOUR);
+	}
+
+	public static int getMinute (Date date) {
+		return getField(date, Calendar.MINUTE);
+	}
+
 	/**
 	 * Milisegundos de un día
 	 */

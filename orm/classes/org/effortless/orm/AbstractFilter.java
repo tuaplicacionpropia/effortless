@@ -17,6 +17,9 @@ import java.util.ListIterator;
 import java.util.Map;
 
 
+
+
+import org.effortless.core.EnumString;
 //import org.apache.commons.lang.ClassUtils;
 //import org.effortless.core.GlobalContext;
 //import org.effortless.core.ModelException;
@@ -324,6 +327,111 @@ public abstract class AbstractFilter extends AbstractList implements Filter, Pro
 			this._conditions.add(_decodeProperty(name, param) + " = ?");
 			this._params.add(_decodeParam(name, param));
 //		this._types.add(Integer.valueOf(SqlMapper.obj2SqlType(param)));
+		}
+		return this;
+	}
+
+	public Filter eq (String name, java.sql.Time param) {
+		if (param != null) {
+			String fnHour = "HOUR";
+			String fnMinute = "MINUTE";
+			
+			this._conditions.add("" + fnHour + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getHour(param)));
+
+			this._conditions.add("" + fnMinute + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getMinute(param)));
+		}
+		return this;
+	}
+	
+	public Filter ne (String name, java.sql.Time param) {
+		if (param != null) {
+			not();
+			eq(name, param);
+			end();
+		}
+		return this;
+	}
+	
+
+	public Filter eq (String name, java.sql.Timestamp param) {
+		if (param != null) {
+			String fnDay = "DAY_OF_MONTH";
+			String fnMonth = "MONTH";
+			String fnYear = "YEAR";
+
+			String fnHour = "HOUR";
+			String fnMinute = "MINUTE";
+			
+			this._conditions.add("" + fnDay + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getDayOfMonth(param)));
+
+			this._conditions.add("" + fnMonth + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getMonthOfYear(param) + 1));
+
+			this._conditions.add("" + fnYear + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getYear(param)));
+
+			this._conditions.add("" + fnHour + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getHour(param)));
+
+			this._conditions.add("" + fnMinute + "(" + _decodeProperty(name, param) + ") = ?");
+			this._params.add(_decodeParam(name, org.effortless.core.DateUtils.getMinute(param)));
+		}
+		return this;
+	}
+	
+	public Filter ne (String name, java.sql.Timestamp param) {
+		if (param != null) {
+			not();
+			eq(name, param);
+			end();
+		}
+		return this;
+	}
+	
+	
+	
+	
+	public Filter eq (String name, AbstractIdEntity param) {
+		if (param != null) {
+			eq(name, param.getId());
+		}
+		return this;
+	}
+	
+	public Filter ne (String name, AbstractIdEntity param) {
+		if (param != null) {
+			ne(name, param.getId());
+		}
+		return this;
+	}
+	
+	public Filter eq (String name, EnumString param) {
+		if (param != null) {
+			eq(name, param.name());
+		}
+		return this;
+	}
+	
+	public Filter eq (String name, Enum param) {
+		if (param != null) {
+			eq(name, param.name());
+		}
+		return this;
+	}
+	
+	public Filter ne (String name, EnumString param) {
+		if (param != null) {
+			ne(name, param.name());
+		}
+		return this;
+	}
+	
+	public Filter ne (String name, Enum param) {
+		if (param != null) {
+			ne(name, param.name());
 		}
 		return this;
 	}
@@ -2354,6 +2462,71 @@ else {
 	@Override
 	public Filter between(String name, Object lo, Object hi) {
 		return bt(name, lo, hi);
+	}
+
+	@Override
+	public Filter between(String name, java.util.Date date) {
+		return bt(name, date);
+	}
+
+	@Override
+	public Filter notBetween(String name, java.util.Date date) {
+		return nbt(name, date);
+	}
+
+	@Override
+	public Filter bt(String name, java.util.Date date) {
+		Filter result = this;
+		if (date != null) {
+			java.util.Date first = org.effortless.core.DateUtils.firstTime(date);
+			java.util.Date last = org.effortless.core.DateUtils.lastTime(date);
+			result = bt(name, first, last);
+		}
+		return result;
+	}
+
+	@Override
+	public Filter nbt(String name, java.util.Date date) {
+		Filter result = this;
+		if (date != null) {
+			java.util.Date first = org.effortless.core.DateUtils.firstTime(date);
+			java.util.Date last = org.effortless.core.DateUtils.lastTime(date);
+			result = nbt(name, first, last);
+		}
+		return result;
+	}
+
+	
+	@Override
+	public Filter between(String name, Double value) {
+		return bt(name, value);
+	}
+
+	@Override
+	public Filter notBetween(String name, Double value) {
+		return nbt(name, value);
+	}
+
+	@Override
+	public Filter bt(String name, Double value) {
+		Filter result = this;
+		if (value != null) {
+			Double first = Double.valueOf(org.effortless.core.NumberUtils.roundDown(value, 4));
+			Double last = Double.valueOf(org.effortless.core.NumberUtils.roundUp(value, 4));
+			result = bt(name, first, last);
+		}
+		return result;
+	}
+
+	@Override
+	public Filter nbt(String name, Double value) {
+		Filter result = this;
+		if (value != null) {
+			Double first = Double.valueOf(org.effortless.core.NumberUtils.roundDown(value, 4));
+			Double last = Double.valueOf(org.effortless.core.NumberUtils.roundUp(value, 4));
+			result = nbt(name, first, last);
+		}
+		return result;
 	}
 
 	@Override

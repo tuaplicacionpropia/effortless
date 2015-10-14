@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.effortless.core.EnumString;
 import org.effortless.orm.Bindable;
 
 public interface Filter extends List, Bindable {
@@ -63,6 +64,23 @@ public interface Filter extends List, Bindable {
 	public Filter ieq (String name, Object param);
 	public Filter ieq (String name, Filter param);
 
+	public Filter eq (String name, EnumString param);
+	public Filter eq (String name, Enum param);
+	public Filter ne (String name, EnumString param);
+	public Filter ne (String name, Enum param);
+	
+	
+	public Filter eq (String name, AbstractIdEntity param);
+	public Filter ne (String name, AbstractIdEntity param);
+
+	public Filter eq (String name, java.sql.Time param);
+	public Filter ne (String name, java.sql.Time param);
+
+	public Filter eq (String name, java.sql.Timestamp param);
+	public Filter ne (String name, java.sql.Timestamp param);
+	
+	public Filter eqOrNull (String name, Object param);
+	
 
 	public Filter ne (String name, Object param);
 	public Filter ne (String name, Filter param);
@@ -86,6 +104,16 @@ public interface Filter extends List, Bindable {
 	public Filter between (String name, Filter lo, Filter hi);
 	public Filter notBetween (String name, Object lo, Object hi);
 	public Filter notBetween (String name, Filter lo, Filter hi);
+	
+	public Filter between(String name, java.util.Date date);
+	public Filter notBetween(String name, java.util.Date date);
+	public Filter bt(String name, java.util.Date date);
+	public Filter nbt(String name, java.util.Date date);
+	
+	public Filter between(String name, Double value);
+	public Filter notBetween(String name, Double value);
+	public Filter bt(String name, Double value);
+	public Filter nbt(String name, Double value);
 	
 	
 	public Filter isTrue (String name);

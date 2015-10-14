@@ -1,12 +1,17 @@
 package org.effortless.gencore.ui;
 
+import java.util.Collection;
+
 import org.effortless.core.StringUtils;
 import org.effortless.gencore.InfoModel;
 import org.effortless.jast.GClass;
+import org.effortless.jast.GCode;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.AbstractTransform;
+import org.effortless.orm.Entity;
+import org.effortless.orm.Filter;
 import org.effortless.orm.impl.EntityFilter;
 
 /*
@@ -155,6 +160,34 @@ public class FinderFilterTransform extends AbstractTransform {
 			else if (field.isString()) {
 //			ilk("name", this.name);
 				mg.add(mg.call("ilk", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isDate()) {
+				mg.add(mg.call("bt", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isCollection() || field.isList()) {
+				mg.add(mg.call("in", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isInteger()) {
+				mg.add(mg.call("eq", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isDouble()) {
+				mg.add(mg.call("bt", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isTime()) {
+				mg.add(mg.call("eq", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isTimestamp()) {
+//				public Filter between(String name, Object lo, Object hi) {
+				mg.add(mg.call("eq", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isEnum() || field.isRealEnum()) {
+				mg.add(mg.call("eq", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isFile()) {
+				mg.add(mg.call("eq", mg.cte(field.getName()), mg.field(field.getName())));
+			}
+			else if (field.isType(Entity.class)) {
+				mg.add(mg.call("eq", mg.cte(field.getName()), mg.field(field.getName())));
 			}
 		}
 			

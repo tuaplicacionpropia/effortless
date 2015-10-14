@@ -9,6 +9,7 @@ import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.AbstractTransform;
 import org.effortless.jast.transforms.Transforms;
+import org.effortless.orm.Entity;
 import org.effortless.zkstrap.Finder;
 import org.zkoss.zk.ui.event.Event;
 
@@ -77,7 +78,60 @@ public class FinderTransform extends AbstractTransform {
 						}
 						else if (field.isString()) {
 //							b.addText("name");
-							mIf.add(mIf.call(mIf.var("b"), "addText", mIf.cte(field.getName())));
+
+							String fName = field.getName();
+							if (org.effortless.core.StringUtils.contains(fName, "comment", "comentario", "observation", "anotacion", "annotation")) {
+								mIf.add(mIf.call(mIf.var("b"), "addTextArea", mIf.cte(field.getName())));
+							}
+							else if (org.effortless.core.StringUtils.contains(fName, "phone", "tlf", "mobile", "fax", "movil")) {
+								mIf.add(mIf.call(mIf.var("b"), "addPhone", mIf.cte(field.getName())));
+							}
+							else if (org.effortless.core.StringUtils.contains(fName, "ip")) {
+								mIf.add(mIf.call(mIf.var("b"), "addIp", mIf.cte(field.getName())));
+							}
+							else if (org.effortless.core.StringUtils.contains(fName, "euro", "dollar")) {
+								mIf.add(mIf.call(mIf.var("b"), "addCurrency", mIf.cte(field.getName())));
+							}
+							else if (org.effortless.core.StringUtils.contains(fName, "email", "mail", "correo")) {
+								mIf.add(mIf.call(mIf.var("b"), "addEmail", mIf.cte(field.getName())));
+							}
+							else if (org.effortless.core.StringUtils.contains(fName, "color", "colour", "background", "foreground")) {
+								mIf.add(mIf.call(mIf.var("b"), "addColor", mIf.cte(field.getName())));
+							}
+							else if (org.effortless.core.StringUtils.contains(fName, "password", "contraseña", "secret", "key")) {
+								mIf.add(mIf.call(mIf.var("b"), "addPassword", mIf.cte(field.getName())));
+							}
+							else {
+								mIf.add(mIf.call(mIf.var("b"), "addText", mIf.cte(field.getName())));
+							}
+						}
+						else if (field.isDate()) {
+							mIf.add(mIf.call(mIf.var("b"), "addDate", mIf.cte(field.getName())));
+						}
+						else if (field.isCollection() || field.isList()) {
+							mIf.add(mIf.call(mIf.var("b"), "addTable", mIf.cte(field.getName())));
+						}
+						else if (field.isInteger()) {
+							mIf.add(mIf.call(mIf.var("b"), "addInteger", mIf.cte(field.getName())));
+						}
+						else if (field.isDouble()) {
+							mIf.add(mIf.call(mIf.var("b"), "addNumber", mIf.cte(field.getName())));
+						}
+						else if (field.isTime()) {
+							mIf.add(mIf.call(mIf.var("b"), "addTime", mIf.cte(field.getName())));
+						}
+						else if (field.isTimestamp()) {
+							mIf.add(mIf.call(mIf.var("b"), "addDateTime", mIf.cte(field.getName())));
+						}
+						else if (field.isEnum() || field.isRealEnum()) {
+							mIf.add(mIf.call(mIf.var("b"), "addSelect", mIf.cte(field.getName())));
+//							mIf.add(mIf.call(mIf.var("b"), "addRadio", mIf.cte(field.getName())));
+						}
+						else if (field.isFile()) {
+							mIf.add(mIf.call(mIf.var("b"), "addFile", mIf.cte(field.getName())));
+						}
+						else if (field.isType(Entity.class)) {
+							mIf.add(mIf.call(mIf.var("b"), "addSelect", mIf.cte(field.getName())));
 						}
 					}
 				}
