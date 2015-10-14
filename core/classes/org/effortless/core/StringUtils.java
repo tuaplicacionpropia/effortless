@@ -109,4 +109,14 @@ public class StringUtils {
 		return (text != null ? text.toUpperCase() : text);
 	}
 
+	public static boolean contains(String text, String... words) {
+		boolean result = false;
+		int length = (words != null ? words.length : 0);
+		for (int i = 0; i < length && !result; i++) {
+			String searchStr = words[i];
+			result = org.apache.commons.lang.StringUtils.contains(text, searchStr);
+		}
+		return result;
+	}
+
 }

@@ -1,13 +1,16 @@
 package org.effortless.gencore.ui;
 
+import org.apache.commons.lang.StringUtils;
 import org.effortless.gencore.InfoModel;
 import org.effortless.jast.GClass;
 import org.effortless.jast.GField;
 import org.effortless.jast.GMethod;
 import org.effortless.jast.GNode;
 import org.effortless.jast.transforms.AbstractTransform;
+import org.effortless.orm.Entity;
 import org.effortless.zkstrap.Editor;
 import org.effortless.zkstrap.Person;
+import org.effortless.zkstrap.Screen;
 import org.zkoss.zk.ui.event.Event;
 
 /**
@@ -70,13 +73,59 @@ public class EditorTransform extends AbstractTransform {
 						mg.add(mg.call(mg.var("b"), "addBoolean", mg.cte(field.getName())));
 					}
 					else if (field.isString()) {
-						mg.add(mg.call(mg.var("b"), "addText", mg.cte(field.getName())));
+						String fName = field.getName();
+						if (org.effortless.core.StringUtils.contains(fName, "comment", "comentario", "observation", "anotacion", "annotation")) {
+							mg.add(mg.call(mg.var("b"), "addTextArea", mg.cte(field.getName())));
+						}
+						else if (org.effortless.core.StringUtils.contains(fName, "phone", "tlf", "mobile", "fax", "movil")) {
+							mg.add(mg.call(mg.var("b"), "addPhone", mg.cte(field.getName())));
+						}
+						else if (org.effortless.core.StringUtils.contains(fName, "ip")) {
+							mg.add(mg.call(mg.var("b"), "addIp", mg.cte(field.getName())));
+						}
+						else if (org.effortless.core.StringUtils.contains(fName, "euro", "dollar")) {
+							mg.add(mg.call(mg.var("b"), "addCurrency", mg.cte(field.getName())));
+						}
+						else if (org.effortless.core.StringUtils.contains(fName, "email", "mail", "correo")) {
+							mg.add(mg.call(mg.var("b"), "addEmail", mg.cte(field.getName())));
+						}
+						else if (org.effortless.core.StringUtils.contains(fName, "color", "colour", "background", "foreground")) {
+							mg.add(mg.call(mg.var("b"), "addColor", mg.cte(field.getName())));
+						}
+						else if (org.effortless.core.StringUtils.contains(fName, "password", "contraseña", "secret", "key")) {
+							mg.add(mg.call(mg.var("b"), "addPassword", mg.cte(field.getName())));
+						}
+						else {
+							mg.add(mg.call(mg.var("b"), "addText", mg.cte(field.getName())));
+						}
 					}
 					else if (field.isDate()) {
 						mg.add(mg.call(mg.var("b"), "addDate", mg.cte(field.getName())));
 					}
-					else if (field.isCollection()) {
+					else if (field.isCollection() || field.isList()) {
 						mg.add(mg.call(mg.var("b"), "addTable", mg.cte(field.getName())));
+					}
+					else if (field.isInteger()) {
+						mg.add(mg.call(mg.var("b"), "addInteger", mg.cte(field.getName())));
+					}
+					else if (field.isDouble()) {
+						mg.add(mg.call(mg.var("b"), "addNumber", mg.cte(field.getName())));
+					}
+					else if (field.isTime()) {
+						mg.add(mg.call(mg.var("b"), "addTime", mg.cte(field.getName())));
+					}
+					else if (field.isTimestamp()) {
+						mg.add(mg.call(mg.var("b"), "addDateTime", mg.cte(field.getName())));
+					}
+					else if (field.isEnum() || field.isRealEnum()) {
+						mg.add(mg.call(mg.var("b"), "addSelect", mg.cte(field.getName())));
+//						mg.add(mg.call(mg.var("b"), "addRadio", mg.cte(field.getName())));
+					}
+					else if (field.isFile()) {
+						mg.add(mg.call(mg.var("b"), "addFile", mg.cte(field.getName())));
+					}
+					else if (field.isType(Entity.class)) {
+						mg.add(mg.call(mg.var("b"), "addSelect", mg.cte(field.getName())));
 					}
 				}
 			}
