@@ -432,6 +432,11 @@ if (false) {
 					}
 				}
 				
+				if (changesSize > 0) {
+					columnNames.add(null);
+					pValues.add(null);
+				}
+				
 				result = new Object[2];
 //				result[0] = columnNames.toArray(new String[0]);
 //				result[1] = pValues.toArray(new Object[0]);

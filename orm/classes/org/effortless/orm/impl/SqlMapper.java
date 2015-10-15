@@ -170,7 +170,7 @@ public class SqlMapper {
 		public Object decode(String columnName, ResultSet rs) {
 			Object result = null;
 			try {
-				result = (java.sql.Date)rs.getObject(columnName);
+				result = (java.util.Date)rs.getObject(columnName);
 			} catch (SQLException e) {
 				SqlMapper._throwException(e);
 			}
@@ -333,13 +333,6 @@ public class SqlMapper {
 				SqlMapper._throwException(e);
 			}
 		}
-		else if (java.sql.Date.class.equals(type)) {
-			try {
-				result = rs.getDate(index);
-			} catch (SQLException e) {
-				SqlMapper._throwException(e);
-			}
-		}
 		else if (java.sql.Time.class.equals(type)) {
 			try {
 				result = rs.getTime(index);
@@ -356,11 +349,18 @@ public class SqlMapper {
 		}
 		else if (java.util.Date.class.equals(type)) {
 			try {
-				result = rs.getTimestamp(index);
+				result = rs.getDate(index);
 			} catch (SQLException e) {
 				SqlMapper._throwException(e);
 			}
 		}
+//		else if (java.util.Date.class.equals(type)) {
+//			try {
+//				result = rs.getTimestamp(index);
+//			} catch (SQLException e) {
+//				SqlMapper._throwException(e);
+//			}
+//		}
 		else if (Long.class.equals(type)) {
 			try {
 				result = Long.valueOf(rs.getLong(index));
@@ -402,9 +402,6 @@ public class SqlMapper {
 		else if (java.lang.Double.class.equals(type)) {
 			result = java.sql.Types.DOUBLE;
 		}
-		else if (java.sql.Date.class.equals(type)) {
-			result = java.sql.Types.DATE;
-		}
 		else if (java.sql.Time.class.equals(type)) {
 			result = java.sql.Types.TIME;
 		}
@@ -412,8 +409,11 @@ public class SqlMapper {
 			result = java.sql.Types.TIMESTAMP;
 		}
 		else if (java.util.Date.class.equals(type)) {
-			result = java.sql.Types.TIMESTAMP;
+			result = java.sql.Types.DATE;
 		}
+//		else if (java.util.Date.class.equals(type)) {
+//			result = java.sql.Types.TIMESTAMP;
+//		}
 		else if (Long.class.equals(type)) {
 			result = java.sql.Types.BIGINT;
 		}
@@ -442,9 +442,6 @@ public class SqlMapper {
 		else if (java.lang.Double.class.equals(type)) {
 			result = "DOUBLE" + precision;
 		}
-		else if (java.sql.Date.class.equals(type)) {
-			result = "DATE";
-		}
 		else if (java.sql.Time.class.equals(type)) {
 			result = "TIME";
 		}
@@ -452,8 +449,11 @@ public class SqlMapper {
 			result = "TIMESTAMP";
 		}
 		else if (java.util.Date.class.equals(type)) {
-			result = "TIMESTAMP";
+			result = "DATE";
 		}
+//		else if (java.util.Date.class.equals(type)) {
+//			result = "TIMESTAMP";
+//		}
 		else if (Long.class.equals(type)) {
 			result = "BIGINT";
 		}
@@ -480,9 +480,6 @@ public class SqlMapper {
 		else if (java.lang.Double.class.equals(type)) {
 			result = DOUBLE_DECODER;
 		}
-		else if (java.sql.Date.class.equals(type)) {
-			result = DATE_DECODER;
-		}
 		else if (java.sql.Time.class.equals(type)) {
 			result = TIME_DECODER;
 		}
@@ -490,8 +487,11 @@ public class SqlMapper {
 			result = TIMESTAMP_DECODER;
 		}
 		else if (java.util.Date.class.equals(type)) {
-			result = TIMESTAMP_DECODER;
+			result = DATE_DECODER;
 		}
+//		else if (java.util.Date.class.equals(type)) {
+//			result = TIMESTAMP_DECODER;
+//		}
 		else if (Long.class.equals(type)) {
 			result = LONG_DECODER;
 		}
@@ -518,9 +518,6 @@ public class SqlMapper {
 		else if (java.lang.Double.class.equals(type)) {
 			result = DOUBLE_ENCODER;
 		}
-		else if (java.sql.Date.class.equals(type)) {
-			result = DATE_ENCODER;
-		}
 		else if (java.sql.Time.class.equals(type)) {
 			result = TIME_ENCODER;
 		}
@@ -528,8 +525,11 @@ public class SqlMapper {
 			result = TIMESTAMP_ENCODER;
 		}
 		else if (java.util.Date.class.equals(type)) {
-			result = TIMESTAMP_ENCODER;
+			result = DATE_ENCODER;
 		}
+//		else if (java.util.Date.class.equals(type)) {
+//			result = TIMESTAMP_ENCODER;
+//		}
 		else if (Long.class.equals(type)) {
 			result = LONG_ENCODER;
 		}
