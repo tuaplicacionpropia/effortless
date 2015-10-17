@@ -186,7 +186,13 @@ public class Input extends AbstractComponent {
 			result = (value != null ? Double.valueOf((String)value) : null);
 		}
 		else if ("currency".equals(this._type)) {
-			result = (value != null ? Double.valueOf((String)value) : null);
+			String text = org.effortless.core.StringUtils.forceNotNull((String)value);
+			if (text.length() > 0) {
+				String lastChar = text.substring(text.length() - 1);
+				boolean lastNumber = org.effortless.core.StringUtils.contains(lastChar, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+				text = (!lastNumber ? text.substring(0, text.length() - 1) : text);
+				result = Double.valueOf(text);
+			}
 		}
 		else if ("date".equals(this._type)) {
 			java.util.Date date = (value != null ? DateUtils.parse((String)value, "dd/MM/yyyy") : null);
