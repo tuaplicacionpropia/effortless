@@ -201,7 +201,27 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 	else if (_type == 'color' || _type == 'colour' || _type == 'colorpicker' || _type == 'colourpicker') {
         jq('#' + this.uuid).colorpicker();
     	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+	}
+	else if (_type == 'count' || _type == 'integer') {
+	    var options = {alias: "integer"};
+		jq('#' + this.uuid + '-input').inputmask(options);
+    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
 	}	
+	else if (_type == 'number' || _type == 'decimal') {
+	    var options = {alias: "decimal"};
+		jq('#' + this.uuid + '-input').inputmask(options);
+    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+	}	
+	else if (_type == 'email' || _type == 'mail') {
+	    var options = {alias: "email"};
+		jq('#' + this.uuid + '-input').inputmask(options);
+    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+	}
+	else if (_type == 'currency') {
+	    var options = {alias: "decimal", radixPoint:",", groupSeparator: ".", digits: 2, autoGroup: true, suffix: " €"};
+		jq('#' + this.uuid + '-input').inputmask(options);
+    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+	}
 	else if (!(_type == 'table')) {
 	    var _node = this._getTextNode();
 	    _node.value = this.getValue();

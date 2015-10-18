@@ -181,17 +181,19 @@ $("#combo").select2({
 	}	
 	else if (_type == 'count' || _type == 'integer') {
 		out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
-
+/*
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").inputmask({ alias: "integer"});');
         out.push('</script>');
+*/
 	}
 	else if (_type == 'number' || _type == 'decimal') {
 		out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
-
+/*
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").inputmask({ alias: "decimal"});');
         out.push('</script>');
+*/
 	}
 	else if (_type == 'email' || _type == 'mail') {
 		out.push('<div id="', uuid, '" class="input-group">');
@@ -200,10 +202,11 @@ $("#combo").select2({
 				out.push('<i class="fa fa-envelope"></i>');
 			out.push('</div>');
 		out.push('</div>');
-
+/*
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").inputmask({ alias: "email"});');
         out.push('</script>');
+*/
 	}
 	else if (_type == 'currency') {
 		out.push('<div id="', uuid, '" class="input-group">');
@@ -212,12 +215,12 @@ $("#combo").select2({
 				out.push('<i class="fa fa-money"></i>');
 			out.push('</div>');
 		out.push('</div>');
-
+/*
         out.push('<script type="text/javascript">');
 //            out.push('jq("#', uuid, '-input").inputmask({ alias: "currency"});');
             out.push('jq("#', uuid, '-input").inputmask({ alias: "decimal", radixPoint:",", groupSeparator: ".", digits: 2, autoGroup: true, suffix: "€"});');
         out.push('</script>');
-        
+*/
 /*
 $("#amount").inputmask("decimal",{
     radixPoint:",", groupSeparator: ".", digits: 2, autoGroup: true, suffix: "€"
