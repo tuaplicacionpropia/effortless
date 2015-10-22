@@ -315,6 +315,7 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
   		_textNodeValue = _textNode.value;
   		_textNodeValue = _textNodeValue.replace(new RegExp(' €', 'g'), '');
   		_textNodeValue = _textNodeValue.replace(new RegExp('\\.', 'g'), '');
+  		_textNodeValue = _textNodeValue.replace(new RegExp(',', 'g'), '.');
   		flag = true;
 	}
   	else if (_type == 'table') {
