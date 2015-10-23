@@ -2,7 +2,7 @@ package org.effortless.core;
 
 import java.io.Serializable;
 
-public class EnumGroupString extends EnumString implements Serializable, java.lang.Comparable<Object> {
+public class EnumGroupString extends EnumString implements Serializable, java.lang.Comparable {
 
 	protected EnumGroupString () {
 		super();

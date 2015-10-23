@@ -2,12 +2,7 @@ package org.effortless.core;
 
 import java.io.Serializable;
 
-public class EnumString extends Object implements Serializable, java.lang.Comparable<Object> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1508194688346160294L;
+public class EnumString extends Object implements Serializable, java.lang.Comparable {
 
 	protected EnumString () {
 		super();
