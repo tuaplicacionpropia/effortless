@@ -151,7 +151,7 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
   },
   
   
-  
+/*  
   _values : [],
 
   getValues : function() {
@@ -163,7 +163,7 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
       this._values = newValue;
     }
   },
-  
+*/
   
   _getTextNode: function() {
     return jq('#' + this.uuid + '-input').get()[0];
@@ -197,7 +197,12 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 	    	this.domListen_(_inputNode, "onChange", '_doBlur');
 		}
 */
-	}	
+	}
+	else if (_type == 'select' || _type == 'ref') {
+//    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+		var _self = this;
+		jq('#' + this.uuid + '-input').on("change", function() { _self._checkIfToggled(); });
+	}
 	else if (_type == 'color' || _type == 'colour' || _type == 'colorpicker' || _type == 'colourpicker') {
         jq('#' + this.uuid).colorpicker();
     	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
@@ -299,6 +304,10 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
   	
   	if (_type == 'checkbox') {
   		_textNodeValue = _textNode.checked;
+  		flag = true;
+	}
+	else if (_type == 'select' || _type == 'ref') {
+  		_textNodeValue = _textNode.value;
   		flag = true;
 	}
   	else if (_type == 'phone') {

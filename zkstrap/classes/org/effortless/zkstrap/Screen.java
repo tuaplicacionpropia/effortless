@@ -1,5 +1,7 @@
 package org.effortless.zkstrap;
 
+import org.apache.commons.lang.enums.EnumUtils;
+import org.effortless.core.EnumString;
 import org.effortless.core.ObjectUtils;
 import org.zkoss.zk.ui.Component;
 
@@ -191,11 +193,16 @@ public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedCompon
 //	}
 	
 	public Screen addInput (String type, String name) {
-		Input input = new Input();
-		input.setType(type);
-		input.setName(name);
-		appendChild(input);
+		_doAddInput(type, name);
 		return this;
+	}
+
+	public Input _doAddInput (String type, String name) {
+		Input result = new Input();
+		result.setType(type);
+		result.setName(name);
+		appendChild(result);
+		return result;
 	}
 
 	public Screen addText (String name) {
@@ -232,6 +239,15 @@ public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedCompon
 
 	public Screen addColor(String name) {
 		return addInput("color", name);
+	}
+
+	public Screen addEnum(String name, Class enumType) {
+		Input input = _doAddInput("select", name);
+		java.util.List values = org.effortless.core.EnumUtils.loadEnumDefaultValues(enumType);
+//		input.setValues(values);
+//		input.setProperties(newValue);
+		input.setOptions("values", values);
+		return this;
 	}
 
 	public Screen addSelect(String name) {

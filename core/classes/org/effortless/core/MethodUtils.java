@@ -54,7 +54,12 @@ public class MethodUtils extends Object {
 			throw new UnusualException(e);
 		} catch (InvocationTargetException e) {
 			throw new UnusualException(e);
+		} catch (RuntimeException e) {
+			throw new UnusualException(e);
+		} catch (Throwable e) {
+			throw new UnusualException(e);
 		}
+		
 		return result;
 	}
 

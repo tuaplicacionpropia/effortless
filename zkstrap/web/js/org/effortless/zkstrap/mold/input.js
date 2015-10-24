@@ -34,7 +34,8 @@ function (out) {
 	}
 	else if (_type == 'radio') {
 		var _skin = this._loadSkin();
-		var _values = this.getValues();
+		var _values = this.getPropertyOptions('values');
+		
 		for	(var index = 0; index < _values.length; index++) {
 			out.push('<input name="', uuid, '" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'">');
 			out.push('<label for="', uuid + '-input_' + index, '" class="">', _values[index], '</label>');
@@ -146,10 +147,11 @@ $("#combo").select2({
 });
 </script>    
 */
-		var _values = this.getValues();
+		var _values = this.getPropertyOptions('values');
 
 //		out.push('<select id="', uuid, '-input" class="form-control" multiple="multiple">');
 		out.push('<select id="', uuid, '-input" class="form-control">');
+			out.push('<option value="', '-1', '">', '', '</option>');
 		for	(var index = 0; index < _values.length; index++) {
 			out.push('<option value="', '' + index, '">', _values[index], '</option>');
 		} 		

@@ -182,6 +182,16 @@ public class Input extends AbstractComponent {
 //			result = (value != null ? Boolean.valueOf((String)value) : null);
 			result = (Boolean)value;
 		}
+		else if ("select".equals(this._type)) {
+			Integer index = (value != null ? Integer.valueOf((String)value) : null);
+			if (index != null) {
+				int _index = index.intValue();
+				if (_index > -1) {
+					java.util.List values = (java.util.List)this.getOptions("values");
+					result = values.get(_index);
+				}
+			}
+		}
 		else if ("number".equals(this._type)) {
 			result = (value != null ? Double.valueOf((String)value) : null);
 		}
@@ -265,25 +275,25 @@ public class Input extends AbstractComponent {
 		}
 	}
 	
-	protected java.util.Collection _values;
-	
-	public java.util.Collection getValues () {
-		return this._values;
-	}
-	
-	public void setValues (java.util.Collection newValue) {
-		if (!this._values.equals(newValue)) {
-			this._values = newValue;
-			smartUpdate("_values", this._valuesToClient());
-		}
-	}
-	
-	protected Object _valuesToClient () {
-		Object result = null;
-		result = this._values;
-		result = new String[] {"Masculino", "Femenino"};
-		return result;
-	}
+//	protected java.util.Collection _values;
+//	
+//	public java.util.Collection getValues () {
+//		return this._values;
+//	}
+//	
+//	public void setValues (java.util.Collection newValue) {
+//		if (!this._values.equals(newValue)) {
+//			this._values = newValue;
+//			smartUpdate("_values", this._valuesToClient());
+//		}
+//	}
+//	
+//	protected Object _valuesToClient () {
+//		Object result = null;
+//		result = this._values;
+//		result = new String[] {"Masculino", "Femenino"};
+//		return result;
+//	}
 
 	protected void renderProperties(org.zkoss.zk.ui.sys.ContentRenderer renderer) throws java.io.IOException {
 		super.renderProperties(renderer);
@@ -292,7 +302,7 @@ public class Input extends AbstractComponent {
 		render(renderer, "skin", this._skin);
 		render(renderer, "label", this._label);
 		render(renderer, "name", this._name);
-		render(renderer, "values", this._valuesToClient());
+//		render(renderer, "values", this._valuesToClient());
 		render(renderer, "properties", this.properties);
 	}
 

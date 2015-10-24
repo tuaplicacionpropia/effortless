@@ -199,6 +199,20 @@ public class Collections {
 		return result;
 	}
 	
-	
+	public static java.util.List toList (java.util.Collection collection) {
+		java.util.List result = null;
+		try { result = (java.util.List)collection; } catch (ClassCastException e) {}
+		if (result == null) {
+			java.util.Iterator iterator = (collection != null ? collection.iterator() : null);
+			if (iterator != null) {
+				result = new java.util.ArrayList();
+				while (iterator.hasNext()) {
+					Object item = iterator.next();
+					result.add(item);
+				}
+			}
+		}
+		return result;
+	}
 	
 }

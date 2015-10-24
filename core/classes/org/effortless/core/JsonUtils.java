@@ -1,10 +1,18 @@
 package org.effortless.core;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class JsonUtils extends Object {
 
@@ -16,6 +24,23 @@ public class JsonUtils extends Object {
 	protected void initiate() {
 	}
 	
+	public static class EnumStringSerializer extends JsonSerializer {
+
+		public void serialize(Object value, JsonGenerator jgen, SerializerProvider provider) 
+	      throws IOException, JsonProcessingException {
+			jgen.writeString(((EnumString)value).name());
+	    }
+	}
+	
+	public static class EnumStringDeserializer extends JsonDeserializer {
+
+		public Object deserialize(JsonParser parser, DeserializationContext ctx) throws IOException, JsonProcessingException {
+			Object result = null;
+			// TODO Auto-generated method stub
+			return result;
+		}
+	}
+	
     public static java.util.Map toMap(String input) {
     	java.util.Map result = null;
     	try {
@@ -25,6 +50,10 @@ public class JsonUtils extends Object {
 	    	mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 	//    	mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, false);
 	    	mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+
+	    	SimpleModule module = new SimpleModule();
+	    	module.addDeserializer(EnumString.class, new EnumStringDeserializer());
+	    	mapper.registerModule(module);	    	
 	    	
 	    	result = mapper.readValue(input, new TypeReference<HashMap>(){});
     	}
@@ -39,10 +68,16 @@ public class JsonUtils extends Object {
     	String result = null;
     	try {
 	    	ObjectMapper mapper = new ObjectMapper();
+	    	
+//	    	module.addSerializer(Item.class, new ItemSerializer());	    	
 	    	mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 	//    	mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, false);
 	    	mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
     	
+	    	SimpleModule module = new SimpleModule();
+	    	module.addSerializer(EnumString.class, new EnumStringSerializer());
+	    	mapper.registerModule(module);	    	
+	    	
 	    	result = mapper.writeValueAsString(map);
     	}
 		catch (Throwable t) {
