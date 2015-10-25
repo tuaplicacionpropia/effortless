@@ -166,7 +166,15 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 */
   
   _getTextNode: function() {
-    return jq('#' + this.uuid + '-input').get()[0];
+    var result = null;
+//    var _type = this.getType();
+//    if (_type == 'radio') {
+//	    result = jq('[name="' + this.uuid + '-input' + '"]').get()[0];
+//    }
+//    else {
+    	result = jq('#' + this.uuid + '-input').get()[0];
+//    }
+    return result;
   },
   
   
@@ -181,14 +189,18 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 	    var options = {checkboxClass: "icheckbox_" + _skin, radioClass: "iradio_minimal", increaseArea: "20%"};
 		jq('#' + this.uuid + '-input').iCheck(options);
 		var _self = this;
-		jq('#' + this.uuid + '-input').on("ifToggled", function() { _self._checkIfToggled(); });
+		jq('#' + this.uuid + '-input').on("ifToggled", function() { _self._checkIfToggledCheckbox(); });
 	}
 	else if (_type == 'radio') {
 		var _skin = this._loadSkin();
-		var _values = this.getValues();
-		for	(var index = 0; index < _values.length; index++) {
+		var _values = this.getPropertyOptions('values');
+		var _self = this;
+		var index = -1;
+		
+        jq('#' + this.uuid + '-input_' + index).iCheck({radioClass: "iradio_" + _skin, increaseArea: "20%"});
+		jq('#' + this.uuid + '-input_' + index).on("ifToggled", function() { _self._checkIfToggled(); });
+		for	(index = 0; index < _values.length; index++) {
             jq('#' + this.uuid + '-input_' + index).iCheck({radioClass: "iradio_" + _skin, increaseArea: "20%"});
-			var _self = this;
 			jq('#' + this.uuid + '-input_' + index).on("ifToggled", function() { _self._checkIfToggled(); });
 		}
 /*		
@@ -268,7 +280,15 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 	}
     this.$supers('unbind_', arguments);
   },
-  
+
+  _checkIfToggledCheckbox : function () {
+  	var _textNode = this._getTextNode();
+  	var _curVal = jq(_textNode).attr('value');
+  	var _newVal = (_curVal == 'on' ? 'off' : 'on');
+  	jq(_textNode).prop('value', _newVal);
+  	this._doBlur();
+  }, 
+
   _checkIfToggled : function () {
   	this._doBlur();
   }, 
@@ -303,7 +323,20 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
   	var flag = false;
   	
   	if (_type == 'checkbox') {
-  		_textNodeValue = _textNode.checked;
+//  		_textNodeValue = _textNode.checked;
+  		_textNodeValue = _textNode.value;
+  		flag = true;
+	}
+  	if (_type == 'radio') {
+		var _values = this.getPropertyOptions('values');
+
+		for	(var index = -1; index < _values.length && flag == false; index++) {
+			_textNode = jq('#' + this.uuid + '-input_' + index).get()[0];
+			if (_textNode.checked) {
+	            _textNodeValue = _textNode.value;
+            	flag = true;
+        	}
+		}
   		flag = true;
 	}
 	else if (_type == 'select' || _type == 'ref') {

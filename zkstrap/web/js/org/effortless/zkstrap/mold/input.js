@@ -25,7 +25,7 @@ function (out) {
             out.push('jq("#', uuid, ' input").iCheck();');
         out.push('</script>');
 */
-		out.push('<input id="', uuid, '-input" type="checkbox"', (_value ? ' checked' : ''), '>');
+		out.push('<input id="', uuid, '-input" type="checkbox"', (_value ? ' checked' : ''), (_value ? ' value="on"' : ' value="off"'), '>');
 /*		
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").iCheck({checkboxClass: "icheckbox_', _skin, '", radioClass: "iradio_minimal", increaseArea: "20%"}).on("ifToggled", function() { _self._checkIfToggled(); })');
@@ -35,10 +35,18 @@ function (out) {
 	else if (_type == 'radio') {
 		var _skin = this._loadSkin();
 		var _values = this.getPropertyOptions('values');
+		var index = -1;
 		
-		for	(var index = 0; index < _values.length; index++) {
-			out.push('<input name="', uuid, '" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'">');
-			out.push('<label for="', uuid + '-input_' + index, '" class="">', _values[index], '</label>');
+		out.push('<input name="', uuid, '-input" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'">');
+		out.push('<label for="', uuid + '-input_' + index, '" class="" style="margin-right: 15px;">', '&empty;', '</label>');
+		for	(index = 0; index < _values.length; index++) {
+			out.push('<input name="', uuid, '-input" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'">');
+			if (index < (_values.length - 1)) {
+				out.push('<label for="', uuid + '-input_' + index, '" class="" style="margin-right: 15px;">', _values[index], '</label>');
+			}
+			else {
+				out.push('<label for="', uuid + '-input_' + index, '" class="">', _values[index], '</label>');
+			}
 		}
 /*
         out.push('<script type="text/javascript">');

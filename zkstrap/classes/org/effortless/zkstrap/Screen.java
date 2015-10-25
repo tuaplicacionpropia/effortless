@@ -254,8 +254,14 @@ public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedCompon
 		return addInput("select", name);
 	}
 
-	public Screen addRadio(String name) {
-		return addInput("radio", name);
+	public Screen addRadio(String name, Class enumType) {
+		Input input = _doAddInput("radio", name);
+		java.util.List values = org.effortless.core.EnumUtils.loadEnumDefaultValues(enumType);
+//		input.setValues(values);
+//		input.setProperties(newValue);
+		input.setOptions("values", values);
+		return this;
+//		return addInput("radio", name);
 	}
 
 	public Screen addPassword(String name) {

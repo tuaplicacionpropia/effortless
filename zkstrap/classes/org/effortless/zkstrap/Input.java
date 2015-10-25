@@ -179,8 +179,19 @@ public class Input extends AbstractComponent {
 			result = (value != null ? Integer.valueOf((String)value) : null);
 		}
 		else if ("checkbox".equals(this._type)) {
+			result = Boolean.valueOf("on".equals((String)value));
 //			result = (value != null ? Boolean.valueOf((String)value) : null);
-			result = (Boolean)value;
+//			result = (Boolean)value;
+		}
+		else if ("radio".equals(this._type)) {
+			Integer index = (value != null ? Integer.valueOf((String)value) : null);
+			if (index != null) {
+				int _index = index.intValue();
+				if (_index > -1) {
+					java.util.List values = (java.util.List)this.getOptions("values");
+					result = values.get(_index);
+				}
+			}
 		}
 		else if ("select".equals(this._type)) {
 			Integer index = (value != null ? Integer.valueOf((String)value) : null);
