@@ -6,13 +6,19 @@ function (out) {
 	var _value = this.getEncodedValue();
 	
 	if (_type == 'text') {
-		out.push('<input class="form-control" id="', uuid, '-input" placeholder="" type="text" />');
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
+		out.push('<input class="form-control" id="', uuid, '-input" placeholder="" type="text"', attrValue, ' />');
 	}
 	else if (_type == 'password') {
-		out.push('<input class="form-control" id="', uuid, '-input" placeholder="" type="password" />');
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
+		out.push('<input class="form-control" id="', uuid, '-input" placeholder="" type="password"', attrValue, ' />');
 	}
 	else if (_type == 'comment') {
-		out.push('<textarea id="', uuid, '-input" class="form-control" rows="3" placeholder=""></textarea>');
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
+		out.push('<textarea id="', uuid, '-input" class="form-control" rows="3" placeholder=""', attrValue, '></textarea>');
 	}
 	else if (_type == 'checkbox') {
 		var _skin = this._loadSkin();
@@ -35,12 +41,15 @@ function (out) {
 	else if (_type == 'radio') {
 		var _skin = this._loadSkin();
 		var _values = this.getPropertyOptions('values');
+		var _value = this.getValue();
 		var index = -1;
+		var attrSelected = (index == _value ? ' checked="checked"' : '');
 		
-		out.push('<input name="', uuid, '-input" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'">');
+		out.push('<input name="', uuid, '-input" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'"', attrSelected, '>');
 		out.push('<label for="', uuid + '-input_' + index, '" class="" style="margin-right: 15px;">', '&empty;', '</label>');
 		for	(index = 0; index < _values.length; index++) {
-			out.push('<input name="', uuid, '-input" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'">');
+			attrSelected = (index == _value ? ' checked="checked"' : '');
+			out.push('<input name="', uuid, '-input" id="', uuid + '-input_' + index, '" type="radio" value="', '' + index ,'"', attrSelected, '>');
 			if (index < (_values.length - 1)) {
 				out.push('<label for="', uuid + '-input_' + index, '" class="" style="margin-right: 15px;">', _values[index], '</label>');
 			}
@@ -57,6 +66,8 @@ function (out) {
 */
 	}
 	else if (_type == 'date') {
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
 	//https://eonasdan.github.io/bootstrap-datetimepicker/#custom-formats
 /*
 		out.push('<div id="', uuid, '" class="input-group date" data-provide="datepicker">');
@@ -80,13 +91,13 @@ function (out) {
     	out.push('</div>');
 */
 		out.push('<div id="', uuid, '" class="input-group date">');
-			out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+			out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 			out.push('<div class="input-group-addon">');
 				out.push('<i class="fa fa-calendar"></i>');
 			out.push('</div>');
 		out.push('</div>');
         out.push('<script type="text/javascript">');
-            out.push('jq("#', uuid, '-input").datepicker({');
+            out.push('jq("#', uuid, '").datepicker({');
                 out.push('format: "dd/mm/yyyy"');
             out.push('});');
         out.push('</script>');
@@ -95,27 +106,32 @@ function (out) {
 
 	}
 	else if (_type == 'time') {
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
 		out.push('<div id="', uuid, '" class="input-group date">');
-			out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+			out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 			out.push('<span class="input-group-addon">');
 				out.push('<span class="glyphicon glyphicon-time"></span>');
 			out.push('</span>');
 		out.push('</div>');
 			
         out.push('<script type="text/javascript">');
-            out.push('jq("#', uuid, '-input").datetimepicker({format: "LT", locale: "es", collapse: false});');
+            out.push('jq("#', uuid, '").datetimepicker({format: "LT", locale: "es", collapse: false});');
+//            out.push('jq("#', uuid, '-input").datetimepicker({format: "LT"});');
         out.push('</script>');
 	}
 	else if (_type == 'datetime') {
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
 		out.push('<div id="', uuid, '" class="input-group date">');
-			out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+			out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 			out.push('<span class="input-group-addon">');
 				out.push('<i class="fa fa-calendar"></i>');
 			out.push('</span>');
 		out.push('</div>');
 			
         out.push('<script type="text/javascript">');
-            out.push('jq("#', uuid, '-input").datetimepicker({format: "DD/MM/YYYY HH:mm", locale: "es", sideBySide: true});');
+            out.push('jq("#', uuid, '").datetimepicker({format: "DD/MM/YYYY HH:mm", locale: "es", sideBySide: true});');
         out.push('</script>');
 	}
 	else if (_type == 'select' || _type == 'ref') {
@@ -156,12 +172,17 @@ $("#combo").select2({
 </script>    
 */
 		var _values = this.getPropertyOptions('values');
+		var _value = this.getValue();
+		var index = -1;
+		var attrSelected = (index == _value ? ' selected="selected"' : '');
+
 
 //		out.push('<select id="', uuid, '-input" class="form-control" multiple="multiple">');
 		out.push('<select id="', uuid, '-input" class="form-control">');
-			out.push('<option value="', '-1', '">', '', '</option>');
-		for	(var index = 0; index < _values.length; index++) {
-			out.push('<option value="', '' + index, '">', _values[index], '</option>');
+			out.push('<option value="', index, '"', attrSelected, '>', '', '</option>');
+		for	(index = 0; index < _values.length; index++) {
+			attrSelected = (index == _value ? ' selected="selected"' : '');
+			out.push('<option value="', '' + index, '"', attrSelected, '>', _values[index], '</option>');
 		} 		
 			//<option value="2" selected="selected">duplicate</option>
 		out.push('</select>');
@@ -177,8 +198,10 @@ $("#combo").select2({
         out.push('</script>');
 	}
 	else if (_type == 'color' || _type == 'colour' || _type == 'colorpicker' || _type == 'colourpicker') {
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
 		out.push('<div id="', uuid, '" class="input-group">');
-			out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+			out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 			out.push('<div class="input-group-addon">');
 				out.push('<i></i>');
 			out.push('</div>');
@@ -190,7 +213,9 @@ $("#combo").select2({
 */
 	}	
 	else if (_type == 'count' || _type == 'integer') {
-		out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
+		out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 /*
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").inputmask({ alias: "integer"});');
@@ -198,7 +223,9 @@ $("#combo").select2({
 */
 	}
 	else if (_type == 'number' || _type == 'decimal') {
-		out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
+		out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 /*
         out.push('<script type="text/javascript">');
             out.push('jq("#', uuid, '-input").inputmask({ alias: "decimal"});');
@@ -206,8 +233,10 @@ $("#combo").select2({
 */
 	}
 	else if (_type == 'email' || _type == 'mail') {
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
 		out.push('<div id="', uuid, '" class="input-group">');
-			out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+			out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 			out.push('<div class="input-group-addon">');
 				out.push('<i class="fa fa-envelope"></i>');
 			out.push('</div>');
@@ -219,8 +248,10 @@ $("#combo").select2({
 */
 	}
 	else if (_type == 'currency') {
+		var _value = this.getValue();
+		var attrValue = (_value ? ' value="' + _value + '"' : '');
 		out.push('<div id="', uuid, '" class="input-group">');
-			out.push('<input id="', uuid, '-input" type="text" class="form-control" />');
+			out.push('<input id="', uuid, '-input" type="text"', attrValue, ' class="form-control" />');
 			out.push('<div class="input-group-addon">');
 				out.push('<i class="fa fa-money"></i>');
 			out.push('</div>');

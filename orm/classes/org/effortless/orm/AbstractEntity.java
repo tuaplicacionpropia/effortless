@@ -2500,9 +2500,9 @@ public abstract class AbstractEntity extends Object implements Entity, Comparabl
 
 	protected boolean _doEquals (String propertyName, Object propertyValue1, AbstractEntity obj, Object propertyValue2) {
 		boolean result = false;
-		if (_checkLoaded(propertyName) && obj._checkLoaded(propertyName)) {
+		//if (_checkLoaded(propertyName) && obj._checkLoaded(propertyName)) {
 			result = ObjectUtils.equals(propertyValue1, propertyValue2);
-		}
+		//}
 		return result;
 	}
 

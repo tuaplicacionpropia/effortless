@@ -76,7 +76,7 @@ public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity impl
 		return result;
 	}
 	
-	protected boolean doEquals(Object obj) {
+	protected boolean runDoEquals(Object obj) {
 		boolean result = true;
 		AbstractEnabledPersistEntity _obj = (AbstractEnabledPersistEntity)obj;
 		result = result && _doEquals("enabled", this.enabled, _obj, _obj.enabled);

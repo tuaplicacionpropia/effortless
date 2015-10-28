@@ -221,7 +221,7 @@ org.effortless.zkstrap.Layout = zk.$extends(org.effortless.zkstrap.AbstractCompo
 					} else if (inputType == 'password') {
 						result = 3;
 					} else if (inputType == 'comment') {
-						result = 11;
+						result = 12;
 					} else if (inputType == 'checkbox') {
 						result = 1;
 					} else if (inputType == 'select') {
@@ -233,9 +233,9 @@ org.effortless.zkstrap.Layout = zk.$extends(org.effortless.zkstrap.AbstractCompo
 					} else if (inputType == 'date') {
 						result = 2;
 					} else if (inputType == 'time') {
-						result = 1;
+						result = 2;
 					} else if (inputType == 'datetime') {
-						result = 3;
+						result = 4;
 					} else if (inputType == 'count' || inputType == 'integer') {
 						result = 2;
 					} else if (inputType == 'number' || inputType == 'decimal') {
@@ -243,11 +243,11 @@ org.effortless.zkstrap.Layout = zk.$extends(org.effortless.zkstrap.AbstractCompo
 					} else if (inputType == 'currency') {
 						result = 2;
 					} else if (inputType == 'email' || inputType == 'mail') {
-						result = 3;
+						result = 4;
 					} else if (inputType == 'color' || inputType == 'colour' || inputType == 'colorpicker' || inputType == 'colourpicker') {
 						result = 2;
 					} else if (inputType == 'ip') {
-						result = 2;
+						result = 3;
 					} else if (inputType == 'phone') {
 						result = 2;
 					}

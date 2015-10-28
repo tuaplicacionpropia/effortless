@@ -1,6 +1,5 @@
 package org.effortless.zkstrap;
 
-import org.effortless.core.JsonUtils;
 import org.effortless.core.ObjectUtils;
 
 public class AbstractComponent extends org.zkoss.zk.ui.HtmlBasedComponent {
@@ -42,8 +41,8 @@ public class AbstractComponent extends org.zkoss.zk.ui.HtmlBasedComponent {
 		if (name != null) {
 			this.options = (this.options != null ? this.options : new java.util.HashMap());
 			result = this.options.put(name, newValue);
-			if (!ObjectUtils.equals(result, newValue)) {
-				String optionsJson = JsonUtils.toJson(this.options);
+			if (!this._$processingClient && !ObjectUtils.equals(result, newValue)) {
+				String optionsJson = JsonMapping.toJson(this.options);
 				smartUpdate("options", optionsJson);
 			}
 		}
@@ -53,10 +52,16 @@ public class AbstractComponent extends org.zkoss.zk.ui.HtmlBasedComponent {
 	protected void renderProperties(org.zkoss.zk.ui.sys.ContentRenderer renderer) throws java.io.IOException {
 		super.renderProperties(renderer);
 
+		this._$processingClient = true;
+		autoSetupOptions();
+		this._$processingClient = false;
 		if (this.options != null) {
-			String optionsJson = JsonUtils.toJson(this.options);
+			String optionsJson = JsonMapping.toJson(this.options);
 			render(renderer, "options", optionsJson);
 		}
+	}
+
+	protected void autoSetupOptions() {
 	}
 
 	static {

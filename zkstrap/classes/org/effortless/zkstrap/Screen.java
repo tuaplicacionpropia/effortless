@@ -250,8 +250,18 @@ public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedCompon
 		return this;
 	}
 
+	public Screen addSelect(String name, java.util.List values) {
+		Input input = _doAddInput("select", name);
+//		input.setValues(values);
+//		input.setProperties(newValue);
+		input.setOptions("values", values);
+		return this;
+	}
+
+	
 	public Screen addSelect(String name) {
-		return addInput("select", name);
+		java.util.List values = null;
+		return addSelect(name, values);
 	}
 
 	public Screen addRadio(String name, Class enumType) {

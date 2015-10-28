@@ -65,8 +65,16 @@ public abstract class AbstractIdEntity extends AbstractEntity implements IdEntit
 		boolean result = true;
 		AbstractIdEntity _obj = (AbstractIdEntity)obj;
 		result = result && _doEquals("id", this.id, _obj, _obj.id);
-		result = result && _doEquals("version", this.version, _obj, _obj.version);
-		result = result && _doEquals("deleted", this.deleted, _obj, _obj.deleted);
+//		result = result && _doEquals("version", this.version, _obj, _obj.version);
+//		result = result && _doEquals("deleted", this.deleted, _obj, _obj.deleted);
+		if (result == false) {
+			result = runDoEquals(_obj);
+		}
+		return result;
+	}
+
+	protected boolean runDoEquals(Object obj) {
+		boolean result = false;
 		return result;
 	}
 

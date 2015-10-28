@@ -217,7 +217,11 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 	}
 	else if (_type == 'color' || _type == 'colour' || _type == 'colorpicker' || _type == 'colourpicker') {
         jq('#' + this.uuid).colorpicker();
-    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+		var _self = this;
+//    	this.domListen_(this._getTextNode(), "onBlur", '_doBlur');
+//    	jq('#' + this.uuid).on('changeColor.colorpicker', function(event) { _self._checkIfToggled(); });    	
+    	jq('#' + this.uuid).on('changeColor', function(event) { _self._checkIfToggledStartColor(); });    	
+    	jq('#' + this.uuid).on('hidePicker', function(event) { _self._checkIfToggledEndColor(); });    	
 	}
 	else if (_type == 'count' || _type == 'integer') {
 	    var options = {alias: "integer"};
@@ -291,6 +295,17 @@ org.effortless.zkstrap.Input = zk.$extends(org.effortless.zkstrap.AbstractCompon
 
   _checkIfToggled : function () {
   	this._doBlur();
+  }, 
+
+  _checkIfToggledStartColor : function () {
+    this._openPicker = true;
+  }, 
+
+  _checkIfToggledEndColor : function () {
+    if (this._openPicker) {
+    	this._openPicker = false;
+  		this._doBlur();
+  	}
   }, 
 
   _selectIndex: function(idx) {

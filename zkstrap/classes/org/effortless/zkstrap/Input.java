@@ -1,17 +1,21 @@
 package org.effortless.zkstrap;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
+import org.effortless.core.ClassUtils;
 import org.effortless.core.DateUtils;
-import org.effortless.core.JsonUtils;
 import org.effortless.core.ObjectUtils;
 import org.effortless.core.StringUtils;
+import org.effortless.core.UnusualException;
 import org.effortless.orm.Entity;
 import org.effortless.orm.Filter;
 import org.effortless.orm.definition.EntityDefinition;
+import org.effortless.orm.definition.EnumPropertyColumn;
 import org.effortless.orm.definition.PropertyEntity;
+import org.effortless.orm.definition.ReferencePropertyColumn;
 import org.effortless.orm.impl.PropertyList;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.Component;
@@ -123,7 +127,9 @@ public class Input extends AbstractComponent {
 	public void setProperties (String newValue) {
 		if (!this.properties.equals(newValue)) {
 			this.properties = newValue;
-			smartUpdate("properties", this.properties);
+			if (!this._$processingClient) {
+				smartUpdate("properties", this.properties);
+			}
 		}
 	}
 
@@ -161,8 +167,24 @@ public class Input extends AbstractComponent {
 			if ("checkbox".equals(this._type)) {
 				result = (Boolean)value;
 			}
+			else if ("select".equals(this._type)) {
+				java.util.List values = (java.util.List)this.getOptions("values");
+				int indexOf = (values != null && value != null ? values.indexOf(value) : -1);
+				result = Integer.valueOf(indexOf);
+			}
+			else if ("radio".equals(this._type)) {
+				java.util.List values = (java.util.List)this.getOptions("values");
+				int indexOf = (values != null && value != null ? values.indexOf(value) : -1);
+				result = Integer.valueOf(indexOf);
+			}
 			else {
-				result = (value != null ? value.toString() : null);
+				Entity entity = null; try { entity = (Entity)value; } catch (ClassCastException e) {}
+				if (entity != null) {
+					result = entity.toLabel();
+				}
+				else {
+					result = (value != null ? value.toString() : null);
+				}
 			}
 		}
 		return result;
@@ -217,15 +239,24 @@ public class Input extends AbstractComponent {
 			result = Double.valueOf((String)value);
 		}
 		else if ("date".equals(this._type)) {
-			java.util.Date date = (value != null ? DateUtils.parse((String)value, "dd/MM/yyyy") : null);
+			String text = (String)value;
+			text = (text != null ? text.trim() : "");
+			text = (text.length() > 0 ? text : null);
+			java.util.Date date = (text != null ? DateUtils.parse(text, "dd/MM/yyyy") : null);
 			result = (date != null ? new java.util.Date(date.getTime()) : null);
 		}
 		else if ("time".equals(this._type)) {
-			java.util.Date date = (value != null ? DateUtils.parse((String)value, "HH:mm") : null);
+			String text = (String)value;
+			text = (text != null ? text.trim() : "");
+			text = (text.length() > 0 ? text : null);
+			java.util.Date date = (text != null ? DateUtils.parse(text, "HH:mm") : null);
 			result = (date != null ? new java.sql.Time(date.getTime()) : null);
 		}
 		else if ("datetime".equals(this._type)) {
-			java.util.Date date = (value != null ? DateUtils.parse((String)value, "dd/MM/yyyy HH:mm") : null);
+			String text = (String)value;
+			text = (text != null ? text.trim() : "");
+			text = (text.length() > 0 ? text : null);
+			java.util.Date date = (text != null ? DateUtils.parse(text, "dd/MM/yyyy HH:mm") : null);
 			result = (date != null ? new java.sql.Timestamp(date.getTime()) : null);
 		}
 		else {
@@ -243,7 +274,9 @@ public class Input extends AbstractComponent {
 	public void setType(String newValue) {
 		if (!this._type.equals(newValue)) {
 			this._type = newValue;
-			smartUpdate("type", this._type);
+			if (!this._$processingClient) {
+				smartUpdate("type", this._type);
+			}
 		}
 	}
 	
@@ -256,7 +289,9 @@ public class Input extends AbstractComponent {
 	public void setSkin(String newValue) {
 		if (!this._skin.equals(newValue)) {
 			this._skin = newValue;
-			smartUpdate("skin", this._type);
+			if (!this._$processingClient) {
+				smartUpdate("skin", this._type);
+			}
 		}
 	}
 	
@@ -269,7 +304,9 @@ public class Input extends AbstractComponent {
 	public void setLabel(String newValue) {
 		if (!this._label.equals(newValue)) {
 			this._label = newValue;
-			smartUpdate("label", this._label);
+			if (!this._$processingClient) {
+				smartUpdate("label", this._label);
+			}
 		}
 	}
 	
@@ -282,7 +319,9 @@ public class Input extends AbstractComponent {
 	public void setName(String newValue) {
 		if (!this._name.equals(newValue)) {
 			this._name = newValue;
-			smartUpdate("name", this._name);
+			if (!this._$processingClient) {
+				smartUpdate("name", this._name);
+			}
 		}
 	}
 	
@@ -350,7 +389,8 @@ public class Input extends AbstractComponent {
 		if (Events.ON_CHANGE.equals(cmd)) {
 //			Object oldValue = getValue();
 //			InputEvent evt = InputEvent.getInputEvent(request, oldValue);
-			Object value = _fromClient(data.get("value"));
+			Object valueClient = data.get("value");
+			Object value = _fromClient(valueClient);
 			this._$processingClient = true;
 			setValue(value);
 			this._$processingClient = false;
@@ -682,6 +722,70 @@ public class Input extends AbstractComponent {
 		}
 	}
 	
+	protected void autoSetupOptions() {
+		super.autoSetupOptions();
+		
+		if ("select".equals(this._type)) {
+			Object optionValues = this.getOptions("values");
+			if (optionValues == null) {
+				Object bean = ObjectAccess.getBean(this);
+				Entity entity = null; try { entity = (Entity)bean; } catch (ClassCastException e) {}
+				Class type = null;
+				if (entity != null) {
+					type = entity.getClass();
+				}
+				else {
+					org.effortless.orm.Filter filter = null; try { filter = (org.effortless.orm.Filter)bean; } catch (ClassCastException e) {}
+					type = (filter != null ? filter.targetClass() : null);
+				}
+				if (type != null) {
+					Field reqField = null;
+					try {
+						reqField = type.getDeclaredField("__DEFINITION__");
+					} catch (NoSuchFieldException e) {
+					} catch (SecurityException e) {
+					}
+					
+					EntityDefinition def = null;
+					if (reqField != null) {
+						reqField.setAccessible(true);
+						try {
+							def = (EntityDefinition)reqField.get(null);
+						} catch (IllegalArgumentException e) {
+							throw new UnusualException(e);
+						} catch (IllegalAccessException e) {
+							throw new UnusualException(e);
+						}
+					}
+					
+					if (def != null) {
+						String name = this.getName();
+						PropertyEntity propertyEntity = def.getProperty(name);
+						ReferencePropertyColumn refProperty = null;
+						try { refProperty = (ReferencePropertyColumn)propertyEntity; } catch (ClassCastException e) {}
+						
+						if (refProperty != null) {
+							Class refType = (refProperty != null ? refProperty.getType() : null);
+							String finderFilterClassName = refType.getName() + "FinderFilter";
+							Class finderFilterClass = ClassUtils.tryLoadClass(finderFilterClassName);
+							org.effortless.orm.Filter filter = (org.effortless.orm.Filter)ClassUtils.tryNewInstance(finderFilterClassName);
+							this.setOptions("values", filter);
+						}
+						else {
+							EnumPropertyColumn enumProperty = null;
+							try { enumProperty = (EnumPropertyColumn)propertyEntity; } catch (ClassCastException e) {}
+							if (enumProperty != null) {
+								Class enumType = (refProperty != null ? refProperty.getType() : null);
+								java.util.List values = org.effortless.core.EnumUtils.loadEnumDefaultValues(enumType);
+								this.setOptions("values", values);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	
 
 	
