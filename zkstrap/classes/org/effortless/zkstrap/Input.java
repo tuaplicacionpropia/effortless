@@ -152,9 +152,12 @@ public class Input extends AbstractComponent {
 						String[] itemProperties = new String[numProperties];
 						for (int i = 0; i < numProperties; i++) {
 							String property = arrayProperties[i];
-							Object itemValue = ObjectAccess.readProperty(item, property);
-							String itemValueStr = (String)itemValue;//_toClient(itemValue);
-							itemProperties[i] = itemValueStr;
+							property = (property != null ? property.trim() : "");
+							if (property.length() > 0) {
+								Object itemValue = ObjectAccess.readProperty(item, property);
+								String itemValueStr = (String)itemValue;//_toClient(itemValue);
+								itemProperties[i] = itemValueStr;
+							}
 						}
 						array[idx] = itemProperties;
 						idx += 1;

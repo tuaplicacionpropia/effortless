@@ -22,6 +22,7 @@ import java.lang.annotation.Repeatable;
 @Inherited
 @Repeatable(DtContainer.class)
 public @interface Dt {
+	String value() default "";
 /*
  * 
 @Target({ElementType.TYPE,ElementType.METHOD,
