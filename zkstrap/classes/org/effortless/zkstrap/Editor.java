@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.apache.commons.beanutils.MethodUtils;
+import org.effortless.orm.Entity;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.Event;
@@ -44,14 +45,22 @@ public class Editor extends Screen {
 
 				String method = this.name +"$" + "onSave";
 				try {
-					MethodUtils.invokeExactMethod(caller, method, new Object[] {evt}, new Class[] {Event.class});
+					if (caller != null) {
+						MethodUtils.invokeExactMethod(caller, method, new Object[] {evt}, new Class[] {Event.class});
+					}
+					else {
+						myEditor$onSave(evt);
+					}
 				} catch (NoSuchMethodException e1) {
-					throw new UiException(e1);
+					myEditor$onSave(evt);
 				} catch (IllegalAccessException e1) {
 					throw new UiException(e1);
 				} catch (InvocationTargetException e1) {
 					throw new UiException(e1);
+				} catch (Throwable t) {
+					throw new UiException(t);
 				}
+				
 			}
 			else {
 				throw e;
@@ -61,6 +70,23 @@ public class Editor extends Screen {
 //		System.out.println("GUARDANDO " + this._value);
 //		ObjectAccess.close(this);
 	}
+	
+	
+	protected void myEditor$onSave (Event evt) {
+		System.out.println("myEditor$onSave");
+		java.util.Map data = (java.util.Map)evt.getData();
+		Object value = data.get("value");
+		
+		Entity entity = null;
+		try { entity = (Entity)value; } catch (ClassCastException e) {}
+		if (entity != null) {
+			entity.persist();
+		}
+		
+		ObjectAccess.close(evt.getTarget());
+	}
+	
+	
 	
 	public void cancel () {
 		System.out.println("CANCELANDO " + this._value);
