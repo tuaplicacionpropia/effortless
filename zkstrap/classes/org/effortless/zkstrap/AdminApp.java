@@ -147,7 +147,7 @@ public class AdminApp extends Screen {//implements Richlet {
 			String login = (String)data.get("login");
 			String password = (String)data.get("password");
 			String rememberMe = (String)data.get("rememberMe");
-			if ("root".equals(login) && "123".equals(password)) {
+			if (checkLogin(login, password)) {
 				this.setAdminPage("");
 //				this.invalidate();
 			}
@@ -155,6 +155,12 @@ public class AdminApp extends Screen {//implements Richlet {
 		} else {
 			super.service(request, everError);
 		}
+	}
+	
+	protected boolean checkLogin (String login, String password) {
+		boolean result = false;
+		result = ("root".equals(login) && "123".equals(password));
+		return result;
 	}
 
 //	public void setBclass (String newValue) {
