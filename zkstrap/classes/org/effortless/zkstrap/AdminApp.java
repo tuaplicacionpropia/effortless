@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import net.sf.jasperreports.engine.util.ObjectUtils;
 
 import org.apache.commons.beanutils.MethodUtils;
+import org.effortless.orm.security.SecuritySystem;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Richlet;
@@ -159,7 +160,17 @@ public class AdminApp extends Screen {//implements Richlet {
 	
 	protected boolean checkLogin (String login, String password) {
 		boolean result = false;
-		result = ("root".equals(login) && "123".equals(password));
+
+//		result = ("root".equals(login) && "123".equals(password));
+
+		if (this.securitySystem != null) {
+			Object loggedUser = this.securitySystem.login(login, password);
+			result = (loggedUser != null);
+		}
+		else {
+			result = true;
+		}
+		
 		return result;
 	}
 
@@ -282,4 +293,14 @@ public class AdminApp extends Screen {//implements Richlet {
 		
 	}
 
+	protected SecuritySystem securitySystem;
+	
+	public SecuritySystem getSecuritySystem () {
+		return this.securitySystem;
+	}
+
+	public void setSecuritySystem (SecuritySystem newValue) {
+		this.securitySystem = newValue;
+	}
+	
 }

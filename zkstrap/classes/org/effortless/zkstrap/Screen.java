@@ -3,6 +3,7 @@ package org.effortless.zkstrap;
 import org.apache.commons.lang.enums.EnumUtils;
 import org.effortless.core.EnumString;
 import org.effortless.core.ObjectUtils;
+import org.effortless.orm.security.SecuritySystem;
 import org.zkoss.zk.ui.Component;
 
 public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedComponent {
@@ -305,5 +306,5 @@ public class Screen extends AbstractComponent {//org.zkoss.zk.ui.HtmlBasedCompon
 		appendChild(btn);
 		return this;
 	}
-
+	
 }

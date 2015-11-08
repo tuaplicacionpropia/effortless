@@ -1,8 +1,8 @@
-#Sun, 01 Nov 2015 09:10:25 +0000
+#Sun, 08 Nov 2015 17:06:49 +0000
 #Build Number for ANT. Do not edit!
-#Sun Nov 01 09:10:25 WET 2015
+#Sun Nov 08 17:06:49 WET 2015
 version=1.0alpha
-build.number=642
-build.date=20151101091025+0000
+build.number=644
+build.date=20151108170649+0000
 build.author=
 id=effortless-zkstrap

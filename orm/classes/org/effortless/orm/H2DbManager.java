@@ -164,12 +164,12 @@ java -cp h2*.jar org.h2.tools.ChangeFileEncryption -dir ~ -db test -cipher AES -
 		int size = (unique ? 2 : 1);
 		result = (size > 0 ? new String[size] : null);
 		int idx = 0;
-		if (unique) {
+		if (false && unique) {
 			String constraintName = StringUtils.upperCase(column + "_" + "UNIQUE");
 			String stm = "ALTER TABLE " + fullTableName + " ADD CONSTRAINT " + constraintName + " " + "UNIQUE(" + column + ")" + " NOCHECK";
 			result[idx++] = stm;
 		}
-		if (notnull) {
+		if (false && notnull) {
 			String stm = "ALTER TABLE " + fullTableName + " ALTER COLUMN " + column + " SET " + "NOT NULL";
 			result[idx++] = stm;
 		}

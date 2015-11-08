@@ -448,17 +448,19 @@ public abstract class AbstractFilter extends AbstractList implements Filter, Pro
 	}
 
 	public Filter eq (String name, Boolean param) {
-		if (param != null && param.booleanValue()) {
-			String column = _decodeProperty(name, param);
-			String cond = "(" + column + " IS NOT NULL OR " + column + " = ?)";
-			this._conditions.add(cond);
-			this._params.add(Boolean.TRUE);
-		}
-		else {
-			String column = _decodeProperty(name, param);
-			String cond = "(" + column + " IS NULL OR " + column + " = ?)";
-			this._conditions.add(cond);
-			this._params.add(Boolean.FALSE);
+		if (param != null) {
+			if (param.booleanValue()) {
+				String column = _decodeProperty(name, param);
+				String cond = "(" + column + " IS NOT NULL OR " + column + " = ?)";
+				this._conditions.add(cond);
+				this._params.add(Boolean.TRUE);
+			}
+			else {
+				String column = _decodeProperty(name, param);
+				String cond = "(" + column + " IS NULL OR " + column + " = ?)";
+				this._conditions.add(cond);
+				this._params.add(Boolean.FALSE);
+			}
 		}
 
 		return this;
