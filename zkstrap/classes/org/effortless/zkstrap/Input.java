@@ -155,7 +155,14 @@ public class Input extends AbstractComponent {
 							property = (property != null ? property.trim() : "");
 							if (property.length() > 0) {
 								Object itemValue = ObjectAccess.readProperty(item, property);
-								String itemValueStr = (String)itemValue;//_toClient(itemValue);
+								
+								String itemValueStr = null;
+								try {
+									itemValueStr = (String)itemValue;//_toClient(itemValue);
+								}
+								catch (ClassCastException e) {
+									itemValueStr = (itemValue != null ? itemValue.toString() : null);
+								}
 								itemProperties[i] = itemValueStr;
 							}
 						}
@@ -778,7 +785,7 @@ public class Input extends AbstractComponent {
 							EnumPropertyColumn enumProperty = null;
 							try { enumProperty = (EnumPropertyColumn)propertyEntity; } catch (ClassCastException e) {}
 							if (enumProperty != null) {
-								Class enumType = (refProperty != null ? refProperty.getType() : null);
+								Class enumType = (enumProperty != null ? enumProperty.getType() : null);
 								java.util.List values = org.effortless.core.EnumUtils.loadEnumDefaultValues(enumType);
 								this.setOptions("values", values);
 							}

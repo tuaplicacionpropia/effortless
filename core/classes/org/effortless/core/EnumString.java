@@ -11,10 +11,6 @@ public class EnumString extends Object implements Serializable, java.lang.Compar
 	
 	protected EnumString (String name, int ordinal) {
 		this(name, ordinal, null);
-		setName(name);
-		setOrdinal(ordinal);
-		System.out.println(">>>>>>>>>>>>> constructor EnumString");
-		_register();
 	}
 	
 	protected EnumString (String name, int ordinal, EnumGroupString parent) {
