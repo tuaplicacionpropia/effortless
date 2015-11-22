@@ -242,6 +242,15 @@ public class PropertyList extends AbstractPropertyList {
 			int size = size();
 			if (index >= 0 && index <= size) {
 				Integer newIndex = Integer.valueOf(index);
+				
+				if (this.owner != null) {
+					InnerEntity innerEntity = null;
+					try { innerEntity = (InnerEntity)e; } catch (ClassCastException ex) {}
+					if (innerEntity != null) {
+						innerEntity.setupOwner(this.owner);
+					}
+				}
+				
 				PropertyListItem element = new PropertyListItem();
 				element.setIndex(newIndex);
 				element.setStatus(PropertyListItemStatus.NEW);

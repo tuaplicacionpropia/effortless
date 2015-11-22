@@ -39,7 +39,7 @@ public abstract class AbstractEnabledPersistEntity extends AbstractIdEntity impl
 	protected transient Boolean enabled;
 	
 	protected void initiateEnabled () {
-		this.enabled = null;
+		this.enabled = Boolean.TRUE;
 	}
 	
 	public Boolean isEnabled () {
